@@ -13,8 +13,10 @@
 
 class Dog;
 
-void change(Dog&, Dog&);
-void change(int&, int&);
+// 템플릿 선언문
+// template -> 소스코드를 찍어내기 위한 틀
+template <class 자료형> // -> 이렇게 안해주면 프로그램이 죽으니까.
+void change(자료형&, 자료형&);
 
 class Dog {
 public:
@@ -44,7 +46,6 @@ int main()
 		int a{ 1 }, b{ 2 };
 		change(a, b);
 		std::cout << a << ", " << b << std::endl;		// 2, 1이라고 출력되어야 함
-		//std::cout.operator << (a) << std::endl;
 	}
 
 	save("메인.cpp"); 
@@ -52,8 +53,13 @@ int main()
 
 void change(Dog& p, Dog& q) {
 	// std::swap(p, q);
+
+	// 이 과정은 알고리즘 절차. -> 자료형에 무관하게 이 절차를 수행하면 swap할 수 있다.
+	// 그렇다는 건 자료형이 여러개라면 이러한 함수를 여러개를 만들어야만 한다.
+	// 이 활동의 자동화를 필요로 한다. 몇십년전부터.
+
 	Dog temp{ p };
-	p.operator = (q);	// == p = q;
+	p.operator = (q);	 // == p = q;
 	q.operator = (temp); // == q = temp;
 }
 
