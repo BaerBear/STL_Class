@@ -12,38 +12,26 @@
 #include <string>
 #include "save.h"
 
-// 파일 분할 헤더/cpp 는 기본적으로 소스코드를 감추기 위한 것.
-
-// 템플릿 함수는 선언과 정의를 분리할 수 없다
 template <class T>
-void change(T& p, T& q) {
-	std::cout << "이 문장을 보면 컴파일러가 열일한 줄 알아라" << std::endl;
-	T temp{ p };
-	p = q;
-	q = temp;
-}
 
-// main에서 change (a, b); 를 만났을 때 컴파일러 내에서 실행되는 일
-// double에 대한 specialization (특수화)
-template <>
-void change<double>(double& p, double& q) {
-	std::cout << "컴파일러가 자동으로 찍어낸 코드" << std::endl;
-	double temp{ p };
-	p = q;
-	q = temp;
+// 이건 0점코드
+//T add(T p, T q)
+//{
+//	return p + q;
+//}
+
+T add(const T& p, const T& q)
+{
+	return p + q;		// p + q -> RVO(Return Value Optimization) -> 컴파일러가 최적화해서 p + q의 결과를 바로 적절한 타입의 반환값으로 만들어준다.
 }
 
 //--------
 int main() 
 //--------
 {
-	double a, b;
-	change<double>(a, b);			// 뭘 호출해야하나? -> 컴파일러가 함수 호출 우선순위 결정. a,b의 타입을 자동으로 유추(deduction). 
-									// 그래서 <double>이 생략되어도 컴파일러가 알아서 double로 유추해서 호출한다.
-
-	//change<std::string>(std::string{ "2026년" }, std::string{ "3월10일" }); // 이상태는 메모리(변수)가 없어서 작동이 안됨 ㅠㅠ 고생하시네
-	std::string s{ "2026년" }, t{ "3월10일" };
-	change(s, t); // change<std::string>(s, t); -> 컴파일러가 알아서 std::string으로 유추해서 호출한다.
-
+	//[문제] 템플릿 함수 add를 한 개 만드르어 실행되게 하라.
+	std::cout << add(1, 2) << std::endl;
+	std::cout << add(std::string{ "2026년" }, std::string{ "3월 10일" }) << std::endl;
+	// std::cout << add("2026년"s, "3월 10일"s) << std::endl; name space 쓰면 접미사 s써서 스트링이라고 할 수 있음
 	save("메인.cpp"); 
 }
