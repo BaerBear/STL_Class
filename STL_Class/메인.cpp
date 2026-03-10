@@ -9,14 +9,20 @@
 // template
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
+#include <algorithm>
 #include "save.h"
 
 class Dog;
 
 // 템플릿 선언문
 // template -> 소스코드를 찍어내기 위한 틀
-template <class 자료형, class 자료동생> // -> 이렇게 안해주면 프로그램이 죽으니까.
-void change(자료형&, 자료동생&);
+// template <class T, class T2, class T3> // -> 이런 식으로는 코딩하지 않음. 여러개의 매개변수가 들어가는게 대부분이기 때문
+template <class 구간의시작, class 구간끝, class 함수> // 예시
+void change( 구간의시작&, 구간끝&, 함수& );
+
+// 제공되는 라이브러리 변수들 보면 _T 이런식. 언더바로 시작 -> 미친놈 아닌이상 _로 시작하는 naming convention은 쓰지 않음.
+// 언더바로 시작하는 이름은 C++ 표준 라이브러리에서 사용하기 때문. 괜히 멋부린다고 언더바 네이밍 하다가 된통 당하지 말자
+// 언더바 네이밍 하는놈 보면 도망가라
 
 class Dog {
 public:
@@ -35,6 +41,7 @@ private:
 int main() 
 //--------
 {
+	std::sort()
 	// [문제] 의도대로 실행되게 하자. (시험문제)
 	{
 		Dog a{ 1 }, b{ 2 };
