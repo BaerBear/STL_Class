@@ -9,67 +9,26 @@
 // template
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
-#include <algorithm>
 #include "save.h"
 
-class Dog;
+// 파일 분할 헤더/cpp 는 기본적으로 소스코드를 감추기 위한 것.
 
-// 템플릿 선언문
-// template -> 소스코드를 찍어내기 위한 틀
-// template <class T, class T2, class T3> // -> 이런 식으로는 코딩하지 않음. 여러개의 매개변수가 들어가는게 대부분이기 때문
-template <class 구간의시작, class 구간끝, class 함수> // 예시
-void change( 구간의시작&, 구간끝&, 함수& );
-
-// 제공되는 라이브러리 변수들 보면 _T 이런식. 언더바로 시작 -> 미친놈 아닌이상 _로 시작하는 naming convention은 쓰지 않음.
-// 언더바로 시작하는 이름은 C++ 표준 라이브러리에서 사용하기 때문. 괜히 멋부린다고 언더바 네이밍 하다가 된통 당하지 말자
-// 언더바 네이밍 하는놈 보면 도망가라
-
-class Dog {
-public:
-	Dog() = default;
-	Dog(int n) : num { n } {};
-	
-private:
-	int num;
-
-	friend std::ostream& operator<<(std::ostream& os, const Dog& dog) {
-		return os << dog.num;
-	}
-};
+// 템플릿 함수 선언
+template <class T> // 예시
+void change( T&, T& );
 
 //--------
 int main() 
 //--------
 {
-	std::sort()
-	// [문제] 의도대로 실행되게 하자. (시험문제)
-	{
-		Dog a{ 1 }, b{ 2 };
-		change(a, b);
-		std::cout << a << ", " << b << std::endl;		// 2, 1이라고 출력되어야 함
-	}
-
-	{
-		int a{ 1 }, b{ 2 };
-		change(a, b);
-		std::cout << a << ", " << b << std::endl;		// 2, 1이라고 출력되어야 함
-	}
 
 	save("메인.cpp"); 
 }
 
-void change(Dog& p, Dog& q) {
-	// std::swap(p, q);
-
-	// 이 과정은 알고리즘 절차. -> 자료형에 무관하게 이 절차를 수행하면 swap할 수 있다.
-	// 그렇다는 건 자료형이 여러개라면 이러한 함수를 여러개를 만들어야만 한다.
-	// 이 활동의 자동화를 필요로 한다. 몇십년전부터.
-
-	Dog temp{ p };
-	p.operator = (q);	 // == p = q;
-	q.operator = (temp); // == q = temp;
-}
-
-void change(int& p, int& q) {
-	std::swap(p, q);
+//템플릿 함수 정의
+template <class T>
+void change(T& p, T& q) {
+	T temp{ p };
+	p = q;
+	q = temp;
 }
