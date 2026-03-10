@@ -31,7 +31,7 @@ void save(const std::string& fname)
 
 	std::string outFileName;
 	std::cout << "파일 이름: ";
-	std::cin >> outFileName;
+	std::getline(std::cin, outFileName);
 	std::ofstream out{ outFileName + ".txt", std::ios::app };
 
 	// 시간정보 얻기
