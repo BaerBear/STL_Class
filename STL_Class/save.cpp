@@ -29,7 +29,10 @@ void save(const std::string& fname)
 
 	std::cout << "\"" << fname << "\"를 저장합니다." << "\n";
 
-	std::ofstream out{ "2026년 1학기 STL 월56화78.txt", std::ios::app };
+	std::string outFileName;
+	std::cout << "파일 이름: ";
+	std::cin >> outFileName;
+	std::ofstream out{ outFileName + ".txt", std::ios::app };
 
 	// 시간정보 얻기
 	using namespace std::chrono_literals; // 9h -> 9시간. 9s -> 9초. 9ms -> 9밀리초. 9us -> 9마이크로초. 9ns -> 9나노초.
