@@ -15,8 +15,8 @@ class Dog;
 
 // 템플릿 선언문
 // template -> 소스코드를 찍어내기 위한 틀
-template <class 자료형> // -> 이렇게 안해주면 프로그램이 죽으니까.
-void change(자료형&, 자료형&);
+template <class 자료형, class 자료동생> // -> 이렇게 안해주면 프로그램이 죽으니까.
+void change(자료형&, 자료동생&);
 
 class Dog {
 public:
