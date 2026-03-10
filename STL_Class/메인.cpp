@@ -12,9 +12,38 @@
 #include <iostream>
 #include "save.h"
 
-int main() 
-{
-	std::cout << "save를 파일로 분리하였다" << "\n";
+void change(Dog*, Dog*);
 
+class Dog {
+public:
+	Dog(int n) : num(n) {}
+	void print() { std::cout << num; };
+
+private:
+	int num;
+};
+
+//--------
+int main() 
+//--------
+{
+	// [문제] 의도대로 실행되게 하자. (시험문제)
+	{
+		// using Dog = int;		// #define Dog int 이건 사용하면 안된다
+		// Dog는 class로 작성하자.
+		Dog a{ 1 }, b{ 2 };
+		change(&a, &b);
+		std::cout << a.print() << ", " << b.print() << std::endl;		// 2, 1이라고 출력되어야 함
+	}
+
+	{
+		int a{ 1 }, b{ 2 };
+		change(a, b);
+		std::cout << a << ", " << b << std::endl;		// 2, 1이라고 출력되어야 함
+	}
 	save("메인.cpp"); 
+}
+
+void change(Dog* n1, Dog* n2) {
+	std::swap(n1, n2);
 }
