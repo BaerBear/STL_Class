@@ -12,9 +12,10 @@
 #include <random>
 #include <print>		// C++23
 #include <algorithm>
+#include <utility>
 #include "save.h"
 
-std::default_random_engine dre{ std::random_device{}() };
+std::default_random_engine dre{ 0 };
 std::uniform_int_distribution uid{ 0, 9999 };
 
 //--------
@@ -33,14 +34,8 @@ int main()
 		std::print("{:8}", num);
 	}
 
-	// [문제] 가장 큰 값을 찾아 화면에 출력하라.
-	// 언제나 강조 !!! 알고리즘은 자료형에 관계없이 돌아감
-
-	// std::max(1, 3);  // 1과 3 중에서 큰 값을 반환.
-	// int* p = std::max_element(a[0], a[11000]); 이런 코드를 납땜 코드라고 부른다. Hard-Wired Code. 유지보수가 어려움
-	// 알고리즘 코드는 내가 손코딩한 코드보다 실수할 확률이 현저히 낮아짐.
-	int* p = std::max_element(std::begin(a), std::end(a));
-	// std::max_element(어디에서, 어디까지) -> 가장 큰 값이 있는 위치를 반환해줌
-	std::cout << "\n가장 큰 값: " << *p << std::endl; // * -> 역참조 연산자.
+	// [문제] 가장 작은 값과 큰 값을 찾아 화면에 출력하라.
+	std::pair<int*, int*> p = std::minmax_element(std::begin(a), std::end(a));
+	std::cout << "\n 가장 작은 값: " << *p.first << " / 가장 큰 값: " << *p.second << std::endl;
 	save("메인.cpp");
 }
