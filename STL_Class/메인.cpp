@@ -22,21 +22,24 @@ int main()
 {
 	// [문제] 랜덤값을 갖는 int 1000개를 만들어라.
 	int a[1000];
-	int max{0};
-	for(int& num : a) {
+	int maxVal{ std::numeric_limits<int>::min() };
+
+	// 여기는 초기화가 아니라 할당하는 작업임.
+	for (int& num : a) {
 		num = uid(dre);
-		if (num > max) {
-			max = num;
-		}
 	}
-	
+
 	for (int num : a) {
 		std::print("{:8}", num);
 	}
-	
-	// [문제] 가장 큰 값을 찾아 화면에 출력하라.
-	std::print("\n가장 큰 값: {}\n", max);
 
+	// [문제] 가장 큰 값을 찾아 화면에 출력하라.
+	for (int num : a) {
+		if (num > maxVal) {
+			maxVal = num;
+		}
+	}
+	std::print("\n가장 큰 값: {}\n", maxVal);
 	std::cout << std::endl;
 	save("메인.cpp");
 }
