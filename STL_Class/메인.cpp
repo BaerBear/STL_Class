@@ -10,19 +10,20 @@
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <random>
+#include <print>		// C++23
 #include "save.h"
 
 std::default_random_engine dre;
-std::uniform_int_distribution uid{ std::numeric_limits<int>::min(), std::numeric_limits<int>::max() };
+std::uniform_int_distribution uid{ 0, 9999 };
 
 //--------
 int main()
 //--------
 {
 	// [문제] 랜덤값을 갖는 int 1000개를 만들어라.
-	for (int i = 0; i < 100; ++i) {
-
-		std::cout << uid(dre) << std::endl;
+	for (int i = 0; i < 1000; ++i) {
+		std::print("{:8}", uid(dre));
 	}
+	std::cout << std::endl;
 	save("메인.cpp");
 }
