@@ -22,7 +22,6 @@ int main()
 {
 	// [문제] 랜덤값을 갖는 int 1000개를 만들어라.
 	int a[1000];
-	int maxVal{ std::numeric_limits<int>::min() };
 
 	// 여기는 초기화가 아니라 할당하는 작업임.
 	for (int& num : a) {
@@ -34,12 +33,11 @@ int main()
 	}
 
 	// [문제] 가장 큰 값을 찾아 화면에 출력하라.
-	for (int num : a) {
-		if (num > maxVal) {
-			maxVal = num;
-		}
-	}
-	std::print("\n가장 큰 값: {}\n", maxVal);
+	// 0점짜리 코드
+	// O(n log n) 짜리 코드로 혹사시킴
+	std::sort(std::begin(a), std::end(a));
+	std::print("\n가장 큰 값: {}\n", a[1000 - 1]);
+
 	std::cout << std::endl;
 	save("메인.cpp");
 }
