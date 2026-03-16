@@ -11,6 +11,7 @@
 #include <iostream>
 #include <random>
 #include <print>		// C++23
+#include <algorithm>
 #include "save.h"
 
 std::default_random_engine dre;
@@ -33,11 +34,11 @@ int main()
 	}
 
 	// [문제] 가장 큰 값을 찾아 화면에 출력하라.
-	// 0점짜리 코드
-	// O(n log n) 짜리 코드로 혹사시킴
-	std::sort(std::begin(a), std::end(a));
-	std::print("\n가장 큰 값: {}\n", a[1000 - 1]);
+	// 언제나 강조 !!! 알고리즘은 자료형에 관계없이 돌아감
 
-	std::cout << std::endl;
+	// std::max(1, 3);  // 1과 3 중에서 큰 값을 반환.
+	int* p = std::max_element(std::begin(a), std::end(a));
+	// std::max_element(어디에서, 어디까지) -> 가장 큰 값이 있는 위치를 반환해줌
+	std::cout << "\n가장 큰 값: " << *p << std::endl; // * -> 역참조 연산자.
 	save("메인.cpp");
 }
