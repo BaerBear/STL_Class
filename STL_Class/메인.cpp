@@ -14,7 +14,7 @@
 #include <algorithm>
 #include "save.h"
 
-std::default_random_engine dre;
+std::default_random_engine dre{ std::random_device{}() };
 std::uniform_int_distribution uid{ 0, 9999 };
 
 //--------
