@@ -15,7 +15,7 @@
 #include <utility>
 #include "save.h"
 
-std::default_random_engine dre{ 0 };
+std::default_random_engine dre{};
 std::uniform_int_distribution uid{ 0, 9999 };
 
 //--------
@@ -35,7 +35,10 @@ int main()
 	}
 
 	// [문제] 가장 작은 값과 큰 값을 찾아 화면에 출력하라.
-	std::pair<int*, int*> p = std::minmax_element(std::begin(a), std::end(a));
-	std::cout << "\n 가장 작은 값: " << *p.first << " / 가장 큰 값: " << *p.second << std::endl;
+	// syntatic sugar 인 structured binding을 사용하면 pair를 이렇게 쓸 수 있다.
+	// std::pair<int*, int*> res = std::minmax_element(std::begin(a), std::end(a));
+	auto [작은값, 큰값] = std::minmax_element(std::begin(a), std::end(a));
+	std::cout << "\n가장 작은 값: " << *작은값 << " / 가장 큰 값: " << *큰값 << std::endl;
+
 	save("메인.cpp");
 }
