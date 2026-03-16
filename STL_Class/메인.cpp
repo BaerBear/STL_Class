@@ -21,8 +21,14 @@ int main()
 //--------
 {
 	// [문제] 랜덤값을 갖는 int 1000개를 만들어라.
-	for (int i = 0; i < 1000; ++i) {
-		std::print("{:8}", uid(dre));
+	int a[1000];
+
+	for(int& num : a) {
+		num = uid(dre);
+	}
+	
+	for (int num : a) {
+		std::print("{:8}", num);
 	}
 	std::cout << std::endl;
 	save("메인.cpp");
