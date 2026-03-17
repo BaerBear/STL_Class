@@ -24,20 +24,14 @@ int main()
 	// 천만개가 있다는 사실은 틀림없다 - 믿고 쓰자.
 	// 가장 작은 값을 찾아 출력하라.
 
-	std::ifstream in("int천만개.txt");	// 117MB 짜리 파일의 시작점을 이어주는 in을 만듦
+	std::ifstream in("int천만개.txt");
 
 	if (not in) {
 		std::cout << "파일 확인해 보세요" << std::endl;
 		return 2022180011;
 	}
 
-	for (int& num : arr) {
-		in >> num;
-		// arr은 40MB. 이 코드에서 파일에서 int 값을 하나씩 읽어와서 arr에 저장 (4bytes * 1000만개 = 40MB)
-		// 117메가 짜리를 쫙 한번 돌고서 또 min_element로 한번 더 돌면서 최솟값을 찾아????? -> 0점
-	}
-
-	std::cout << "최솟값 : " << *std::min_element(arr.begin(), arr.end()) << '\n';
+	std::cout << "최솟값 : " << *std::min_element(std::istream_iterator<int>{in}, {}) << '\n';
 
 	save("메인.cpp");
 }
