@@ -10,12 +10,11 @@
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <fstream>
-#include <random>
+#include <algorithm>
+#include <array>
 #include "save.h"
 
-std::default_random_engine dre;
-std::uniform_int_distribution uid{ std::numeric_limits<int>::min(), std::numeric_limits<int>::max() };
-// 얘도 템플릿이라서 원래는 <int> 써줘야댐
+std::array<int, 1000'0000> arr;
 
 //--------
 int main()
@@ -25,22 +24,16 @@ int main()
 	// 천만개가 있다는 사실은 틀림없다 - 믿고 쓰자.
 	// 가장 작은 값을 찾아 출력하라.
 
-	std::ifstream ifs("int천만개.txt");			// 파일을 가리키는 FILE*가 필요. fstream을 통해서 이를 관리해준다. 언어마다 다름
-	// RAII. C++은 자원 관리를 자동화해주고 있다.
-	// ifs가 생성되고, 생성된 지역을 벗어났을 때 int천만개.txt와의 연결을 끊어준다. (자동으로 close() 해준다.)
-	
-	int min = std::numeric_limits<int>::max();
-
-	int num;									// STACK에 4바이트짜리 공간 마련.
-	while (ifs >> num) {						// 고급 입력 동작. operator>>(in,num){} 이 함수가 호출되는 것. 그 과정은
-												// 1234가 파일에 저장돼있다 가정. 얘네를 char* 버퍼로 읽어옴. [ '1','2','3','4']
-												// '1' - '0' = 1, '2' - '0' = 2, '3' - '0' = 3, '4' - '0' = 4
-												// 1*10^3 + 2*10^2 + 3*10^1 + 4*10^0 = 1234
-		if (num < min) {
-			min = num;
-		}
+	std::ifstream in("int천만개.txt");
+	if (not in) {
+		std::cout << "파일 확인해 보세요" << std::endl;
+		return 2022180011;
 	}
-	std::cout << "최소값: " << min << std::endl;
 
+	for (int& num : arr) {
+		in >> num;
+	}
+
+	std::cout << "최솟값 : " << *std::min_element(arr.begin(), arr.end()) << '\n';
 	save("메인.cpp");
 }
