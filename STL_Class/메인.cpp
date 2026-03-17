@@ -9,82 +9,23 @@
 // 많은 수의 자료를 다루기 - FILE I/O
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
+#include <fstream>
 #include <random>
-#include <print>		// C++23
-#include <algorithm>
-//#include <utility>	// pair 사용
-#include <array>		// C++11
 #include "save.h"
 
-std::default_random_engine dre{};
-std::uniform_int_distribution uid{ 0, 9999 };
-
-template <class T, int N>
-// <class T, int N> -> 템플릿의 인자. 기본적으로 타입(T)이 인자. 숫자도 가능.
-// template에 전달되는 인자 찾아보기
-
-class myArray {
-public:
-	myArray() {
-		std::cout << "나 디폴트로 생성되었어" << std::endl;
-	}
-
-	size_t size() const {
-		return N;
-	}
-
-	T& operator[] (int idx) {
-		return a[idx];
-	}
-
-	T* begin() {
-		return &a[0];
-	}
-
-	T* end() {
-		return &a[N];
-	}
-
-private:
-	T a[N];
-
-};
-
-//int n에서 n은 이름이 아니다 주소라는 이름일 뿐 컴파일러가 봐주고 있을 뿐이다
-//int a[100]; 에서 a가 무엇이냐고 물으면 int [100]이라고 답함
-//그러니까 array<int,100>이 맞는 말이다
-//save("");
-//"" 이건 함수 포인터임 
-//save는 void를리턴 그리고 void(*f)(string)으로 쓰는 것;
-//이걸 쉽게 하는게(대체품) function<>f=save;라는 함수를 만들것이다
+std::default_random_engine dre;
+std::uniform_int_distribution uid{ std::numeric_limits<int>::min(), std::numeric_limits<int>::max() };
+// 얘도 템플릿이라서 원래는 <int> 써줘야댐
 
 //--------
 int main()
 //--------
 {
-	myArray<int, 1000> a; // 해당 줄을 만났을 때 컴파일러는 클래스를 찍어냄. int에 대해 템플릿 특수화(이전에 설명함)
-
-	std::cout << "a가 사용하는 메모리 - " << sizeof a << std::endl;	// 메모리 손해 x. 똑같이 4000바이트
-	// 표준 자료구조. a. 찍어보면? 여러 함수를 제공
-
-	// 여기는 초기화가 아니라 할당하는 작업임.
-	// 이것도 슈가임.
-	/*for (int& num : a) {
-		num = uid(dre);
-	}*/
-	for (int i = 0; i < a.size(); ++i) {
-		a[i] = uid(dre);
+	// [문제] 랜덤 int값 천만개를 다음과 같이 "int천만개.txt" 파일에 저장해였다.
+	std::ofstream fout{ "int천만개.txt" };
+	for (int i = 0; i < 100; ++i) {
+		fout << uid(dre) << " ";		// ' ' 싱글 캐릭터. " " 더블 캐릭터. 크기 차이 없네
 	}
-
-	for (int num : a) {
-		std::print("{:8}", num);
-	}
-
-	// [문제] 가장 작은 값과 큰 값을 찾아 화면에 출력하라.
-	// syntatic sugar 인 structured binding을 사용하면 pair를 이렇게 쓸 수 있다.
-	// std::pair<int*, int*> res = std::minmax_element(std::begin(a), std::end(a));
-	auto [minPos, maxPos] = std::minmax_element(a.begin(), a.end());
-	std::cout << "\n가장 작은 값: " << *minPos << " / 가장 큰 값: " << *maxPos << std::endl;
 
 	save("메인.cpp");
 }
