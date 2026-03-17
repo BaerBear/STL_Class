@@ -21,13 +21,20 @@ std::uniform_int_distribution uid{ std::numeric_limits<int>::min(), std::numeric
 int main()
 //--------
 {
-	// [문제] 랜덤 int값 천만개를 다음과 같이 "int천만개.txt" 파일에 저장해였다.
-	std::ofstream fout{ "int천만개.txt" };
-	for (int i = 0; i < 1000'0000; ++i) {			// 119,828,581 bytes
-		fout << uid(dre) << '\n';					// endl과 '\n'을 써봤을 때 endl의 속도가 느림.
-													// endl은 버퍼를 강제로 비우는 기능까지 수행.
-													// '\n'은 단순히 줄만 바꾸고 버퍼를 바로 비우지 않아서 속도가 훨씬 빠름.
+	// [문제] "int천만개.txt" 파일에는 int값 천만개가 저장되어있다.
+	// 천만개가 있ㄷ다는 사실은 틀림없다 - 믿고 쓰자.
+	// 가장 작은 값을 찾아 출력하라.
+	std::ifstream ifs("int천만개.txt");
+	int min = std::numeric_limits<int>::max();
+
+	for (int i = 0; i < 1000'0000; ++i) {
+		int n;
+		ifs >> n;
+		if (n < min) {
+			min = n;
+		}
 	}
+	std::cout << "최소값: " << min << std::endl;
 
 	save("메인.cpp");
 }
