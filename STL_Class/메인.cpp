@@ -20,18 +20,10 @@ std::array<int, 1000'0000> arr;
 int main()
 //--------
 {
-	// [문제] "int천만개.txt" 파일에는 int값 천만개가 저장되어있다.
-	// 천만개가 있다는 사실은 틀림없다 - 믿고 쓰자.
-	// 가장 작은 값을 찾아 출력하라.
-
-	std::ifstream in("int천만개.txt");
-
-	if (not in) {
-		std::cout << "파일 확인해 보세요" << std::endl;
-		return 2022180011;
-	}
-
-	std::cout << "최솟값 : " << *std::min_element(std::istream_iterator<int>{in}, {}) << '\n';
+	// [문제] int로 표현할 수 있는 값은 -2,147,483,648 ~ 2,147,483,647 까지 이다.
+	// 모든 int 값을 하나도 빼지않고 한개씩 파일에 text로 기록하였다.
+	// 값과 값은 빈칸 한 개로 구분하였다.
+	// 이렇게 하면 int 를 한 개 기록하는데 평균 몇 byte가 필요한지 계산하라.
 
 	save("메인.cpp");
 }
