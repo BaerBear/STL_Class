@@ -23,8 +23,8 @@ int main()
 {
 	// [문제] 랜덤 int값 천만개를 다음과 같이 "int천만개.txt" 파일에 저장해였다.
 	std::ofstream fout{ "int천만개.txt" };
-	for (int i = 0; i < 100; ++i) {
-		fout << uid(dre) << " ";		// ' ' 싱글 캐릭터. " " 더블 캐릭터. 크기 차이 없네
+	for (int i = 0; i < 1000'0000; ++i) {		// 119,828,581 bytes
+		fout << uid(dre) << std::endl;
 	}
 
 	save("메인.cpp");
