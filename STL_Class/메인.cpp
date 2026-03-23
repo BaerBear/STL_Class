@@ -6,42 +6,61 @@
 // 프로젝트 설정 - C++언어표준 - /std:c++latest
 //				- C/C++언어 - SDL검사 - 아니요
 //---------------------------------------------------------------------------------------------------------------------
-// 많은 수의 자료를 다루기 - FILE I/O - binary I/O
+// 많은 수의 자료를 다루기 - FILE I/O - binary I/O - class 객체
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <fstream>
-#include <filesystem>		// C++17 라이브러리
+#include <random>
+#include <print>
+#include <string>
 #include <array>
-#include <algorithm>
 #include "save.h"
 
-// [문제] 파일 "int천만개"에는 int값 천만개가 저장되어 있다.
-// 파일은 binary 모드로 열었고 int 값은 stream의 write 함수를 사용하여 저장하였다.
-// 저장된 int값을 모두 메모리에 저장하라.
-// 저장된 값 중에서 가장 작은 값과 큰 값을 화면에 출력하라.
+std::default_random_engine dre;
 
-// 해당 문제 풀이를 위해서 필요한 자료구조는 뭘까
-// 연결리스트를 쓸 수도 있지만 읽는데도 오래걸릴 거고 메모리도 많이 쓸 것임.
-// 천만개의 연속된 값을 저장하기에 적절한 자료구조는 array.
-// contiguos memory		  -> 물리적인 연속. STL의 핵심단어.
-// contiguos == continuos -> 시간상의 연속
+std::uniform_int_distribution uid{ 0,9999 }; // 토큰 2개
+// 자료형식					  객체 이름.
+// 템플릿 클래스인데 <int>를 생략할 수 있음. 특별한 경우. 원래는 적는게 원칙임
 
-std::array<int, 10'000'000> arr;
+std::uniform_int_distribution uidNameLen{ 10,30 };
+
+std::uniform_int_distribution<int> uidChar{ 'a', 'z' }; 
+// 하지만 얘는 char임. 그렇기 때문에 int로 바꿔서 해도 된다고 꼭 명시해줘야됨
+
+class Dog {
+public:
+	/*Dog() : id{ uid(dre) } { 여기에서 초기화 하면 왜 안되는 지 꼭 찾아보기
+		int len = uidNameLen(dre);
+		for (int i = 0; i < len; ++i) {
+			name += uidChar(dre);
+		}
+	}*/
+	Dog() {
+		id = uid(dre);
+		int len = uidNameLen(dre);
+		for (int i = 0; i < len; ++i) {
+			name += uidChar(dre);
+		}
+	}
+private:
+	std::string name;		// [10, 30] 사이의 소문자로 구성된 이름
+	size_t id;				// [0, 9999]
+
+	friend std::ostream& operator<<(std::ostream& os, const Dog& dog) {
+		std::print(os, "[{:4}] - {}", dog.id, dog.name);
+		return os;
+	}
+};
 
 //--------
 int main()
 //--------
 {
-	std::ifstream in("int천만개", std::ios::binary);
-	if (not in) {
-		std::cout << "파일을 열 수 없습니다." << std::endl;
-		return 20260323;
-	}
-	in.read((char*)(arr.data()), arr.size() * sizeof(int));
-	// reinterpret_cast<char*>(arr.data())로 캐스팅해도 되는데 왜 (char*)로 간단히 하는지 찾아보기
-	auto [min, max] = std::minmax_element(arr.begin(), arr.end());
-	std::cout << "최소값: " << *min << std::endl;
-	std::cout << "최대값: " << *max << std::endl;
+	std::array<Dog, 1000> Dogs; // STACK에 생성
 
+	std::ofstream out{ "Dog천마리", std::ios::binary };
+	out.write((char*)Dogs.data(), Dogs.size() * sizeof(Dog));
+	
+	
 	save("메인.cpp");
 }
