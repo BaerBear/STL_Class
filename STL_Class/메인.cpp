@@ -12,6 +12,7 @@
 #include <fstream>
 #include <filesystem>		// C++17 라이브러리
 #include <array>
+#include <algorithm>
 #include "save.h"
 
 // [문제] 파일 "int천만개"에는 int값 천만개가 저장되어 있다.
@@ -19,7 +20,13 @@
 // 저장된 int값을 모두 메모리에 저장하라.
 // 저장된 값 중에서 가장 작은 값과 큰 값을 화면에 출력하라.
 
-std::array<int, 10'000'000> data;
+// 해당 문제 풀이를 위해서 필요한 자료구조는 뭘까
+// 연결리스트를 쓸 수도 있지만 읽는데도 오래걸릴 거고 메모리도 많이 쓸 것임.
+// 천만개의 연속된 값을 저장하기에 적절한 자료구조는 array.
+// contiguos memory		  -> 물리적인 연속. STL의 핵심단어.
+// contiguos == continuos -> 시간상의 연속
+
+std::array<int, 10'000'000> arr;
 
 //--------
 int main()
@@ -27,11 +34,12 @@ int main()
 {
 	std::ifstream in("int천만개", std::ios::binary);
 	if (not in) {
-		std::cerr << "파일을 열 수 없습니다." << std::endl;
-		return 1;
+		std::cout << "파일을 열 수 없습니다." << std::endl;
+		return 20260323;
 	}
-	in.read(reinterpret_cast<char*>(data.data()), data.size() * sizeof(int));
-	auto [min, max] = std::minmax_element(data.begin(), data.end());
+	in.read((char*)(arr.data()), arr.size() * sizeof(int));
+	// reinterpret_cast<char*>(arr.data())로 캐스팅해도 되는데 왜 (char*)로 간단히 하는지 찾아보기
+	auto [min, max] = std::minmax_element(arr.begin(), arr.end());
 	std::cout << "최소값: " << *min << std::endl;
 	std::cout << "최대값: " << *max << std::endl;
 
