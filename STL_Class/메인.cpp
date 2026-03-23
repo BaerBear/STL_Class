@@ -9,26 +9,30 @@
 // 많은 수의 자료를 다루기 - FILE I/O - binary I/O
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
+#include <random>
 #include <fstream>
-#include <algorithm>
-#include <array>
 #include "save.h"
 
-std::array<int, 1000'0000> arr;
+std::default_random_engine dre;
+std::uniform_int_distribution uid;
 
 //--------
 int main()
 //--------
 {
-	// [문제] int로 표현할 수 있는 값은 -2,147,483,648 ~ 2,147,483,647 까지 이다.
-	// 모든 int 값을 하나도 빼지않고 한개씩 파일에 text로 기록하였다.
-	// 값과 값은 빈칸 한 개로 구분하였다.
-	// 이렇게 하면 int 를 한 개 기록하는데 평균 몇 byte가 필요한지 계산하라.
+	// [문제] 랜덤 int값 1000'0000개를 파일 "int천만개"에 저장하라.
 
-	int num{ 0x01020304 };		// 16909060 -> 공백까지 9 bytes
-	std::cout << num;
-	// int를 여러 개 기록할 때 메모리를 통째로 기록하는 방법이 더 효율적일 수 있다. (binary I/O)
+	std::ofstream out{ "int천만개", std::ios::binary }; 
+	// 기본은 text 모드이기 때문에 binary 모드로 열어야 정확히 4바이트씩 저장된다.
+
+	// 114'826'203 - text mode로 저장
+	//	40'000'000 - 메모리 그대로 저장한다면 40MB
+	int num;
+	for (int i = 0; i < 1000'0000; ++i) {
+		num = uid(dre);
+		out.write(reinterpret_cast<char*>(&num), sizeof(int));
+	}
 
 	
-	//save("메인.cpp");
+	save("메인.cpp");
 }
