@@ -10,38 +10,11 @@
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <fstream>
-#include <random>
-#include <print>
-#include <string>
 #include <array>
+#include <string>
 #include "save.h"
 
-std::default_random_engine dre;
-
-std::uniform_int_distribution uid{ 0,9999 }; // 토큰 2개
-// 자료형식					  객체 이름.
-// 템플릿 클래스인데 <int>를 생략할 수 있음. 특별한 경우. 원래는 적는게 원칙임
-
-std::uniform_int_distribution uidNameLen{ 10,30 };
-
-std::uniform_int_distribution<int> uidChar{ 'a', 'z' }; 
-// 하지만 얘는 char임. 그렇기 때문에 int로 바꿔서 해도 된다고 꼭 명시해줘야됨
-
 class Dog {
-public:
-	/*Dog() : id{ uid(dre) } { 여기에서 초기화 하면 왜 안되는 지 꼭 찾아보기
-		int len = uidNameLen(dre);
-		for (int i = 0; i < len; ++i) {
-			name += uidChar(dre);
-		}
-	}*/
-	Dog() {
-		id = uid(dre);
-		int len = uidNameLen(dre);
-		for (int i = 0; i < len; ++i) {
-			name += uidChar(dre);
-		}
-	}
 private:
 	std::string name;		// [10, 30] 사이의 소문자로 구성된 이름
 	size_t id;				// [0, 9999]
@@ -50,17 +23,37 @@ private:
 		std::print(os, "[{:4}] - {}", dog.id, dog.name);
 		return os;
 	}
+
+	friend std::istream& operator>>(std::istream& is, Dog& dog) { // 이렇게 코딩해두면 바이너리 모드여도 고수준으로 읽어오는것도 가능함.
+		is.read((char*)&dog, sizeof(Dog));
+		return is;
+	}
 };
+
+// [문제] 파일 "Dog천마리"에는 class Dog 객체 1000개가 저장되어있다.
+// 파일은 binary mode 이고 각 객체는 메모리 크기 그대로 stream의 write 함수로 기록하였다.
+// 모든 객체를 한번의 write 함수를 사용하여 기록하였다.
+// Dog의 멤버는 위의 코드와 같다.
+// 메모리에 모두 읽어 와라.
+// 메모리에 읽은 모든 Dog를 화면에 출력하라.
 
 //--------
 int main()
 //--------
 {
-	std::array<Dog, 1000> Dogs; // STACK에 생성
+	std::ifstream in{ "Dog천마리", std::ios::binary };
+	if (not in) {
+		std::cout << "Dog 없음" << std::endl;
+		return 20260323;
+	}
 
-	std::ofstream out{ "Dog천마리", std::ios::binary };
-	out.write((char*)Dogs.data(), Dogs.size() * sizeof(Dog));
+	std::array<Dog, 1000> dogs;
 	
-	
+	in.read((char*)dogs.data(), sizeof(Dog) * dogs.size()); // 안돌아가는 이유는 메모리임. 찾아보자
+
+	for (const Dog& dog : dogs) {
+		std::cout << dog << std::endl;
+	}
+
 	save("메인.cpp");
 }
