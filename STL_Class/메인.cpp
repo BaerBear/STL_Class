@@ -9,30 +9,31 @@
 // 많은 수의 자료를 다루기 - FILE I/O - binary I/O
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
-#include <random>
 #include <fstream>
+#include <filesystem>		// C++17 라이브러리
+#include <array>
 #include "save.h"
 
-std::default_random_engine dre;
-std::uniform_int_distribution uid;
+// [문제] 파일 "int천만개"에는 int값 천만개가 저장되어 있다.
+// 파일은 binary 모드로 열었고 int 값은 stream의 write 함수를 사용하여 저장하였다.
+// 저장된 int값을 모두 메모리에 저장하라.
+// 저장된 값 중에서 가장 작은 값과 큰 값을 화면에 출력하라.
+
+std::array<int, 10'000'000> data;
 
 //--------
 int main()
 //--------
 {
-	// [문제] 랜덤 int값 1000'0000개를 파일 "int천만개"에 저장하라.
-
-	std::ofstream out{ "int천만개", std::ios::binary }; 
-	// 기본은 text 모드이기 때문에 binary 모드로 열어야 정확히 4바이트씩 저장된다.
-
-	// 114'826'203 - text mode로 저장
-	//	40'000'000 - 메모리 그대로 저장한다면 40MB
-	int num;
-	for (int i = 0; i < 1000'0000; ++i) {
-		num = uid(dre);
-		out.write(reinterpret_cast<char*>(&num), sizeof(int));
+	std::ifstream in("int천만개", std::ios::binary);
+	if (not in) {
+		std::cerr << "파일을 열 수 없습니다." << std::endl;
+		return 1;
 	}
+	in.read(reinterpret_cast<char*>(data.data()), data.size() * sizeof(int));
+	auto [min, max] = std::minmax_element(data.begin(), data.end());
+	std::cout << "최소값: " << *min << std::endl;
+	std::cout << "최대값: " << *max << std::endl;
 
-	
 	save("메인.cpp");
 }
