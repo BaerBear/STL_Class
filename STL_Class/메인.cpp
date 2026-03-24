@@ -35,7 +35,10 @@ int main()
 	// 스마트 포인터 사용하면 자동으로 자원 관리가 되므로, delete 할 필요가 없어짐.
 	// 다음시간에 계속...
 
-	int* p;
+	// int* p; -> 사용하지 말아야 함
+	// C++11 (Modern C++)에 이것의 완벽한 대체 수단이 있기 때문에 -> smart_pointer
+
+	std::unique_ptr<int[]> p;	// 여기 설명하는 것부터 다음시간.
 
 	while (true) {
 		size_t num;
@@ -44,7 +47,7 @@ int main()
 
 		// 설마 음수를 입력하지는 않으리라는 강력한 희망을 가져본다...
 		try {
-			p = new int[num];
+			p.reset( new int[num] );
 		}
 		catch (std::exception& e) { // 메모리 고갈 시 예외가 발생.
 			std::cout << "메모리 고갈 - " << e.what() << std::endl;
@@ -55,7 +58,7 @@ int main()
 		}*/
 
 		// 이 과정의 대체품. 대체하면 틀릴 곳이 적어진다.
-		std::iota(p, p + num, 1); // STL 알고리즘. 시작값과 끝값을 지정하면, 시작값부터 1씩 증가하는 값을 채워넣음.
+		std::iota(p.get(), p.get() + num, 1); // STL 알고리즘. 시작값과 끝값을 지정하면, 시작값부터 1씩 증가하는 값을 채워넣음.
 
 		// int sum{}; -> 함정. int 한계를 넘어서면 이상한 값이 나옴
 		/*for (int i = 0; i < num; ++i) {
@@ -63,7 +66,7 @@ int main()
 		}*/
 
 		// 똑같이 대체품
-		long long sum = std::accumulate(p, p + num, 0LL);
+		long long sum = std::accumulate(p.get(), p.get() + num, 0LL);
 		std::cout << "1부터 " << num << "까지의 합계 : " << sum << std::endl;
 		// STL 알고리즘. 시작값과 끝값을 지정하면, 시작값부터 끝값까지의 합계를 구함. 세 번째 인자는 초기값.
 
