@@ -9,38 +9,36 @@
 // callable types -> 실습 -> STL
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
-#include <fstream>
+#include <random>
 #include <algorithm>
+#include <array>
 #include "save.h"
 
-// [문제] "메인.cpp"의 소문자를 모두 대문자로 바꾼 "메인대문자.cpp"를 만들어라.
-// transform(뭐를, 뭐로, 어떻게);
-// transform(메인.cpp를, 메인대문자.cpp로, 소문자를 대문자로)
+// [문제] 랜덤값을 갖는 int 1000만개를 메모리에 저장하라.
+// qsort를 이용하여 오름차순 정렬하라.
+// 정렬결과를 앞에서부터 1000개만 화면에 출력하라.
+
+std::default_random_engine dre;
+std::uniform_int_distribution<int> uid;
+
+std::array<int, 1000'1000> arr;
 
 //--------
 int main()
 //--------
 {
-	std::ifstream in{ "메인.cpp" };
-	if (not in) {
-		std::cout << "메인.cpp - 열 수 없습니다." << '\n';
-		return 20260330;
+	for (int i = 0; i < 1000'0000; ++i) {
+		arr[i] = uid(dre);
 	}
 
-	std::ofstream out{ "메인대문자.cpp" };
-	
-	/*char c;			loop를 직접 안짜도 된다. 알고리즘이 해준다.
-	while (in.get(c)) {
-		out.put(std::toupper(c));
-	}*/
-
-	// transform(메인.cpp를, 메인대문자.cpp로, 소문자를 대문자로)
-	// transform(메인시작, 메인끝, 메인대문자시작으로, 함수의 시작번지)
-	std::transform(std::istreambuf_iterator<char>{in}, {},	// 2번째 인자의 정식 표기는 std::istreambuf_iterator<char>{} -> 끝을 나타내는 iterator 
-		std::ostreambuf_iterator<char>{out},				
-		[] (char c) {					// 람다함수를 이용. (이름이 없는 함수)
-			return c = std::toupper(c); 
+	for (int i = 0; i < 1000; ++i) {
+		std::cout << arr[i] << '\n';
+	}
+	std::qsort(arr.data(), arr.size(), sizeof(int),
+		[] (const void* a, const void* b) {
+			return *(const int*)a - *(const int*)b;
 		});
+
 
 	save("메인.cpp");
 }
