@@ -10,28 +10,40 @@
 //----------------------------------------------------------------------------------------------------------------------
 #INCLUDE <IOSTREAM>
 #INCLUDE <FSTREAM>
+#INCLUDE <ALGORITHM>
 #INCLUDE "SAVE.H"
 
 // [문제] "메인.CPP"의 소문자를 모두 대문자로 바꾼 "메인대문자.CPP"를 만들어라.
-//
+// TRANSFORM(뭐를, 뭐로, 어떻게);
+// TRANSFORM(메인.CPP를, 메인대문자.CPP로, 소문자를 대문자로)
+
+CHAR 소투대(CHAR C) 
+{
+	RETURN C = STD::TOUPPER(C);
+}
 
 //--------
 INT MAIN()
 //--------
 {
 	STD::IFSTREAM IN{ "메인.CPP" };
-	STD::OFSTREAM OUT{ "메인대문자.CPP" };
-
 	IF (NOT IN) {
 		STD::COUT << "메인.CPP - 열 수 없습니다." << '\N';
-		EXIT(0);
+		RETURN 20260330;
 	}
 
-	CHAR C;
+	STD::OFSTREAM OUT{ "메인대문자.CPP" };
+	
+	/*CHAR C;			LOOP를 직접 안짜도 된다. 알고리즘이 해준다.
 	WHILE (IN.GET(C)) {
-		OUT << STATIC_CAST<CHAR>(STD::TOUPPER(C));
-	}
+		OUT.PUT(STD::TOUPPER(C));
+	}*/
 
+	// TRANSFORM(메인.CPP를, 메인대문자.CPP로, 소문자를 대문자로)
+	// TRANSFORM(메인시작, 메인끝, 메인대문자시작으로, 함수의 시작번지)
+	STD::TRANSFORM(STD::ISTREAMBUF_ITERATOR<CHAR>{IN}, {},	// 2번째 인자의 정식 표기는 STD::ISTREAMBUF_ITERATOR<CHAR>{} -> 끝을 나타내는 ITERATOR 
+		STD::OSTREAMBUF_ITERATOR<CHAR>{OUT},				
+		소투대);
 
 	SAVE("메인.CPP");
 }

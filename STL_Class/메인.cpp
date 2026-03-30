@@ -10,28 +10,40 @@
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include "save.h"
 
 // [문제] "메인.cpp"의 소문자를 모두 대문자로 바꾼 "메인대문자.cpp"를 만들어라.
-//
+// transform(뭐를, 뭐로, 어떻게);
+// transform(메인.cpp를, 메인대문자.cpp로, 소문자를 대문자로)
+
+char 소투대(char c) 
+{
+	return c = std::toupper(c);
+}
 
 //--------
 int main()
 //--------
 {
 	std::ifstream in{ "메인.cpp" };
-	std::ofstream out{ "메인대문자.cpp" };
-
 	if (not in) {
 		std::cout << "메인.cpp - 열 수 없습니다." << '\n';
-		exit(0);
+		return 20260330;
 	}
 
-	char c;
+	std::ofstream out{ "메인대문자.cpp" };
+	
+	/*char c;			loop를 직접 안짜도 된다. 알고리즘이 해준다.
 	while (in.get(c)) {
-		out << static_cast<char>(std::toupper(c));
-	}
+		out.put(std::toupper(c));
+	}*/
 
+	// transform(메인.cpp를, 메인대문자.cpp로, 소문자를 대문자로)
+	// transform(메인시작, 메인끝, 메인대문자시작으로, 함수의 시작번지)
+	std::transform(std::istreambuf_iterator<char>{in}, {},	// 2번째 인자의 정식 표기는 std::istreambuf_iterator<char>{} -> 끝을 나타내는 iterator 
+		std::ostreambuf_iterator<char>{out},				
+		소투대);
 
 	save("메인.cpp");
 }
