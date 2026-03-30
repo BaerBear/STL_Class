@@ -12,6 +12,20 @@
 #include <memory>
 #include "save.h"
 
+class Dog;
+
+class 스마트포인터 {
+public:
+	스마트포인터(Dog* p) : ptr{ p } {}
+	~스마트포인터() { 
+		delete ptr; 
+		std::cout << "ptr 소멸" << std::endl; 
+	}
+
+private:
+	Dog* ptr;
+};
+
 class Dog {
 public:
 	Dog() { std::cout << "생성" << std::endl; }
@@ -30,7 +44,7 @@ int main()
 
 	// T* 는 raw-pointer이다. 앞으로 쓰지 말자! (Dog* p = new Dog; -> 이렇게 쓰지 말자!)
 
-	std::unique_ptr<Dog> p{ new Dog };		// RAII
+	스마트포인터 p{ new Dog };		// RAII
 
 
 	return 0;		// return을 만났을 때 STACK을 거슬러 올라가면서 지역객체들을 소멸시킨다.
