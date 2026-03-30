@@ -1,37 +1,37 @@
 //--------------------------------------------------------------------------------------------------------------------
 // 2026년 1학기 STL 월56화78			3월 30일			(4주 2일)
 //--------------------------------------------------------------------------------------------------------------------
-// 컴파일 환경 - Release / x64
-// VS 버전 - 17.14.27 (February 2026)
-// 프로젝트 설정 - C++언어표준 - /std:c++latest
+// 컴파일 환경 - RELEASE / X64
+// VS 버전 - 17.14.27 (FEBRUARY 2026)
+// 프로젝트 설정 - C++언어표준 - /STD:C++LATEST
 //				- C/C++언어 - SDL검사 - 아니요
 //---------------------------------------------------------------------------------------------------------------------
-// callable types -> 실습 -> STL
+// CALLABLE TYPES -> 실습 -> STL
 //----------------------------------------------------------------------------------------------------------------------
-#include <iostream>
-#include <fstream>
-#include "save.h"
+#INCLUDE <IOSTREAM>
+#INCLUDE <FSTREAM>
+#INCLUDE "SAVE.H"
 
-// [문제] "메인.cpp"의 소문자를 모두 대문자로 바꾼 "메인대문자.cpp"를 만들어라.
+// [문제] "메인.CPP"의 소문자를 모두 대문자로 바꾼 "메인대문자.CPP"를 만들어라.
 //
 
 //--------
-int main()
+INT MAIN()
 //--------
 {
-	std::ifstream in{ "메인.cpp" };
-	std::ofstream out{ "메인대문자.cpp" };
+	STD::IFSTREAM IN{ "메인.CPP" };
+	STD::OFSTREAM OUT{ "메인대문자.CPP" };
 
-	if (not in) {
-		std::cout << "메인.cpp - 열 수 없습니다." << '\n';
-		exit(0);
+	IF (NOT IN) {
+		STD::COUT << "메인.CPP - 열 수 없습니다." << '\N';
+		EXIT(0);
 	}
 
-	char c;
-	while (in.get(c)) {
-		out << static_cast<char>(std::toupper(c));
+	CHAR C;
+	WHILE (IN.GET(C)) {
+		OUT << STATIC_CAST<CHAR>(STD::TOUPPER(C));
 	}
 
 
-	save("메인.cpp");
+	SAVE("메인.CPP");
 }
