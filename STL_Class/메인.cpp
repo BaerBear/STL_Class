@@ -19,7 +19,6 @@ public:
 	스마트포인터(Dog* p) : ptr{ p } {}
 	~스마트포인터() { 
 		delete ptr; 
-		std::cout << "ptr 소멸" << std::endl; 
 	}
 
 private:
@@ -35,19 +34,13 @@ public:
 // C++ 언어의 보증사항
 // 프로그램이 정상 종료시(return 문, exit과는 다름) 스택에 생성된 지역객체를
 // 반드시 소멸됨을 보장한다.
+// stack-unwinding -> return 문을 만났을 때, 스택에 생성된 지역객체들을 거슬러 올라가면서 소멸시킨다. (소멸자 호출)
 
 //--------
 int main()
 //--------
 {
+	std::unique_ptr<Dog[]>p{new Dog[10]};			// Dog* p = new Dog[10];
+
 	save("메인.cpp");
-
-	// T* 는 raw-pointer이다. 앞으로 쓰지 말자! (Dog* p = new Dog; -> 이렇게 쓰지 말자!)
-
-	스마트포인터 p{ new Dog };		// RAII
-
-
-	return 0;		// return을 만났을 때 STACK을 거슬러 올라가면서 지역객체들을 소멸시킨다.
-
-	std::cout << "이 문장이 출력되면 노트북을 버려라." << std::endl;
 }
