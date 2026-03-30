@@ -17,11 +17,6 @@
 // TRANSFORM(뭐를, 뭐로, 어떻게);
 // TRANSFORM(메인.CPP를, 메인대문자.CPP로, 소문자를 대문자로)
 
-CHAR 소투대(CHAR C) 
-{
-	RETURN C = STD::TOUPPER(C);
-}
-
 //--------
 INT MAIN()
 //--------
@@ -43,7 +38,9 @@ INT MAIN()
 	// TRANSFORM(메인시작, 메인끝, 메인대문자시작으로, 함수의 시작번지)
 	STD::TRANSFORM(STD::ISTREAMBUF_ITERATOR<CHAR>{IN}, {},	// 2번째 인자의 정식 표기는 STD::ISTREAMBUF_ITERATOR<CHAR>{} -> 끝을 나타내는 ITERATOR 
 		STD::OSTREAMBUF_ITERATOR<CHAR>{OUT},				
-		소투대);
+		[] (CHAR C) {
+			RETURN C = STD::TOUPPER(C);
+		});
 
 	SAVE("메인.CPP");
 }

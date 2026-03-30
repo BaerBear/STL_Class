@@ -17,11 +17,6 @@
 // transform(뭐를, 뭐로, 어떻게);
 // transform(메인.cpp를, 메인대문자.cpp로, 소문자를 대문자로)
 
-char 소투대(char c) 
-{
-	return c = std::toupper(c);
-}
-
 //--------
 int main()
 //--------
@@ -43,7 +38,9 @@ int main()
 	// transform(메인시작, 메인끝, 메인대문자시작으로, 함수의 시작번지)
 	std::transform(std::istreambuf_iterator<char>{in}, {},	// 2번째 인자의 정식 표기는 std::istreambuf_iterator<char>{} -> 끝을 나타내는 iterator 
 		std::ostreambuf_iterator<char>{out},				
-		소투대);
+		[] (char c) {					// 람다함수를 이용. (이름이 없는 함수)
+			return c = std::toupper(c); 
+		});
 
 	save("메인.cpp");
 }
