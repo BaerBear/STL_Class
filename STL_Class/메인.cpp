@@ -50,7 +50,8 @@ int main()
 	// 시간측정 끝
 
 	std::cout << "정렬 후 출력" << std::endl;
-	for (int& num : arr | std::views::take(1000)) {		// | 용어: vertical bar. filter 같은 역할. C++20 기능.
+	for (int& num : arr | std::views::reverse
+						| std::views::take(1000)) {		// | 용어: vertical bar. filter 같은 역할. C++20 기능.
 		std::print("{:8}", num);
 	}
 
