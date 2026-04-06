@@ -36,7 +36,7 @@ public:
 	}
 
 	int getId() const { return id; }
-	int getNameLen() const { return name.length(); }
+	std::string getName() const { return name; }
 private:
 	std::string name;		// [1, 150]
 	int id;					// [0, 999'9999]
@@ -72,7 +72,7 @@ int main()
 		});*/
 
 	std::sort(dogs.begin(), dogs.end(), [](const Dog& a, const Dog& b) {
-		return a.getNameLen() < b.getNameLen();
+		return a.getName().size() < b.getName().size();
 		});
 
 	for (const Dog& d : dogs | std::views::take(1000)) {
