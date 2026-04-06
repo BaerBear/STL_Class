@@ -6,26 +6,36 @@
 // 프로젝트 설정 - C++언어표준 - /std:c++latest
 //				- C/C++언어 - SDL검사 - 아니요
 //---------------------------------------------------------------------------------------------------------------------
-// 호출가능 타입 - callable types
-// function을 사용하여 모든 호출가능 타입을 표현할 수 있다
+// 예제
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
-#include <array>
-#include <algorithm>
-#include <functional>
+#include <random>
+#include <string>
+#include <print>
 #include "save.h"
 
-bool 정렬기준(int a, int b)
-{
-	std::cout << "함수 ";		// 10 * log 10 (3 ~ 4)
-	return a < b;
-}
+std::default_random_engine dre;
+std::uniform_int_distribution uid{ 0, 999'9999 };
+std::uniform_int_distribution uidNameLen{ 1, 150 };
+std::uniform_int_distribution<> uidChar{ '!', '~' };
 
-class Dog {						// function object. 함수 객체. 호출가능 객체. callable object.
+class Dog {
 public:
-	bool operator() (int a, int b) {
-		std::cout << "도그 ";
-		return a < b;
+	Dog() {
+		id = uid(dre);
+		int len = uidNameLen(dre);
+		for (int i = 0; i < len; ++i) {
+			name += uidChar(dre);
+		}
+	};
+
+private:
+	std::string name;		// [1, 150]
+	int id;					// [0, 999'9999]
+
+	friend std::ostream& operator<<(std::ostream& os, const Dog& dog) {
+		print(os, "[{:7}] - {}", dog.id, dog.name);
+		return os;
 	}
 };
 
@@ -33,34 +43,9 @@ public:
 int main()
 //--------
 {
-	std::array<int, 10> a{ 8, 4, 2, 0, 1, 9, 7, 5, 6, 3 };
-
-	std::function<bool(int, int) > f;
-
-	f = 정렬기준;
-	f = [](int a, int b) -> bool {		// 람다. [] -> lambda introducer.
-		std::cout << "람다 ";	// 10 * log 10 (3 ~ 4)
-		return a < b;			// 람다함수는 return하는 값이 무슨 형태인지 추론해서 반환한다.
-		};
-	f = Dog{};
-	
-	//std::sort(a.begin(), a.end(), 정렬기준);
-
-	std::sort(a.begin(), a.end(), f);
-
-	//std::sort(a.begin(), a.end(), Dog{} );
-
-	std::cout << '\n';
-
-	for (int num : a) {
-		std::cout << num << ' ';
+	for (int i = 0; i < 10; ++i) {
+		std::cout << Dog{} << '\n';
 	}
-	std::cout << '\n';
 
 	save("메인.cpp");
 }
-
-//std::sort<Random Iterator>(a.begin(), a.end(), callable f)
-//{
-//	f(*a.begin(), *a.begin() + 1);
-//}
