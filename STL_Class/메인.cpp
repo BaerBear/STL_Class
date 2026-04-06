@@ -36,7 +36,12 @@ public:
 	}
 
 	int getId() const { return id; }
+
 	std::string getName() const { return name; }
+
+	std::string& getName() { // 함수 오버로딩. std::string getName() const 와 std::string& getName() 은 다른 함수로 맹글링한다.
+		return name;
+	}
 private:
 	std::string name;		// [1, 150]
 	int id;					// [0, 999'9999]
@@ -51,7 +56,7 @@ private:
 // 기말쯤에 a~z까지 모두 들어간 Dog가 있니?? 몇개나 있니?? 나올수도
 
 // [문제] Dog 객체 10만개를 메모리에 저장하라.
-// std::sort를 사용하여 name 기준 오름차순으로 정렬하라.
+// 각 Dog 객체의 이름을 오름차순으로 정렬하라.
 // 필요하다면 Dog에 interfacce 멤버를 추가하라.
 // 앞에서부터 1000개의 내용을 출력하라.
 
@@ -71,9 +76,15 @@ int main()
 		return a.getId() < b.getId();
 		});*/
 
-	std::sort(dogs.begin(), dogs.end(), [](const Dog& a, const Dog& b) {
+	/*std::sort(dogs.begin(), dogs.end(), [](const Dog& a, const Dog& b) {
 		return a.getName().size() < b.getName().size();
-		});
+		});*/
+
+	for(Dog& dog : dogs) {
+		std::string& name = dog.getName();
+		std::sort(name.begin(), name.end());
+	}
+	
 
 	for (const Dog& d : dogs | std::views::take(1000)) {
 		std::cout << d << '\n';
