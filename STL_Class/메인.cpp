@@ -36,6 +36,7 @@ public:
 	}
 
 	int getId() const { return id; }
+	int getNameLen() const { return name.length(); }
 private:
 	std::string name;		// [1, 150]
 	int id;					// [0, 999'9999]
@@ -50,7 +51,7 @@ private:
 // 기말쯤에 a~z까지 모두 들어간 Dog가 있니?? 몇개나 있니?? 나올수도
 
 // [문제] Dog 객체 10만개를 메모리에 저장하라.
-// std::sort를 사용하여 id 기준 오름차순으로 정렬하라.
+// std::sort를 사용하여 name 기준 오름차순으로 정렬하라.
 // 필요하다면 Dog에 interfacce 멤버를 추가하라.
 // 앞에서부터 1000개의 내용을 출력하라.
 
@@ -60,14 +61,19 @@ std::array <Dog, 100'000> dogs;
 int main()
 //--------
 {
+
+	// C++20의 sort
+	//std::ranges::sort(dogs, {}, &Dog::getId);
+	// 무슨 객체를, 어떤 기준으로 정렬할건데 (디폴트는 오름차순), 멤버함수를 기준으로 정렬한다.
+	// 멤버함수는 포인터가 아님. 멤버함수 포인터가 콜러블임.
+
 	/*std::sort(dogs.begin(), dogs.end(), [](const Dog& a, const Dog& b) {
 		return a.getId() < b.getId();
 		});*/
 
-		// C++20의 sort
-	std::ranges::sort(dogs, {}, &Dog::getId);
-	// 무슨 객체를, 어떤 기준으로 정렬할건데 (디폴트는 오름차순), 멤버함수를 기준으로 정렬한다.
-	// 멤버함수는 포인터가 아님. 멤버함수 포인터가 콜러블임.
+	std::sort(dogs.begin(), dogs.end(), [](const Dog& a, const Dog& b) {
+		return a.getNameLen() < b.getNameLen();
+		});
 
 	for (const Dog& d : dogs | std::views::take(1000)) {
 		std::cout << d << '\n';
