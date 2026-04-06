@@ -12,6 +12,8 @@
 #include <random>
 #include <string>
 #include <print>
+#include <array>
+#include <ranges>
 #include "save.h"
 
 std::default_random_engine dre;
@@ -28,7 +30,9 @@ public:
 			name += uidChar(dre);
 		}
 	};
-
+	bool operator() (Dog a, Dog b) const {
+		return a.id < b.id;
+	}
 private:
 	std::string name;		// [1, 150]
 	int id;					// [0, 999'9999]
@@ -39,12 +43,23 @@ private:
 	}
 };
 
+// 기말쯤에 a~z까지 모두 들어간 Dog가 있니?? 몇개나 있니?? 나올수도
+
+// [문제] Dog 객체 10만개를 메모리에 저장하라.
+// std::sort를 사용하여 id 기준 오름차순으로 정렬하라.
+// 필요하다면 Dog에 interfacce 멤버를 추가하라.
+// 앞에서부터 1000개의 내용을 출력하라.
+
+std::array <Dog, 100'000> dogs;
+
 //--------
 int main()
 //--------
 {
-	for (int i = 0; i < 10; ++i) {
-		std::cout << Dog{} << '\n';
+	std::sort(dogs.begin(), dogs.end(), Dog{});
+
+	for( Dog d : dogs | std::views::take(1000) ) {
+		std::cout << d << '\n';
 	}
 
 	save("메인.cpp");
