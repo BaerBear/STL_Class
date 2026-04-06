@@ -6,44 +6,15 @@
 // 프로젝트 설정 - C++언어표준 - /std:c++latest
 //				- C/C++언어 - SDL검사 - 아니요
 //---------------------------------------------------------------------------------------------------------------------
-// 예제
+// 중간고사 4월 21일 (8주 1일)
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
-#include <random>
-#include <string>
-#include <print>
-#include <array>
-#include <ranges>
-#include <chrono>
 #include "save.h"
 
-std::default_random_engine dre;
-std::uniform_int_distribution uid{ 0, 999'9999 };
-std::uniform_int_distribution uidNameLen{ 1, 150 };
-std::uniform_int_distribution<> uidChar{ '!', '~' };
-
 class Dog {
-public:
-	Dog() {
-		id = uid(dre);
-		int len = uidNameLen(dre);
-		for (int i = 0; i < len; ++i) {
-			name += uidChar(dre);
-		}
-	};
-	bool operator() (Dog a, Dog b) const {
-		return a.id < b.id;
-	}
 
-	int getId() const { return id; }
-
-	std::string getName() const { return name; }
-
-	std::string& getName() { // 함수 오버로딩. std::string getName() const 와 std::string& getName() 은 다른 함수로 맹글링한다.
-		return name;
-	}
 private:
-	std::string name;		// [1, 150]
+	std::string name;		// [1, 16]
 	int id;					// [0, 999'9999]
 
 	friend std::ostream& operator<<(std::ostream& os, const Dog& dog) {
@@ -53,42 +24,16 @@ private:
 	}
 };
 
-// 기말쯤에 a~z까지 모두 들어간 Dog가 있니?? 몇개나 있니?? 나올수도
-
-// [문제] Dog 객체 10만개를 메모리에 저장하라.
-// 각 Dog 객체의 이름을 오름차순으로 정렬하라.
-// 필요하다면 Dog에 interfacce 멤버를 추가하라.
-// 앞에서부터 1000개의 내용을 출력하라.
-
-std::array <Dog, 100'000> dogs;
+// 시험문제
+// [문제] 다운받은 "Dog 십만마리"에는 class Dog 객체 십만개가 저장되어 있다.
+// 바이너리 모드로 저장하여 정확하게 4MB이다.
+// 메모리로 모두 읽어와라.
+// 앞에서 100개 출력하여 확인하라.
 
 //--------
 int main()
 //--------
 {
-
-	// C++20의 sort
-	//std::ranges::sort(dogs, {}, &Dog::getId);
-	// 무슨 객체를, 어떤 기준으로 정렬할건데 (디폴트는 오름차순), 멤버함수를 기준으로 정렬한다.
-	// 멤버함수는 포인터가 아님. 멤버함수 포인터가 콜러블임.
-
-	/*std::sort(dogs.begin(), dogs.end(), [](const Dog& a, const Dog& b) {
-		return a.getId() < b.getId();
-		});*/
-
-	/*std::sort(dogs.begin(), dogs.end(), [](const Dog& a, const Dog& b) {
-		return a.getName().size() < b.getName().size();
-		});*/
-
-	for(Dog& dog : dogs) {
-		std::string& name = dog.getName();
-		std::sort(name.begin(), name.end());
-	}
 	
-
-	for (const Dog& d : dogs | std::views::take(1000)) {
-		std::cout << d << '\n';
-	}
-
 	save("메인.cpp");
 }
