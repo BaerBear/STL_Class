@@ -41,8 +41,8 @@ private:
 	int id;					// [0, 999'9999]
 
 	friend std::ostream& operator<<(std::ostream& os, const Dog& dog) {
-		//print(os, "[{:7}] - {}", dog.id, dog.name);
-		print(os, "[{:7}]", dog.id);
+		print(os, "[{:7}] - {}", dog.id, dog.name);
+		//print(os, "[{:7}]", dog.id);
 		return os;
 	}
 };
@@ -60,13 +60,16 @@ std::array <Dog, 100'000> dogs;
 int main()
 //--------
 {
-	std::cout << "정렬 시작" << std::endl;
-	std::sort(dogs.begin(), dogs.end(), [](const Dog& a, const Dog& b) {
+	/*std::sort(dogs.begin(), dogs.end(), [](const Dog& a, const Dog& b) {
 		return a.getId() < b.getId();
-		});
-	std::cout << "정렬 끝" << std::endl;
+		});*/
 
-	for (const Dog& d : dogs) {
+		// C++20의 sort
+	std::ranges::sort(dogs, {}, &Dog::getId);
+	// 무슨 객체를, 어떤 기준으로 정렬할건데 (디폴트는 오름차순), 멤버함수를 기준으로 정렬한다.
+	// 멤버함수는 포인터가 아님. 멤버함수 포인터가 콜러블임.
+
+	for (const Dog& d : dogs | std::views::take(1000)) {
 		std::cout << d << '\n';
 	}
 
