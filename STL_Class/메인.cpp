@@ -14,13 +14,19 @@
 #include <algorithm>
 #include "save.h"
 
+bool 정렬기준(int a, int b)
+{
+	std::cout << "함수 ";		// 10 * log 10 (3 ~ 4)
+	return a < b;
+}	
+
 //--------
 int main()
 //--------
 {
 	std::array<int, 10> a{ 8, 4, 2, 0, 1, 9, 7, 5, 6, 3 };
 
-	std::sort(a.begin(), a.end());
+	std::sort(a.begin(), a.end(), 정렬기준);
 	// contiguos 메모리의 정보가 들어가있음. 각각의 원소가 int가 들어가 있음, 메모리 크기 등을 다 알 수 있음
 	// 아무것도 안쓰면 오름차순으로 정렬이 됨.
 
