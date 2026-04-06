@@ -18,7 +18,15 @@ bool 정렬기준(int a, int b)
 {
 	std::cout << "함수 ";		// 10 * log 10 (3 ~ 4)
 	return a < b;
-}	
+}
+
+class Dog {						// function object. 함수 객체. 호출가능 객체. callable object.
+public:
+	bool operator() (int a, int b) {
+		std::cout << "도그 ";
+		return a < b;
+	}
+};
 
 //--------
 int main()
@@ -27,12 +35,16 @@ int main()
 	std::array<int, 10> a{ 8, 4, 2, 0, 1, 9, 7, 5, 6, 3 };
 
 	//std::sort(a.begin(), a.end(), 정렬기준);
-	std::sort(a.begin(), a.end(), [] (int a, int b) {		// 람다
+
+	std::sort(a.begin(), a.end(), [](int a, int b) -> bool {		// 람다. [] -> lambda introducer.
 		std::cout << "람다 ";	// 10 * log 10 (3 ~ 4)
-		return a < b;
-		});
+		return a < b;			// 람다함수는 return하는 값이 무슨 형태인지 추론해서 반환한다.
+	});
+
+	//std::sort(a.begin(), a.end(), Dog{} );
+
 	std::cout << '\n';
-	
+
 	for (int num : a) {
 		std::cout << num << ' ';
 	}
@@ -40,3 +52,8 @@ int main()
 
 	save("메인.cpp");
 }
+
+//std::sort<Random Iterator>(a.begin(), a.end(), callable f)
+//{
+//	f(*a.begin(), *a.begin() + 1);
+//}
