@@ -31,7 +31,7 @@ public:
 		}
 	};
 	bool operator() (Dog a, Dog b) const {
-		return a.id < b.id;
+		return a.name < b.name;
 	}
 private:
 	std::string name;		// [1, 150]
@@ -52,14 +52,24 @@ private:
 
 std::array <Dog, 100'000> dogs;
 
+std::array<int, 1'000> a;
+// 전역에 변수 선언 -> 자동으로 기본 생성자로 인해 0으로 초기화된다.
+
 //--------
 int main()
 //--------
 {
-	std::sort(dogs.begin(), dogs.end(), Dog{});
+	/*std::sort(dogs.begin(), dogs.end(), Dog{});
 
 	for( Dog d : dogs | std::views::take(1000) ) {
 		std::cout << d << '\n';
+	}*/
+
+	std::array<int, 1'000> a; // 지역에 선언 -> 초기화되지 않은 상태로 존재.
+	// 클래스는 다름. 클래스는 생성자를 호출하는 게 보장된다.
+
+	for (int num : a) {
+		std::cout << num << std::endl;
 	}
 
 	save("메인.cpp");
