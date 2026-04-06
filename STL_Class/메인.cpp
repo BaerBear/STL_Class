@@ -12,6 +12,7 @@
 #include <iostream>
 #include <array>
 #include <algorithm>
+#include <functional>
 #include "save.h"
 
 bool 정렬기준(int a, int b)
@@ -34,12 +35,18 @@ int main()
 {
 	std::array<int, 10> a{ 8, 4, 2, 0, 1, 9, 7, 5, 6, 3 };
 
-	//std::sort(a.begin(), a.end(), 정렬기준);
+	std::function<bool(int, int) > f;
 
-	std::sort(a.begin(), a.end(), [](int a, int b) -> bool {		// 람다. [] -> lambda introducer.
+	f = 정렬기준;
+	f = [](int a, int b) -> bool {		// 람다. [] -> lambda introducer.
 		std::cout << "람다 ";	// 10 * log 10 (3 ~ 4)
 		return a < b;			// 람다함수는 return하는 값이 무슨 형태인지 추론해서 반환한다.
-	});
+		};
+	f = Dog{};
+	
+	//std::sort(a.begin(), a.end(), 정렬기준);
+
+	std::sort(a.begin(), a.end(), f);
 
 	//std::sort(a.begin(), a.end(), Dog{} );
 
