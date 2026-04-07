@@ -14,7 +14,9 @@
 
 class ZString {
 public:
-	ZString() = default;
+	ZString() {
+		std::cout << "생성() 글자 수: " << len << " 객체: " << this << " 글자주소: " << (void*)p.get() << std::endl;
+	};
 	
 	ZString(const char* s) {
 		len = strlen(s);						// 글자 수 세서 len에 저장
@@ -33,6 +35,7 @@ public:
 		return os;
 	}
 
+
 private:
 	size_t len{};
 	std::unique_ptr<char[]> p{};
@@ -43,9 +46,11 @@ private:
 int main()
 //--------
 {
-	ZString s{ "2026" };
-	std::cout << s << std::endl;
-	
-	
+	std::string s{ "2026년" };
+	std::string t{ "4월 7일 화요일" };
+
+	std::string u = s + t; // string concatenation. s와 t를 이어붙여서 u에 저장
+	std::cout << u << std::endl;
+
 	save("메인.cpp");
 }
