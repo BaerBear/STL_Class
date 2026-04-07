@@ -21,6 +21,9 @@ public:
 		p = std::make_unique<char[]>(len);		// 글자 수 만큼 unique_ptr로 char 배열을 관리
 		memcpy(p.get(), s, len);				// s에서 len 글자만큼 p로 복사. 제일 밑바닥에 있는 메모리 카피 함수. 초고속 카피 가능
 
+		std::cout << "생성(char*) 글자 수: " << len << " 객체: " << this << " 글자주소: " << (void*)p.get() << std::endl;
+		// << -> 고급출력. 인자가 char*일 때 p.get()주소로부터 시작해서 null문자를 만날 때 까지 문자열로 출력한다.
+		// 그래서 주소를 보고싶으면 (void*)로 캐스팅해서 출력해야 한다.
 	}
 
 	friend std::ostream& operator<<(std::ostream& os, const ZString& zs) {
@@ -40,7 +43,6 @@ private:
 int main()
 //--------
 {
-	// string이 나온 이유 -> char* 쓰지말라고
 	ZString s{ "2026" };
 	std::cout << s << std::endl;
 	
