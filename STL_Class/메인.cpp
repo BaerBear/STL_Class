@@ -6,64 +6,24 @@
 // 프로젝트 설정 - C++언어표준 - /std:c++latest
 //				- C/C++언어 - SDL검사 - 아니요
 //---------------------------------------------------------------------------------------------------------------------
-// 중간고사 4월 21일 (8주 1일)
+// STL 컨테이너 - std::string과 유사한 ZString을 만들어서 컨테이너 본질에 접근
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
-#include <fstream>
-#include <string>
-#include <array>
 #include "save.h"
-
-class Dog {
-
-private:
-	std::string name;		// [1, 16]
-	int id;					// [0, 999'9999]
-
-	friend std::ostream& operator<<(std::ostream& os, const Dog& dog) {
-		print(os, "[{:7}] - {}", dog.id, dog.name);
-		//print(os, "[{:7}]", dog.id);
-		return os;
-	}
-};
-
-// 시험문제
-
-// 문제가 쓰레기 문제다 -> 해답 ㅋㅋ
-
-// std::string s{"12345"};
-// 8bytes - 글자 수 (5글자)
-// 8bytes - 저장된 메모리 주소 - 16자 이하일 땐 X -> 메모리 주소는 16자 이상이 저장된 메모리 주소를 가리킨다.
-// 8 + 8bytes - 버퍼. 글자 + 널문자. 16자 이하일 때는 버퍼에 저장한다. -> 16자 이상일 때는 버퍼에 저장하지 않고 외부에 저장한다. 
-// 
-// 16글자가 넘어가면 외부에 저장. 이 때 메모리 주소는 16글자 이상이 저장된 메모리 주소를 가리킨다.
-// 여기서 VS는 15글자까지만 저장할 수 있다. 16글자 이상은 외부에 저장한다. -> 16글자 이상이 저장된 메모리 주소를 가리킨다.
-
-// [문제] 다운받은 "Dog 십만마리"에는 class Dog 객체 십만개가 저장되어 있다.
-// 바이너리 모드로 저장하여 정확하게 4MB이다.
-// 메모리로 모두 읽어와라.
-// 앞에서 100개 출력하여 확인하라.
-
-std::array<Dog, 100'000> dogs;		// 데이터영역
-// Default clear - 0으로 초기화, 빈문자열로 초기화
 
 //--------
 int main()
 //--------
 {
-	// std::array<Dog, 100> dogs;		// 스택영역
-	// 지역에선 클래스라고 해도 {}를 호출해야 초기화 된다. -> std::array<Dog, 100> dogs{};
+	// string이 나온 이유 -> char* 쓰지말라고
+	std::string s{ "2026" };
+	std::cout << s << std::endl;
+	
+	s += "0407";
+	std::cout << s << std::endl;
 
-	std::ifstream in{ "Dog 십만마리", std::ios::binary };
-	if (not in) {
-		std::cout << "파일을 살펴보세요" << std::endl;
-		return 20260407;
-	}
-
-	in.read((char*)dogs.data(), dogs.size() * sizeof(Dog)); // 밑바닥 함수이기 때문에 char*로 캐스팅한다. -> 바이너리 모드로 읽어오기 때문에
-
-	for (int i = 0; i < 100; ++i) {
-		std::cout << dogs[i] << std::endl;
+	for (auto i{ s.rbegin() }; i < s.rend(); ++i) {
+		std::cout << *i << std::endl;
 	}
 
 	save("메인.cpp");
