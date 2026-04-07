@@ -46,11 +46,15 @@ private:
 int main()
 //--------
 {
-	std::string s{ "2026년" };
-	std::string t{ "4월 7일 화요일" };
+	// 다음주 여기부터 다시 설명. ZString으로 바꾸면 안되는 이유부터 시작
+	std::string s{ "2026년" };	// x-value
+	std::string t = move(s);	// l-value	// 이동생성
+	// t = static_cast<std::string&&>(s);	// 이동대입. move는 static_cast로 구현되어 있다.
+	// t {static_cast<std::string&&>(s)};	// 이동생성. move는 static_cast로 구현되어 있다.
+	// t.string(std::string&&)				// && -> r-value reference.
 
-	std::string u = s + t; // string concatenation. s와 t를 이어붙여서 u에 저장
-	std::cout << u << std::endl;
+	std::cout << "s - " << s << std::endl;
+	std::cout << "t - " << t << std::endl;
 
 	save("메인.cpp");
 }
