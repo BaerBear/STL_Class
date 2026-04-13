@@ -13,13 +13,17 @@
 #include "ZString.h"
 #include "save.h"
 
+extern bool 관찰;
+
 //--------
 int main()
 //--------
 {
-	ZString zs{ "2026년 4월 13일" };
+	save("메인.cpp");
+
+	관찰 = true;
+
+	ZString zs;
 
 	std::cout << zs << std::endl;
-
-	save("메인.cpp");
 }

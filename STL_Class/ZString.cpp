@@ -3,13 +3,54 @@
 // 
 // 2026. 4. 13
 //-------------------------------------------------------------------------------
+#include <print>
+#include <string>
 #include "ZString.h"
 
-ZString::ZString() 
+size_t ZString::gid{};		// 외부에서 초기화 해줘야 함
+bool 관찰{ false };
+
+ZString::ZString()
+	: id{ ++gid }
 {
+	if (관찰) {
+		// 글자 수가 10개 이상이라도 10개까지만 출력
+		int num = 10;
+		if (len < 10) {
+			num = len;
+		}
+
+		std::string 글자{};
+		for (int i = 0; i < num; ++i) {
+			글자 += p[i];
+		}
+
+		std::println("[{:7}] {:8} - 객체:{:#016X}, 글자:{:#016X}, 개수:{:<6}  ",
+			id, "생성", (long long)this, (long long)p.get(), len, 글자);
+	}
 };
 
-ZString::ZString(const char* s) 
+ZString::~ZString()
+{
+	if (관찰) {
+		// 글자 수가 10개 이상이라도 10개까지만 출력
+		int num = 10;
+		if (len < 10) {
+			num = len;
+		}
+
+		std::string 글자{};
+		for (int i = 0; i < num; ++i) {
+			글자 += p[i];
+		}
+
+		std::println("[{:7}] {:8} - 객체:{:#016X}, 글자:{:#016X}, 개수:{:<6}  ",
+			id, "소멸", (long long)this, (long long)p.get(), len, 글자);
+	}
+};
+
+ZString::ZString(const char* s)
+	: id{ ++gid }
 {
 	len = strlen(s);						// 글자 수 세서 len에 저장
 	p = std::make_unique<char[]>(len);		// 글자 수 만큼 unique_ptr로 char 배열을 관리
@@ -19,7 +60,7 @@ ZString::ZString(const char* s)
 	// 그래서 주소를 보고싶으면 (void*)로 캐스팅해서 출력해야 한다.
 }
 
-std::ostream& operator<<(std::ostream& os, const ZString& zs) 
+std::ostream& operator<<(std::ostream& os, const ZString& zs)
 {
 	for (size_t i = 0; i < zs.len; ++i) {
 		os << *(zs.p.get() + i);

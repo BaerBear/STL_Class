@@ -21,6 +21,8 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const ZString& zs);
 
 private:
-	size_t len{};
-	std::unique_ptr<char[]> p{};
+	static size_t gid;				// 고유번호를 부여하기 위한 값
+	size_t id;						// 객체 고유번호 - 생성 시 유일한 값
+	size_t len{};					// 관리하는 글자 개수
+	std::unique_ptr<char[]> p{};	// 글자가 저장된 free-store 메모리
 };
