@@ -68,6 +68,11 @@ ZString& ZString::operator=(const ZString& other)
 	return *this;
 }
 
+size_t ZString::getLen() const 
+{
+	return len;
+}
+
 void ZString::special(std::string 동작) const
 {
 	// 글자 수가 10개 이상이라도 10개까지만 출력

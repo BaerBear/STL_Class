@@ -10,6 +10,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <array>
+#include <algorithm>
 #include "ZString.h"
 #include "save.h"
 
@@ -21,10 +22,20 @@ int main()
 {
 	std::array<ZString, 5> zs{ "333", "1", "55555", "4444", "22" };
 
+	//[문제] zs를 길이 오름차순으로 정렬하라. - C++11 이전 code
+	
 	관찰 = true;
+	
+	// 반드시 const ZString&으로 받기.
+	// 그렇지 않으면 ZString 객체가 복사되면서 복사생성자와 소멸자가 계속 호출된다. -> 빵점코드!!!!!!
+	std::sort(zs.begin(), zs.end(), [](const ZString& a, const ZString& b) { 
+		return a.getLen() < b.getLen();
+		});
 
-	for (ZString& a : zs) {			// & 안쓰면 복사생성과 소멸이 반복할 때마다 발생. & 써서 원본 출력
-		std::cout << a << std::endl;
+	관찰 = false;
+
+	for (const ZString& s : zs) {
+		std::cout << s << std::endl;
 	}
 
 	save("메인.cpp");

@@ -19,7 +19,10 @@ public:
 
 	// 이동
 
-
+	// 연산자 오버로딩
+	
+	// 인터페이스
+	size_t getLen() const;
 
 	void special(std::string) const;
 
