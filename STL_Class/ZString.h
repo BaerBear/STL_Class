@@ -18,6 +18,10 @@ public:
 
 	// ¿Ãµø
 
+
+
+	void special(std::string) const;
+
 	friend std::ostream& operator<<(std::ostream& os, const ZString& zs);
 
 private:

@@ -19,11 +19,10 @@ extern bool °üÂû;
 int main()
 //--------
 {
-	save("¸ŞÀÎ.cpp");
 
 	°üÂû = true;
 
-	ZString zs;
+	ZString zs[5]{ "333", "1", "55555", "4444", "22" };
 
-	std::cout << zs << std::endl;
+	save("¸ŞÀÎ.cpp");
 }

@@ -13,40 +13,14 @@ bool 관찰{ false };
 ZString::ZString()
 	: id{ ++gid }
 {
-	if (관찰) {
-		// 글자 수가 10개 이상이라도 10개까지만 출력
-		int num = 10;
-		if (len < 10) {
-			num = len;
-		}
-
-		std::string 글자{};
-		for (int i = 0; i < num; ++i) {
-			글자 += p[i];
-		}
-
-		std::println("[{:7}] {:8} - 객체:{:#016X}, 글자:{:#016X}, 개수:{:<6}  ",
-			id, "생성", (long long)this, (long long)p.get(), len, 글자);
-	}
+	if (관찰)
+		special("생성");
 };
 
 ZString::~ZString()
 {
-	if (관찰) {
-		// 글자 수가 10개 이상이라도 10개까지만 출력
-		int num = 10;
-		if (len < 10) {
-			num = len;
-		}
-
-		std::string 글자{};
-		for (int i = 0; i < num; ++i) {
-			글자 += p[i];
-		}
-
-		std::println("[{:7}] {:8} - 객체:{:#016X}, 글자:{:#016X}, 개수:{:<6}  ",
-			id, "소멸", (long long)this, (long long)p.get(), len, 글자);
-	}
+	if (관찰)
+		special("소멸");
 };
 
 ZString::ZString(const char* s)
@@ -58,6 +32,26 @@ ZString::ZString(const char* s)
 
 	// << -> 고급출력. 인자가 char*일 때 p.get()주소로부터 시작해서 null문자를 만날 때 까지 문자열로 출력한다.
 	// 그래서 주소를 보고싶으면 (void*)로 캐스팅해서 출력해야 한다.
+
+	if (관찰)
+		special("생성(*)");
+}
+
+void ZString::special(std::string 동작) const
+{
+	// 글자 수가 10개 이상이라도 10개까지만 출력
+	int num = 10;
+	if (len < 10) {
+		num = len;
+	}
+
+	std::string 글자{};
+	for (int i = 0; i < num; ++i) {
+		글자 += p[i];
+	}
+
+	std::println("[{:7}] {:8} - 객체:{:#014X}, 글자:{:#014X}, 개수:{:<6} 내용:{} ",
+		id, 동작, (long long)this, (long long)p.get(), len, 글자);
 }
 
 std::ostream& operator<<(std::ostream& os, const ZString& zs)
