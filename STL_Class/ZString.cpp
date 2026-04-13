@@ -68,6 +68,33 @@ ZString& ZString::operator=(const ZString& other)
 	return *this;
 }
 
+ZString::ZString(ZString&& other)
+{
+	len = other.len;
+	p.reset(other.p.release());
+
+	other.len = 0;
+	// 자기 자원이 이동된 other는 xvalue가 되고 이것을 사용하면 undefined behavior 라고 한다.
+	if (관찰)
+		special("이동생성");
+}
+
+ZString& ZString::operator=(ZString&& other)
+{
+	if (this == &other)
+		return *this;
+	
+	len = other.len;
+	// 잘 한 건가? 내 메모리 반환했나? -> 살펴보기
+	p.reset(other.p.release());
+	other.len = 0;
+
+	if (관찰)
+		special("이동할당");
+
+	return *this;
+}
+
 size_t ZString::getLen() const 
 {
 	return len;
