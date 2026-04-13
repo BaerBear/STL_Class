@@ -37,6 +37,37 @@ ZString::ZString(const char* s)
 		special("생성(*)");
 }
 
+// 복사생성과 복사할당연산자
+ZString::ZString(const ZString& other)
+	: id{ ++gid }
+{
+	len = other.len;
+	p = std::make_unique<char[]>(len);		
+	memcpy(p.get(), other.p.get(), len);	// other.p.get()주소로부터 시작해서 len 글자만큼 p로 복사
+	
+	if (관찰)
+		special("복사생성");
+}
+
+// ZString b = a; -> 복사생성
+// b = a; -> 복사할당
+
+ZString& ZString::operator=(const ZString& other)
+{
+	if(this == &other)
+		return *this;
+
+	len = other.len;
+	p.reset();
+	p = std::make_unique<char[]>(len);
+	memcpy(p.get(), other.p.get(), len);
+
+	if (관찰)
+		special("복사할당");
+
+	return *this;
+}
+
 void ZString::special(std::string 동작) const
 {
 	// 글자 수가 10개 이상이라도 10개까지만 출력

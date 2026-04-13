@@ -14,7 +14,8 @@ public:
 	ZString(const char* s);
 
 	// 복사
-	
+	ZString(const ZString&);
+	ZString& operator=(const ZString&);
 
 	// 이동
 
