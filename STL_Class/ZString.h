@@ -31,6 +31,9 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& os, const ZString& zs);
 
+	// 파일에서 읽어오려고 만듦 - 2026. 4. 13
+	friend std::istream& operator>>(std::istream& is, ZString& zs);
+
 private:
 	static size_t gid;				// 고유번호를 부여하기 위한 값
 	size_t id;						// 객체 고유번호 - 생성 시 유일한 값

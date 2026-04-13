@@ -124,3 +124,18 @@ std::ostream& operator<<(std::ostream& os, const ZString& zs)
 	}
 	return os;
 }
+
+// 파일에서 읽어오려고 만듦 - 2026. 4. 13
+std::istream& operator>>(std::istream& is, ZString& zs) 
+{
+	// 내일 그림 설명에서 시작
+
+	std::string s;	// string의 도움을 좀 받았음
+	is >> s;
+	zs.len = s.size();
+	zs.p.reset();
+	zs.p = std::make_unique<char[]>(s.size());
+	memcpy(zs.p.get(), s.data(), zs.len);
+
+	return is;
+}
