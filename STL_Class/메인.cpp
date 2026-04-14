@@ -48,7 +48,6 @@
 
 extern bool 관찰;			// 관찰하려면 true
 
-// array의 iterator
 
 //--------
 int main()
@@ -56,16 +55,10 @@ int main()
 {
 
 	std::array<ZString, 5> a{ "1", "22", "333", "4444", "55555" };
-	관찰 = true;
-	a.fill("2026년 4월 14일"); // 모든 원소를 같은 데이터로 채우는 함수.
-
-	std::cout << "원소 수 - " << a.size() << std::endl;
-	std::cout << "비어있는가? - " << std::boolalpha << a.empty() << std::endl;
-	//std::boolalpha로 찍으면 true false로 찍힌다. std::noboolalpha로 찍으면 1 0으로 찍힌다.
-	std::cout << "최대 크기 - " << a.max_size() << std::endl;
-
-	for (const ZString& zs : a)
-		std::cout << zs << std::endl;
+	
+	// 아쉽지만 다음시간에
+	// iterator로 a를 순회
+	// element access - at, operator[], front, back, data. 다섯가지 멤버함수 살펴보기
 
 	save("메인.cpp");
 }
