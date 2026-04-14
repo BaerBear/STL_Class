@@ -39,7 +39,6 @@
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <array>
-#include <vector>
 #include "save.h"
 #include "ZString.h"
 
@@ -49,14 +48,15 @@ extern bool 관찰;			// 관찰하려면 true
 int main()
 //--------
 {
+	관찰 = true;
+
 	std::array<ZString, 2> a{ "1", "333" };
-	// a 가 컨테이너다. std::array<ZString, 2> 는 컨테이너의 타입이다. a -> 메모리에 존재
+	// array는 struct로 되어있다. class는 감출 정보가 있을 때 private로 감추는데, 굳이 그럴 이유가 없으니 struct로 구성되어있다.
+	// 그 뜻은? array에 내 맘대로 접근해서 변경할 수 있도록 열려있다는 뜻.
 
-	std::array<std::array<ZString, 2>, 10> b;
-	// 이런것도 가능하다. 이런 코드는 잘 안쓰지만 아래의 코드는
-
-	std::vector<std::array<ZString, 2>> v;
-	// 컨테이너가 다른 컨테이너를 원소로 담는 경우는 굉장히 흔한 일이다.
+	a[0] = "22";
+	
+	std::cout << a[0] << '\n';
 
 	save("메인.cpp");
 }
