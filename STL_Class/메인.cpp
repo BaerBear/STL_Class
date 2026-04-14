@@ -36,6 +36,10 @@
 // 
 // 이후 algorithm
 // 
+// lexicographically compares - 사전식으로 비교한다는 뜻. 사전에서 단어들이 정렬되는 방식으로 비교한다는 뜻.
+// 
+// operator<=> - 삼방향 비교 연산자. ZString에서 제공하도록 코딩할 예정
+// 
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <array>
@@ -44,28 +48,24 @@
 
 extern bool 관찰;			// 관찰하려면 true
 
-// array 는 aggregate type. -> 집합 초기화가 가능하다.
-// std::array<ZString, 2> a{ "1", "333" }; 이런 초기화가 가능함
-// 
+// array의 iterator
 
 //--------
 int main()
 //--------
 {
+
+	std::array<ZString, 5> a{ "1", "22", "333", "4444", "55555" };
 	관찰 = true;
+	a.fill("2026년 4월 14일"); // 모든 원소를 같은 데이터로 채우는 함수.
 
-	std::array<ZString, 2> a{ "1", "333" };
-	// array는 struct로 되어있다. class는 감출 정보가 있을 때 private로 감추는데, 굳이 그럴 이유가 없으니 struct로 구성되어있다.
-	// 그 뜻은? array에 내 맘대로 접근해서 변경할 수 있도록 열려있다는 뜻.
+	std::cout << "원소 수 - " << a.size() << std::endl;
+	std::cout << "비어있는가? - " << std::boolalpha << a.empty() << std::endl;
+	//std::boolalpha로 찍으면 true false로 찍힌다. std::noboolalpha로 찍으면 1 0으로 찍힌다.
+	std::cout << "최대 크기 - " << a.max_size() << std::endl;
 
-	class XXX {};
-	std::array<XXX, 100> aa;
-	// 이 문장이 실행되려면 XXX 클랙스가 이동생성 가능해야하고, 이동할당 가능해야한다.
-	// 클래스 선언만 해줘도 왜 가능하냐?
-	// 이동이 없을 때 복사가 돌아가게 만들어준다. 그럼 복사도 없는데 복사는 가능하냐?
-	// 가능하다. 컴파일러가 같은 클래스 간에 복사생성자와 복사할당 연산자를 자동으로 만들어준다.
-	XXX x;
-	XXX y{ x };	// 디폴트 복사생성자가 만들어져서 복사생성자가 돌아간다.
+	for (const ZString& zs : a)
+		std::cout << zs << std::endl;
 
 	save("메인.cpp");
 }
