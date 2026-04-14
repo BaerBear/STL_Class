@@ -7,21 +7,27 @@
 //				- C/C++언어 - SDL검사 - 아니요
 // 중간고사 - 4월 21일 (8주 1일)
 //---------------------------------------------------------------------------------------------------------------------
-// STL 컨테이너 - Containers are objects that store other objects.
-// STL 자료구조 - 컨테이너. 
-// object란? class로 만든 객체 (instancing) -> 메모리를 차지하고 있는 실체. 메모리에 없으면 오브젝트라고 부르지 않는다.
-// class로 객체를 만드는 행위 -> instancing / object는 클래스로 만들어진 instance
-// 
 // 컨테이너는 다른 객체를 저장하는 객체다. ( 컨테이너 == 오브젝트. 컨테이너는 오브젝트다. )
 // 컨테이너도 객체니까 다른 컨테이너를 저장할 수 있다.
 // homogeneous data type -> 같은 데이터 타입만 담을 수 있다.
 // heterogeneous data type -> 컨테이너는 여러개의 다른 데이터 타입을 한 번에 담지는 않는다.
+// 
+// STL 컨테이너 - Containers are objects that store other objects.
+// object란? class로 만든 객체 (instancing) -> 메모리를 차지하고 있는 실체. 메모리에 없으면 오브젝트라고 부르지 않는다.
+// class로 객체를 만드는 행위 -> instancing / object는 클래스로 만들어진 instance
 // 
 // 다형성 - polymorphic.
 // 컨테이너는 homogeneous data type만 담을 수 있다.
 // 다형성을 구현하기 위해서는 부모 자식 클래스 내에 virtual을 이용한 함수를 작성하게 될것.
 // 이를 한번에 담아서 다형성을 구동하게 하기 위해서는
 // 부모 클래스의 포인터를 컨테이너에 담아 사용한다.
+// 
+// STL 자료구조 - 컨테이너. 공부 순서
+// 1. sequence container - array, vector, deque, forward_list (single-linked), list (double-linked)
+// 이후에 iterator 반복자 학습하고 넘어간다.	
+// 2. associative container
+// 3. unordered associative container
+// algorithm
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <array>
