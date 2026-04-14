@@ -24,10 +24,18 @@
 // 
 // STL 자료구조 - 컨테이너. 공부 순서
 // 1. sequence container - array, vector, deque, forward_list (single-linked), list (double-linked)
+// 내가 원하는 위치에 가서 원하는 값으로 맘대로 바꿔도 아무 문제 없는 컨테이너다. (내 멋대로 메모리 엑세스 가능)
+//  
 // 이후에 iterator 반복자 학습하고 넘어간다.	
+//
 // 2. associative container
+// 빠르게 찾으라고 기껏 정렬해뒀더니 내 멋대로 바꿔버리면 정렬이 깨지니까 
+// 내가 원하는 위치에 가서 원하는 값으로 맘대로 바꿀 수 없는 컨테이너다. ( 내 멋대로 메모리 엑세스 불가능 )
+//
 // 3. unordered associative container
-// algorithm
+// 
+// 이후 algorithm
+// 
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <array>
