@@ -65,10 +65,10 @@ int main()
 	// element access - at, operator[], front, back, data. 다섯가지 멤버함수 살펴보기
 	관찰 = true;
 	// 전부 동일한 결과
-	a.begin()->show();
-	a[0].show();
-	a.front().show();
-	a.data()->show(); 
+	(a.end() - 1)->show();
+	a[a.size() - 1].show();
+	a.back().show();
+	(a.data() + a.size() - 1)->show(); 
 	관찰 = false;
 
 	save("메인.cpp");
