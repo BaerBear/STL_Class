@@ -100,6 +100,12 @@ size_t ZString::getLen() const
 	return len;
 }
 
+// STL 컨테이너가 되려면 다음 함수정도는 제공해야. - 2026. 4. 20
+size_t ZString::size() const	// 표준 컨테이너라면 getLen대신 size가 합당하다.
+{
+	return len;
+}
+
 void ZString::special(std::string 동작) const
 {
 	// 글자 수가 10개 이상이라도 10개까지만 출력
@@ -115,6 +121,11 @@ void ZString::special(std::string 동작) const
 
 	std::println("[{:7}] {:8} - 객체:{:#014X}, 글자:{:#014X}, 개수:{:<6} 내용:{} ",
 		id, 동작, (long long)this, (long long)p.get(), len, 글자);
+}
+
+void ZString::show() const		// 2026. 4. 20
+{
+	special("show");
 }
 
 std::ostream& operator<<(std::ostream& os, const ZString& zs)
