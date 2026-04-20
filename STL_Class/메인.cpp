@@ -19,14 +19,19 @@
 
 extern bool 관찰;			// 관찰하려면 true
 
+// template< class T, class Allocator = std::allocator<T> > class vector;
 // vector는 bool을 제외하면 contiguous하게 저장된다.
 // 시작번지 + offset을 계산해서 element에 접근할 수 있다.
 // element를 가르키는 포인터를 함수의 인자로도 쓸 수 있다. (배열의 원소를 필요로하는 곳에	vector의 원소를 포인터로 전달할 수 있다.)
 // 필요에 따라서 메모리가 늘어난다. 그래서 컴파일 타임에 공간이 정해지는 array보다 공간이 더 필요하다.
-// dynamic하게 메모리가 확장(expanded)된다. 미리 확보한 메모리가 다 차면 확장된다.
+// 미리 확보한 메모리가 다 차면 dynamic하게 메모리가 확장(expanded)된다. 
 // 재할당은 비용이 굉장히 많이 들어가는 동작이기 때문에 reserve()를 활용해서 미리 공간을 확보해주면 좋다.
 // Random access -> constant O(1)
-// 끝에있는 원소에 추가하거나 지우거나 -> amorized constant 0(1)
+// 
+// 끝에있는 원소에 추가하거나 지우거나 -> amorized(평균) constant 0(1) == 평균내면 상수시간이다.
+// 공간이 여유가 있는 경우엔 상수시간 O(1)의 시간이 걸린다.
+// 하지만 공간의 여유가 없을 땐 메모리를 확보하고 데이터를 복사하는 과정이 필요하기 때문에 O(n)의 시간이 걸린다.
+// 
 // 중간에 추가하거나 지우거나 -> linear O(n)
 // 그러니까 벡터는 위에 두개만 써서 사용하는거야.
 // 핵심 함수는 push_back과 emplace_back
@@ -40,8 +45,13 @@ int main()
 
 	std::vector<int> v{ 1,2,3,4,5 }; // -> free-store에 저장됨. 다이나믹하게 관리되기 때문
 
-	std::cout << "v의 메모리 크기 - " << sizeof(v) << std::endl;	   // v의 메모리 크기 - 24
-	std::cout << "v의 주소 - " << addressof(v) << std::endl;		   // v의 주소 - 000000FA738FF910
-	std::cout << "v의 타입 - " << typeid(v).name() << std::endl;	   // v의 타입 - class std::vector<int,class std::allocator<int>>
-	std::cout << "v가 저장할 수 있는 최대 int 개수 - " << v.max_size() << std::endl; // 4611686018427387903 
+	// x86 - 12
+	// x64 - 24 bytes (8bytes 3개)
+	// 3개의 포인터 보유.
+	// 원소 개수
+	// 시작번지
+	// capacity (미리 확보한 공간의 크기). 원소 개수와 동일해지면 capacity가 늘어난다.
+	//
+	// x64 - Debug 32 
+	std::cout << "v가 차지한 메모리 - " << sizeof(v) << std::endl;
 }
