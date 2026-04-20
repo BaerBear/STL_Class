@@ -42,9 +42,9 @@ ZString::ZString(const ZString& other)
 	: id{ ++gid }
 {
 	len = other.len;
-	p = std::make_unique<char[]>(len);		
+	p = std::make_unique<char[]>(len);
 	memcpy(p.get(), other.p.get(), len);	// other.p.get()주소로부터 시작해서 len 글자만큼 p로 복사
-	
+
 	if (관찰)
 		special("복사생성");
 }
@@ -54,7 +54,7 @@ ZString::ZString(const ZString& other)
 
 ZString& ZString::operator=(const ZString& other)
 {
-	if(this == &other)
+	if (this == &other)
 		return *this;
 
 	len = other.len;
@@ -68,7 +68,8 @@ ZString& ZString::operator=(const ZString& other)
 	return *this;
 }
 
-ZString::ZString(ZString&& other)
+ZString::ZString(ZString&& other) noexcept
+	: id{ ++gid }
 {
 	len = other.len;
 	p.reset(other.p.release());
@@ -79,11 +80,11 @@ ZString::ZString(ZString&& other)
 		special("이동생성");
 }
 
-ZString& ZString::operator=(ZString&& other)
+ZString& ZString::operator=(ZString&& other) noexcept
 {
 	if (this == &other)
 		return *this;
-	
+
 	len = other.len;
 	// 잘 한 건가? 내 메모리 반환했나? -> 살펴보기
 	p.reset(other.p.release());
@@ -95,7 +96,7 @@ ZString& ZString::operator=(ZString&& other)
 	return *this;
 }
 
-size_t ZString::getLen() const 
+size_t ZString::getLen() const
 {
 	return len;
 }
@@ -137,7 +138,7 @@ std::ostream& operator<<(std::ostream& os, const ZString& zs)
 }
 
 // 파일에서 읽어오려고 만듦 - 2026. 4. 13
-std::istream& operator>>(std::istream& is, ZString& zs) 
+std::istream& operator>>(std::istream& is, ZString& zs)
 {
 	// 내일 그림 설명에서 시작
 

@@ -18,8 +18,8 @@ public:
 	ZString& operator=(const ZString&);
 
 	// 이동 - C++11부터 지원되는 move semantics.
-	ZString(ZString&&); // r-value reference를 인자로 받는 이동 생성자
-	ZString& operator=(ZString&&); // r-value reference를 인자로 받는 이동 할당 연산자
+	ZString(ZString&&) noexcept; // r-value reference를 인자로 받는 이동 생성자 // 2026. 4. 20 move에서 예외를 던지지 않는다. noexcept
+	ZString& operator=(ZString&&) noexcept; // r-value reference를 인자로 받는 이동 할당 연산자 // 2026. 4. 20 move에서 예외를 던지지 않는다. noexcept
 
 
 	// 연산자 오버로딩
