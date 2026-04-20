@@ -50,17 +50,21 @@ int main()
 	// 오름차순으로 정렬하라.
 	// 출력하라
 
-	std::vector<std::string> v;
-	std::string s;
+	/*
+	std::vector<std::string> v;		얘를 한줄로 쓸 수 있다
+	std::string s;		
 	while (std::cin >> s) {
 		v.push_back(s);
 	}
+	*/
+
+	std::vector<std::string> v{ std::istream_iterator<std::string>{std::cin}, {} };
 
 	// 오름차순(ascending order) 정렬
 
 	std::sort(v.begin(), v.end());
 
-	for (const std::string& s : v) {
-		std::cout << s << std::endl;
+	for (auto i = v.rbegin(); i != v.rend(); ++i) {
+		std::cout << *i << std::endl;
 	}
 }
