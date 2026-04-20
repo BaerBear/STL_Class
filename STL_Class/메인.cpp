@@ -14,6 +14,8 @@
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <vector>
+#include <string>
+#include <algorithm>
 #include "save.h"
 #include "ZString.h"
 
@@ -43,15 +45,22 @@ int main()
 {
 	save("메인.cpp");
 
-	std::vector<int> v{ 1,2,3,4,5 }; // -> free-store에 저장됨. 다이나믹하게 관리되기 때문
+	// [문제] 키보드에서 입력한 모든 단어를 저장하라.
+	// 입력의 끝은 OS 마다 지정되어 있다. Windows는 Ctrl+Z
+	// 오름차순으로 정렬하라.
+	// 출력하라
 
-	// x86 - 12
-	// x64 - 24 bytes (8bytes 3개)
-	// 3개의 포인터 보유.
-	// 원소 개수
-	// 시작번지
-	// capacity (미리 확보한 공간의 크기). 원소 개수와 동일해지면 capacity가 늘어난다.
-	//
-	// x64 - Debug 32 
-	std::cout << "v가 차지한 메모리 - " << sizeof(v) << std::endl;
+	std::vector<std::string> v;
+	std::string s;
+	while (std::cin >> s) {
+		v.push_back(s);
+	}
+
+	// 오름차순(ascending order) 정렬
+
+	std::sort(v.begin(), v.end());
+
+	for (const std::string& s : v) {
+		std::cout << s << std::endl;
+	}
 }
