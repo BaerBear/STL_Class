@@ -62,18 +62,20 @@ int main()
 
 	// at() -> 필요성은 예제를 통해 알아보겠다.
 	// 경계를 검사하고 싶다면 이 함수를 사용하면 된다.
+	// C++은 속도를 최우선으로 하는 언어이다.
+	// 시간걸리는 at()을 다른 함수로 제공하는 이유이다.
+	// at()은 예외를 던진다.
 
 	while (true) {
 		std::cout << "찾을 원소는?";
 		int num;
 		std::cin >> num;
-		if (num < 0 or a.size() <= num) {	// 아래와 같은 코드는 예외처리 한다고 시간을 잡아먹음
-			std::cout << "다시 입력" << std::endl;
+
+		try {
+			std::cout << b.at(num) << std::endl;
 		}
-		else {
-			std::cout << num << "번 - " << b[num] << std::endl;
-			//							   -> *(b.data() + sizeof(int) * num) == b[num] 꿀문법이 있지만 시간을 잡아먹기 때문에
-			//								  C++에서는 속도를 중시하기 위해 필요없는 검사는 뺀다
+		catch (std::exception& e) {
+			std::cout << e.what() << std::endl;			// 표준 예외를 출력한다.
 		}
 	}
 }
