@@ -16,6 +16,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <numeric>
 #include "save.h"
 #include "ZString.h"
 
@@ -45,26 +46,13 @@ int main()
 {
 	save("메인.cpp");
 
-	// [문제] 키보드에서 입력한 모든 단어를 저장하라.
-	// 입력의 끝은 OS 마다 지정되어 있다. Windows는 Ctrl+Z
-	// 오름차순으로 정렬하라.
-	// 출력하라
+	// [문제] 키보드에서 입력한 모든 정수의 합계를 출력하라.
 
-	/*
-	std::vector<std::string> v;		얘를 한줄로 쓸 수 있다
-	std::string s;		
-	while (std::cin >> s) {
-		v.push_back(s);
-	}
-	*/
+	/*std::vector<int> v{ std::istream_iterator<int>{std::cin}, {} };
+	long long sum = std::accumulate(v.begin(), v.end(), 0LL);		iterator이기 때문에 벡터안에 써놓은거 그대로 가져와도 댐
+	std::cout << "합계: " << sum << '\n';*/
 
-	std::vector<std::string> v{ std::istream_iterator<std::string>{std::cin}, {} };
+	long long sum = std::accumulate(std::istream_iterator<int>{std::cin}, {}, 0LL);
+	std::cout << "합계: " << sum << '\n';
 
-	// 오름차순(ascending order) 정렬
-
-	std::sort(v.begin(), v.end());
-
-	for (auto i = v.rbegin(); i != v.rend(); ++i) {
-		std::cout << *i << std::endl;
-	}
 }
