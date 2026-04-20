@@ -132,7 +132,7 @@ void ZString::show() const		// 2026. 4. 20
 std::ostream& operator<<(std::ostream& os, const ZString& zs)
 {
 	for (size_t i = 0; i < zs.len; ++i) {
-		os << *(zs.p.get() + i);
+		os << zs.p[i];
 	}
 	return os;
 }
