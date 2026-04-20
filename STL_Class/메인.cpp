@@ -66,6 +66,10 @@ int main()
 	// 시간걸리는 at()을 다른 함수로 제공하는 이유이다.
 	// at()은 예외를 던진다.
 
+	// operator[] - syntatic sugar. 경계 밖 access 시도를 막지 않아 UB를 발생시킬 수 있다.
+    // at은 access에 대한 경계 검사를 진행하여 UB를 원천적으로 막아준다.
+    // 대신 시간을 먹는다.
+
 	while (true) {
 		std::cout << "찾을 원소는?";
 		int num;
