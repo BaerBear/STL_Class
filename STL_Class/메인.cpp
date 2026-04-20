@@ -53,23 +53,27 @@ extern bool 관찰;			// 관찰하려면 true
 int main()
 //--------
 {
-	std::array<ZString, 5> a{ "1", "22", "333", "4444", "55555" };
-	
-	// iterator로 a를 순회
-	// std::array<ZString,5>::iterator i = a.begin();
-	auto i = a.begin(); // 동일한 코드임. 클래스 이터레이터를 반환한다.
-	for (auto i = a.begin(); i != a.end(); ++i) 	// i++ 쓰지마라. 왜 그런지는 스스로 공부해봐라
-		std::cout << *i << '\n';					// i != a.end() -> 모든 자료형에서 쓰고싶다면 이렇게 써라. 
-													// i < a.end()는 contiguos한 자료형에서만 잘 돌아간다.
-	
-	// element access - at, operator[], front, back, data. 다섯가지 멤버함수 살펴보기
-	관찰 = true;
-	// 전부 동일한 결과
-	(a.end() - 1)->show();
-	a[a.size() - 1].show();
-	a.back().show();
-	(a.data() + a.size() - 1)->show(); 
-	관찰 = false;
-
 	save("메인.cpp");
+
+	std::array<ZString, 5> a{ "1", "22", "333", "4444", "55555" };
+	std::array<int, 5> b{ 1, 2, 3, 4, 5 };
+
+	// element access - at, operator[], front, back, data. 다섯가지 멤버함수 살펴보기
+
+	// at() -> 필요성은 예제를 통해 알아보겠다.
+	// 경계를 검사하고 싶다면 이 함수를 사용하면 된다.
+
+	while (true) {
+		std::cout << "찾을 원소는?";
+		int num;
+		std::cin >> num;
+		if (num < 0 or a.size() <= num) {	// 아래와 같은 코드는 예외처리 한다고 시간을 잡아먹음
+			std::cout << "다시 입력" << std::endl;
+		}
+		else {
+			std::cout << num << "번 - " << b[num] << std::endl;
+			//							   -> *(b.data() + sizeof(int) * num) == b[num] 꿀문법이 있지만 시간을 잡아먹기 때문에
+			//								  C++에서는 속도를 중시하기 위해 필요없는 검사는 뺀다
+		}
+	}
 }
