@@ -13,10 +13,7 @@
 // - vector<T> - dynamic (size) array - free-store에 data 관리
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
-#include <windows.h>
 #include <vector>
-#include <fstream>
-#include <algorithm>
 #include "save.h"
 #include "ZString.h"
 
@@ -39,9 +36,12 @@ extern bool 관찰;			// 관찰하려면 true
 int main()
 //--------
 {
-	SetConsoleOutputCP(CP_UTF8);
 	save("메인.cpp");
 
-	std::vector<int> v;
+	std::vector<int> v{ 1,2,3,4,5 }; // -> free-store에 저장됨. 다이나믹하게 관리되기 때문
 
+	std::cout << "v의 메모리 크기 - " << sizeof(v) << std::endl;	   // v의 메모리 크기 - 24
+	std::cout << "v의 주소 - " << addressof(v) << std::endl;		   // v의 주소 - 000000FA738FF910
+	std::cout << "v의 타입 - " << typeid(v).name() << std::endl;	   // v의 타입 - class std::vector<int,class std::allocator<int>>
+	std::cout << "v가 저장할 수 있는 최대 int 개수 - " << v.max_size() << std::endl; // 4611686018427387903 
 }
