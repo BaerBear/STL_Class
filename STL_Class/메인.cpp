@@ -47,14 +47,16 @@ int main()
 		return 1;
 	}
 
-	std::for_each(std::istreambuf_iterator<char>{in}, std::istreambuf_iterator<char>{}, [&alpha](char c) {
+	char c;
+	while (in >> c) {
 		if (std::islower(c)) {
 			++alpha[c - 'a'];
 		}
-		});
+	}
 
 	for (size_t i = 0; i < alpha.size(); ++i) {
 		std::cout << static_cast<char>('a' + i) << " - " << alpha[i] << '\n';
 	}
+	// 이런 간단한 코드들은 굳이 STL 알고리즘으로 풀지 않기도 한다.
 
 }
