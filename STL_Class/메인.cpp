@@ -17,28 +17,12 @@
 #include <string>
 #include <algorithm>
 #include <numeric>
+#include <fstream>
+#include <array>
 #include "save.h"
 #include "ZString.h"
 
 extern bool 관찰;			// 관찰하려면 true
-
-// template< class T, class Allocator = std::allocator<T> > class vector;
-// vector는 bool을 제외하면 contiguous하게 저장된다.
-// 시작번지 + offset을 계산해서 element에 접근할 수 있다.
-// element를 가르키는 포인터를 함수의 인자로도 쓸 수 있다. (배열의 원소를 필요로하는 곳에	vector의 원소를 포인터로 전달할 수 있다.)
-// 필요에 따라서 메모리가 늘어난다. 그래서 컴파일 타임에 공간이 정해지는 array보다 공간이 더 필요하다.
-// 미리 확보한 메모리가 다 차면 dynamic하게 메모리가 확장(expanded)된다. 
-// 재할당은 비용이 굉장히 많이 들어가는 동작이기 때문에 reserve()를 활용해서 미리 공간을 확보해주면 좋다.
-// Random access -> constant O(1)
-// 
-// 끝에있는 원소에 추가하거나 지우거나 -> amorized(평균) constant 0(1) == 평균내면 상수시간이다.
-// 공간이 여유가 있는 경우엔 상수시간 O(1)의 시간이 걸린다.
-// 하지만 공간의 여유가 없을 땐 메모리를 확보하고 데이터를 복사하는 과정이 필요하기 때문에 O(n)의 시간이 걸린다.
-// 
-// 중간에 추가하거나 지우거나 -> linear O(n)
-// 그러니까 벡터는 위에 두개만 써서 사용하는거야.
-// 핵심 함수는 push_back과 emplace_back
-//
 
 //--------
 int main()
@@ -46,17 +30,31 @@ int main()
 {
 	save("메인.cpp");
 
-	// 벡터가 메모리를 확장하는 순간을 관찰
-	std::vector<int> v;
+	// [문제] "메인.cpp"에 알파벳 소문자가 몇 개나 있는지 다음과 같이 출력하라.
+	// a - 10
+	// b - 5
+	// ...
+	// z - 1
 
-	while (true) {
-		try {
-			v.push_back(1);
-		}
-		catch (std::exception& e) {
-			std::cout << "예외발생 - " << e.what() << std::endl;
-			std::cout << "현재 원소 개수 - " << v.size() << std::endl;
-			std::cout << "현재 용량 - " << v.capacity() << std::endl;
-		}
+	// 이 문제는 26개로 정해져있기 때문에 array 자료구조를 사용하자.
+	// vector 수업을 하고있었다고 해서 vector를 써야하는건 아니다. 문제에 맞는 자료구조를 쓰는게 중요하다.
+	// 소신을 가져라!! 
+	std::array<size_t, 26> alpha{};		// {} 모든 메모리 초기화하고 시작해야함.
+
+	std::ifstream in{ "메인.cpp" };
+	if (not in) {
+		std::cout << "메인.cpp - 열 수 없습니다." << '\n';
+		return 1;
 	}
+
+	std::for_each(std::istreambuf_iterator<char>{in}, std::istreambuf_iterator<char>{}, [&alpha](char c) {
+		if (std::islower(c)) {
+			++alpha[c - 'a'];
+		}
+		});
+
+	for (size_t i = 0; i < alpha.size(); ++i) {
+		std::cout << static_cast<char>('a' + i) << " - " << alpha[i] << '\n';
+	}
+
 }
