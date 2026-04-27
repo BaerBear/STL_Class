@@ -46,45 +46,17 @@ int main()
 {
 	save("메인.cpp");
 
-	std::vector<ZString> v{ "1", "22", "333" };
-	// 원소수 3개, capacity도 3개인 벡터.
+	// 벡터가 메모리를 확장하는 순간을 관찰
+	std::vector<int> v;
 
-	관찰 = true;
-	v.reserve(5); // capacity를 내가 원하는 만큼 확보한다.
-	// 여유 갯수를 잡아놓고 최대한 reallocation이 일어나지 않도록 벡터를 사용해야한다.
-
-	std::cout << "원소 추가" << std::endl;
-	v.emplace_back("4444");
-	// 생성되고
-	// 이동생성되고
-	// 생성되었던 놈이 소멸됨.
-
-	// 생성자는 메모리를 생성하지 못하고 소멸자는 소멸시키지 못한다.
-	// 생성자는 객체를 생성하는 듯이 보이지만 정확한 명칭은 생성자 함수다.
-	// 만들어진 메모리에 대해서 내가 색칠을 하는 것을 코딩한 것이다.
-	// 여기서 나올 수 있는 아이디어는 push_back할 때 생성되고 이동되는데, 이미 v 내의 메모리 주소도 아는데
-	// 차라리 내부에서 생성할 수 있는거 아니냐 ? -> 충분히 가능하다.
-	
-	// emplace_back이 그러한 함수다. 
-	// 그렇다고해서 v.emplace_back( ZString {"4444"} ); 이렇게 코딩한다면
-	// 바보같은 코드다. 이러면 임시객체가 안만들어질 수가 없다.
-	// 생성자는 v가 호출하는거기 때문에 전달되는 내용은 인자만 있으면 된다.
-	// 
-
-	v.emplace_back("55555");
-	관찰 = false;
-
-	// 용량보다 원소가 하나 더 추가될 때, 벡터는 스스로 expand한다.
-	// VS에서는 본인 capacity의 1.5배로 늘린다. 반올림하지 않고 내림.
-	// 3개에서 4개가 됨
-	// size와 capacity 값이 같을 때 push_back 동작은 굉장히 복잡한 과정이 내부에서 일어난다.
-	// 
-
-	std::cout << std::endl;
-	std::cout << "v의 원소에 접근" << std::endl;
-	// C++ 코딩할 땐 const &로 접근하는 습관 들이기. 그래야 불필요한 복사가 일어나지 않아서 효율적이다.
-	for (const ZString& zs : v) {
-		std::cout << zs << std::endl;
+	while (true) {
+		try {
+			v.push_back(1);
+		}
+		catch (std::exception& e) {
+			std::cout << "예외발생 - " << e.what() << std::endl;
+			std::cout << "현재 원소 개수 - " << v.size() << std::endl;
+			std::cout << "현재 용량 - " << v.capacity() << std::endl;
+		}
 	}
-
 }
