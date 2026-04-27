@@ -30,33 +30,27 @@ int main()
 {
 	save("메인.cpp");
 
-	// [문제] "메인.cpp"에 알파벳 소문자가 몇 개나 있는지 다음과 같이 출력하라.
-	// a - 10
-	// b - 5
-	// ...
-	// z - 1
+	std::vector<int> v{ 1,2,3,4,5 };
+	// [문제] v에서 3을 제거하라. v.size == 4, 원소 {1,2,4,5}, v.capacity == 5;
 
-	// 이 문제는 26개로 정해져있기 때문에 array 자료구조를 사용하자.
-	// vector 수업을 하고있었다고 해서 vector를 써야하는건 아니다. 문제에 맞는 자료구조를 쓰는게 중요하다.
-	// 소신을 가져라!! 
-	std::array<size_t, 26> alpha{};		// {} 모든 메모리 초기화하고 시작해야함.
+	// 원소 제거는 std::remove()를 이용하면 된다.
 
-	std::ifstream in{ "메인.cpp" };
-	if (not in) {
-		std::cout << "메인.cpp - 열 수 없습니다." << '\n';
-		return 1;
+	std::remove(v.begin(), v.end(), 3);
+	//		   (    begin,     end, val )
+	// while (b != e) 동안 
+	//		if (*b == val)
+	//			제거
+	//		else
+	//			++b;
+	//
+
+	std::cout << "v.size() = " << v.size() << '\n';
+	
+	for (int i : v) {
+		std::cout << i << ' ';
 	}
-
-	char c;
-	while (in >> c) {
-		if (std::islower(c)) {
-			++alpha[c - 'a'];
-		}
-	}
-
-	for (size_t i = 0; i < alpha.size(); ++i) {
-		std::cout << static_cast<char>('a' + i) << " - " << alpha[i] << '\n';
-	}
-	// 이런 간단한 코드들은 굳이 STL 알고리즘으로 풀지 않기도 한다.
+	std::cout << std::endl;
+	
+	std::cout << "v.capacity() = " << v.capacity() << '\n';
 
 }
