@@ -66,16 +66,17 @@ int main()
 		return 20260504;
 	}
 
-	std::list<ZString> words;
+	//std::list<ZString> words{ std::istream_iterator<ZString>{in}, {} };		// 리스트한테는 이 동작이 문제가 없다.
+	//std::vector<ZString> words{ std::istream_iterator<ZString>{in}, {} };		// 벡터한테는 문제가 있다. 재할당이 반복해서 일어나기 때문이다.
+	
+	std::vector<ZString> v;
+	v.reserve(3'0000); // 벡터의 용량을 미리 확보해 놓으면 재할당이 일어나지 않는다.
+	v.assign(std::istream_iterator<ZString>{in}, {});
 
-	ZString zs;
-	while (in >> zs) {
-		words.push_back(zs);
-	}
-
-	std::cout << "단어 개수: " << words.size() << '\n';
+	std::list<ZString> words{ v.begin(), v.end() };		// 벡터에서 옮겨오는 것은 일도 아니다. 임시객체가 만들어지지 않는다.
 
 	관찰 = true;
+	std::cout << "단어 개수: " << words.size() << '\n';
 	words.back().show();
 	관찰 = false;
 }
