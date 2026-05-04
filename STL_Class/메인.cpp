@@ -27,18 +27,24 @@ int main()
 {
 	save("메인.cpp");
 
-	std::list<ZString> v{ "1", "22", "4444", "55555" };
-	// [문제] "22" 다음에 "333"을 추가하라.
-	관찰 = true;
-	auto p = v.begin();	// l-value로 바꿔서 전달하면 문제가 없을거다.
-	std::advance(p, 2); // 인자에 레퍼런스를 전달해줘야하기 때문에 메모리가 있는 i가 필요하다.
-	// tag dispatching
-	for (int i = 0; i < 10; ++i)
-		v.emplace(p, "333");
-	관찰 = false;
+	// [문제] v에서 길이가 2인 ZString을 삭제하라.
+	std::vector<ZString> v{ "1", "22", "333", "44", "4444", "33", "55", "55555" };
 
-	for (const ZString& zs : v)
+	// 조건식은 predicate을 사용하여 판단한다.
+	// predicate - bool 값을 리턴하는 callable-type.
+	std::remove_if(v.begin(), v.end(), "333");
+	std::remove_if(v.begin(), v.end(), [](const ZString& zs) {
+		if (2 == zs.size())
+			return true;
+		else
+			return false;
+
+		});
+	// overloading이 가능하다. 위는 const char* 를 인자로, 아래는 callable-type을 인자로 받는 remove이다.
+
+	//std::remove_if(v.begin(), v.end(), [](const ZString& zs) { return zs.size() == 2; }); // STL 표준은 remove_if가 조건이 true인 요소 제거
+
+	for (const auto& zs : v)
 		std::cout << zs << std::endl;
-
 
 }
