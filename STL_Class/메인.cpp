@@ -46,6 +46,7 @@
 #include <algorithm>
 #include <list>
 #include <fstream>
+#include <ranges>
 #include "save.h"
 #include "ZString.h"
 
@@ -58,7 +59,7 @@ int main()
 	save("메인.cpp");
 
 	// [문제] 파일에 있는 단어를 list<ZString>에 저장하라.
-	// 모두 몇 단어인지 출력하라.
+	// 단어를 사전식 오름차순으로 정렬하라.
 
 	std::ifstream in{ "2026년 1학기 STL 5월 4일.txt" };
 	if (not in) {
@@ -66,17 +67,20 @@ int main()
 		return 20260504;
 	}
 
-	//std::list<ZString> words{ std::istream_iterator<ZString>{in}, {} };		// 리스트한테는 이 동작이 문제가 없다.
-	//std::vector<ZString> words{ std::istream_iterator<ZString>{in}, {} };		// 벡터한테는 문제가 있다. 재할당이 반복해서 일어나기 때문이다.
-	
-	std::vector<ZString> v;
-	v.reserve(3'0000); // 벡터의 용량을 미리 확보해 놓으면 재할당이 일어나지 않는다.
-	v.assign(std::istream_iterator<ZString>{in}, {});
+	//std::list<int> v{ 1,2,3 };
+	//std::ranges::sort(v.begin(), v.end()); // vector일 땐 문제가 없음. list일 땐 빨간줄이 뙇. ranges를 때면 빨간줄이 안떠서 문제인지 모른다
 
-	std::list<ZString> words{ v.begin(), v.end() };		// 벡터에서 옮겨오는 것은 일도 아니다. 임시객체가 만들어지지 않는다.
+	std::list<ZString> words{ std::istream_iterator<ZString>{in}, {} };
+	words.sort([](const ZString& a, const ZString& b) { // 포인터 위치만 바꾸면 되기 때문에 그 장점을 이용하기 위해서 멤버함수로 제공된다.
+		// 다음시간에. -> 정렬시간비교
+		std::lexicographical_compare(a.p.get(), a.p.get() + a.len, b.p.get(), b.p.get() + b.len); 
+		// 사전식 비교. a가 b보다 사전식으로 앞에 있으면 true, 그렇지 않으면 false
+		});
 
-	관찰 = true;
-	std::cout << "단어 개수: " << words.size() << '\n';
-	words.back().show();
-	관찰 = false;
+	//std::sort(words.begin(), words.end());		// list는 random access를 지원하지 않기 때문에 sort 알고리즘이 작동하지 않는다.
+	//std::ranges::sort(words.begin(), words.end());	
+
+	/*for (const auto& w : words | std::views::take(100)) {
+		std::cout << w << '\n';
+	}*/
 }
