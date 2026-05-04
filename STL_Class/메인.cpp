@@ -1,5 +1,5 @@
 ﻿//--------------------------------------------------------------------------------------------------------------------
-// 2026년 1학기 STL 월56화78			4월 27일			(8주 2일)
+// 2026년 1학기 STL 월56화78			5월 4일			(9주 2일)
 //--------------------------------------------------------------------------------------------------------------------
 // 컴파일 환경 - Release / x64
 // VS 버전 - 17.14.27 (February 2026)
@@ -19,6 +19,7 @@
 #include <numeric>
 #include <fstream>
 #include <array>
+#include <list>
 #include "save.h"
 #include "ZString.h"
 
@@ -30,27 +31,15 @@ int main()
 {
 	save("메인.cpp");
 
-	std::vector<int> v{ 1,2,3,4,5 };
-	// [문제] v에서 3을 제거하라. v.size == 4, 원소 {1,2,4,5}, v.capacity == 5;
+	std::vector<ZString> v{ "1", "22", "4444", "55555" };
+	// [문제] "22" 다음에 "333"을 추가하라.
+	관찰 = true;
+	for (int i = 0; i < 10; ++i)
+		v.emplace(v.begin() + 2, "333"); // 중간에 끼워넣는 동작은 벡터한테 굉장히 큰 무리다.
+	관찰 = false;
 
-	// 원소 제거는 std::remove()를 이용하면 된다.
+	for (const ZString& zs : v)
+		std::cout << zs << std::endl;
 
-	std::remove(v.begin(), v.end(), 3);
-	//		   (    begin,     end, val )
-	// while (b != e) 동안 
-	//		if (*b == val)
-	//			제거
-	//		else
-	//			++b;
-	//
-
-	std::cout << "v.size() = " << v.size() << '\n';
-	
-	for (int i : v) {
-		std::cout << i << ' ';
-	}
-	std::cout << std::endl;
-	
-	std::cout << "v.capacity() = " << v.capacity() << '\n';
 
 }
