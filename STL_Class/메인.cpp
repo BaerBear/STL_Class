@@ -10,7 +10,7 @@
 // STL 컨테이너 - Containers are objects that store other objects.
 // Sequence Container
 // - array<T, N> - 유일하게 컴파일 타임에 size 결정 - STACK, DATA
-// - vector<T> - dynamic (size) array - free-store에 data 관리
+// - vector<T> - 캐시 히트율이 높아 고속 데이터 처리에 유리. (array도 동일하지만 크기가 고정)
 // - list<T> - 상수시간에 데이터를 추가/삭제 하기 위한 컨테이너. "아무 곳에서나 상수시간"에 작동한다. O(1)
 //		대신에 random access를 지원할 수는 없다. 미치지 않았다면 이중 연결 리스트로 구현했을거다.
 //		단일 연결리스트와 비교해 본다면, 이중연결리스는 양쪽으로 이터레이션을 지원하는 대신 공간을 더 사용한다. 포인터가 2개 필요함.
@@ -43,8 +43,9 @@
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include <list>
-#include <iterator>
+#include <fstream>
 #include "save.h"
 #include "ZString.h"
 
@@ -56,25 +57,25 @@ int main()
 {
 	save("메인.cpp");
 
-	// [문제] v에서 길이가 2인 ZString을 삭제하라.
-	std::vector<ZString> v{ "1", "22", "333", "44", "4444", "33", "55", "55555" };
+	// [문제] 파일에 있는 단어를 list<ZString>에 저장하라.
+	// 모두 몇 단어인지 출력하라.
 
-	// 조건식은 predicate을 사용하여 판단한다.
-	// predicate - bool 값을 리턴하는 callable-type.
-	/*auto newEnd = std::remove_if(v.begin(), v.end(), [](const ZString& zs) {
-		if (2 == zs.size())
-			return true;
-		else
-			return false;
+	std::ifstream in{ "2026년 1학기 STL 5월 4일.txt" };
+	if (not in) {
+		std::cout << "파일을 열 수 없습니다." << '\n';
+		return 20260504;
+	}
 
-		});
-	v.erase(newEnd, v.end());*/ // 얘네는 erase_if로 대체가 가능하다
+	std::list<ZString> words;
 
-	std::erase_if(v, [](const ZString& zs) { return zs.size() == 2; });
+	ZString zs;
+	while (in >> zs) {
+		words.push_back(zs);
+	}
 
-	//std::remove_if(v.begin(), v.end(), [](const ZString& zs) { return zs.size() == 2; }); // STL 표준은 remove_if가 조건이 true인 요소 제거
+	std::cout << "단어 개수: " << words.size() << '\n';
 
-	for (const auto& zs : v)
-		std::cout << zs << std::endl;
-
+	관찰 = true;
+	words.back().show();
+	관찰 = false;
 }
