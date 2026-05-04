@@ -14,12 +14,8 @@
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <vector>
-#include <string>
-#include <algorithm>
-#include <numeric>
-#include <fstream>
-#include <array>
 #include <list>
+#include <iterator>
 #include "save.h"
 #include "ZString.h"
 
@@ -31,11 +27,14 @@ int main()
 {
 	save("메인.cpp");
 
-	std::vector<ZString> v{ "1", "22", "4444", "55555" };
+	std::list<ZString> v{ "1", "22", "4444", "55555" };
 	// [문제] "22" 다음에 "333"을 추가하라.
 	관찰 = true;
+	auto p = v.begin();	// l-value로 바꿔서 전달하면 문제가 없을거다.
+	std::advance(p, 2); // 인자에 레퍼런스를 전달해줘야하기 때문에 메모리가 있는 i가 필요하다.
+	// tag dispatching
 	for (int i = 0; i < 10; ++i)
-		v.emplace(v.begin() + 2, "333"); // 중간에 끼워넣는 동작은 벡터한테 굉장히 큰 무리다.
+		v.emplace(p, "333");
 	관찰 = false;
 
 	for (const ZString& zs : v)
