@@ -32,15 +32,16 @@ int main()
 
 	// 조건식은 predicate을 사용하여 판단한다.
 	// predicate - bool 값을 리턴하는 callable-type.
-	std::remove_if(v.begin(), v.end(), "333");
-	std::remove_if(v.begin(), v.end(), [](const ZString& zs) {
+	/*auto newEnd = std::remove_if(v.begin(), v.end(), [](const ZString& zs) {
 		if (2 == zs.size())
 			return true;
 		else
 			return false;
 
 		});
-	// overloading이 가능하다. 위는 const char* 를 인자로, 아래는 callable-type을 인자로 받는 remove이다.
+	v.erase(newEnd, v.end());*/ // 얘네는 erase_if로 대체가 가능하다
+
+	std::erase_if(v, [](const ZString& zs) { return zs.size() == 2; });
 
 	//std::remove_if(v.begin(), v.end(), [](const ZString& zs) { return zs.size() == 2; }); // STL 표준은 remove_if가 조건이 true인 요소 제거
 
