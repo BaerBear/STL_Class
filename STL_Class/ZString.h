@@ -29,6 +29,7 @@ public:
 	
 	// STL 컨테이너가 되려면 다음 함수정도는 제공해야. - 2026. 4. 20
 	size_t size() const;	// 표준 컨테이너라면 getLen대신 size가 합당하다.
+	char* data() const;
 
 	void special(std::string) const;
 
