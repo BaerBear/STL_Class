@@ -1,0 +1,95 @@
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-11 14:41:46.7625899
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence containers - vector, list, deque
+// - array<T,N> 유일하게 컴파일 타임에 size 결정 - STACK, DATA
+// - vector<T> - cache hit율이 높아 고속 데이터 처리에 유리
+// - list<T> - 아무데서나 원소 추가/삭제  O(1)
+// 
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+
+int main()
+{
+	// [문제] 파일에 있는 단어를 list<ZString>에 저장하라
+	// 단어를 사전식 오름차순으로	정렬하라
+
+	std::ifstream in{ "dtd.txt" };
+	if (not in) return 2022180021;
+
+
+
+	
+	std::vector <ZString> words{ std::istream_iterator<ZString>{in},{} };
+
+
+	
+
+	std::sort(words.begin(), words.end(), [](const ZString& a, const ZString& b) -> bool{
+		//다음 시간에-> 정렬시간비교
+		return std::lexicographical_compare(a.data(), a.data() + a.size(), b.data(), b.data() + b.size());
+	});
+
+	
+	auto newEnd = std::unique(words.begin(), words.end());
+	words.erase(newEnd, words.end());
+	
+	for(const ZString&zs : words
+		|std::views::take(5)
+		)
+		std::cout << zs << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+	for (const ZString& zs : words
+		| std::views::reverse
+		| std::views::take(5)
+		)
+		std::cout << zs << std::endl;
+
+	std::cout << "중복을 제거하고 남은 단어의 수 - " << words.size() << std::endl;
+	save("메인.cpp");
+
+	//[문제] 사용자가 입력한 단어가 리스트에 있는지 찾아라.
+	// 없으면 없다고 출력하라.
+	// 있다면 리스트의 몇번째 단어인지 출력하라. (1부터 시작)
+	while (true) {
+		std::cout << "찾을 단어?";
+		ZString word;
+		std::cin >> word;
+
+		std::vector<ZString>::iterator pos = std::find(words.begin(), words.end(), word);
+		if (pos == words.end())
+			std::cout << "- 없다" << std::endl;
+		else//distance란 두 이터레이터 사이의 거리를 구해주는 함수이다
+			//distance는 벡터일때와 리스트일때와 다르다 당장 pos words.begin()으로 바꾼다면
+			//리스트는 잘못된 값을 뱉지만 벡터는 음수를 사용하여 뱉는다.
+			//벡터는 랜덤 액세스가 가능하여 거리를 젤려면 increase가 항상 가능하다
+			//그렇기에 비긴부터 포스까지의 거리는 벡터는 비긴 - 포스로 계산을 한다 그렇기에 음수 값이 나옴
+			//하지만 리스트는 양방향으로 연결이 되어 있고 비긴 포스가 있다면 어떤 식으로 작동이 되냐 앞으로 전진을한다 이것을 한칸이라고 본다는것
+			//그렇기에 끝까지가면 다시 첨으로 돌아와서 계산을 그런식으로 만들게 된다
+			//원형 리스트가 아니라 단방향이면 절대로 distance가 끝날 수가 없음
+			//distance(b,e)
+			//{
+			//if(벡터)
+			// return e - b;
+			// else (다른 리스트)
+			// while(b!=e)
+			// ++b;
+			//}
+			//내부가 저런식으로 작동을 한다는 것
+			std::cout << "찾는 단어는 " << std::distance(words.begin(), pos) + 1 << "번째에 있습니다." << std::endl;
+	}
+
+	
+	
+
+}
+

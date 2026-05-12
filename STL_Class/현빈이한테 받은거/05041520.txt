@@ -1,0 +1,52 @@
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-04 15:20:27.8409574
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence containers - vector, list, deque
+// - array<T,N> 유일하게 컴파일 타임에 size 결정 - STACK, DATA
+// - vector<T> - cache hit율이 높아 고속 데이터 처리에 유리
+// - list<T> - 아무데서나 원소 추가/삭제  O(1)
+// 
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+
+int main()
+{
+	// [문제] 파일에 있는 단어를 list<ZString>에 저장하라
+	// 단어를 사전식 오름차순으로	정렬하라
+
+	std::ifstream in{ "dtd.txt" };
+	if (not in) return 2022180021;
+
+
+
+	//std::list<int> v{ 1,2,3 };
+	//std::ranges::sort(v.begin(), v.end());
+
+
+	// std::vector <ZString> word{ std::istream_iterator<ZString>{in},{} };
+	//평범하게 sort는 절대로 작동 안한다
+	//그냥 sort를 쓴다면 어디가 잘못된지 안 알려주고 컴파일때 에러가 나는 것을 확인 할 수 있다는것
+	//range를 쓴다면 미리 어디가 잘못되고 이상한지 알려준다
+	//std::ranges::sort(word.begin(),word.end());
+
+	std::list <ZString> words{ std::istream_iterator<ZString>{in},{} };
+	// std::lexicographical_compare 란 두 시퀀스의 원소를 사전식으로 비교하는 함수입니다.
+	//words.sort([](const ZString& a, const ZString& b) { 
+	//	//다음 시간에-> 정렬시간비교
+	//	return std::lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
+	//});
+	
+
+	
+	save("메인.cpp");
+}
+

@@ -1,0 +1,741 @@
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-04 14:31:25.4891802
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence Container
+// 
+// == << 이거의 이름을 equality operator
+// 
+// remove알고리즘
+// 
+//  - list<T> - 데이터를 추가 삭제할려고 쓰는 건데 아무 곳에서나 상수시간으로 작동을 하는 것이 리스트이다 O(1)임
+// 하지만 랜덤억세스는 불가능 이 리스트는 이중연결리스트이다 단일연결리스트는 forward_list<T>라고 따로 있다
+// 단일연결은 포인터 한개 이중연결은 두개라는 차이가 있음
+// 리스트는 유니크 소트 이런것도 있다
+// 소트에는 장점이 있는데 리스트는 목록이라는 말이 있다
+// 목록으로 할 수 있는건 시간순서대로 할 수 있는 소트가 있고
+// 그 목록들을 하나로 합치는 merge라는 알고리즘이 있다
+// 
+// 벡터는 푸시벡이 평균적으로 O(1)동작을 한다
+// 리스트는 insert와 erase가 O(1)동작을 한다
+// 
+// 벡터는 랜덤액세스에 O(1)동작을 한다
+// 리스트는 노드로 연결을 하여 insert와 erase가 O(1)동작을 한다
+// 
+// 
+// for문을 돌릴때 벡터와 리스트이 차이는
+// 벡터는 순서대로 접근이 가능해서 시간이 빠를 것 같지만
+// cpu가 메모리로 접근하는 입출력은 비싸다
+// 그래서 cpu는 본인안에 메모리를 저장하는데 그것을 캐시라고 한다
+// 이 캐시가 벡터를 쓰는 진정한 이유가 나오는데 cache miss가 적기 때문이다
+// 
+// 리스트는 넥스트 포인터를 보고 가고 또 넥스트 포인터로 보고 접근을 하여 미미한 시간 접근이 있을 것이다
+// 만약 10만번째를 알고싶으면 처음부터 접근을 해야해서 오래걸린다는 것이다
+// 리스튼느 데이터를 담을려면 앞 뒤라는 포인터가 필요하여 무지막지한 메모리를 차지한다는 단점이 있다
+// 그런데 가용한 메모리가 있다고 하면 벡터는 그 가용한 메모리를 다쓰면 더 만들 수도 없지만
+// 리스트는 다 쓰더라도 쓸 수 있는 메모리가 있다면 더 접근하여 쓸 수 있다는 것이다
+// 
+// 벡터는 24바이트라면 그런 배열들의 연속이겠지만
+// 리스트는 24바이트 앞 뒤로 8바이트가 있어서 접근이 되는거다
+// 그래서 이 중간에 있는 stl이 deque이다
+// 덱은 벡터와 리스트의 장점을 취해서 만든 컨테이너다
+// 단점도 둘의 단점이 있다
+// 렌덤액세스가 가능하지만 벡터보다는 느리다
+// 덱은 블럭들을 모아서 그 모은거에 앞 뒤로 포인터를 다는 방식이다
+// 
+// 
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+
+int main()
+{
+	//[문제] v에서 길이가 2인 ZString을 모두 제거하세요
+	std::vector<ZString>v{ "1","22","333","44","4444","33","55","55555" };
+	
+	//조건식은 predicate을 사용하여 판단한다
+	//predicate은 - bool 값을 리턴하는 callable-type
+	//조건식이 있는 람다를 쓸때는 모두다 _if를 붙여야 한다
+
+	//이런식으로 remove를 쓴다면 엔드값을 보내주고 거기 자리고 비어있을 것이다
+	/*std::remove_if(v.begin(),v.end(), [](const ZString& zs) {
+		if (2 == zs.size())
+			return true;
+		else return false;
+		});*/
+	//그렇기에 이런식으로 쓴다
+	/*auto p = std::remove_if(v.begin(), v.end(), [](const ZString& zs) {
+		if (2 == zs.size())
+			return true;
+		else return false;
+		}); 
+
+	v.erase(p, v.end());*/
+
+	//더 이쁘게 쓰러면 아래처럼 쓴다
+	std::erase_if(v, [](const ZString& zs) {
+		if (2 == zs.size())
+			return true;
+		else return false;
+		});
+	
+	
+
+	for (const ZString& zs : v)
+		std::cout << zs << std::endl;
+	
+	
+	save("메인.cpp");
+}
+
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-04 15:05:57.1027620
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence containers - vector, list, deque
+// - array<T,N> 유일하게 컴파일 타임에 size 결정 - STACK, DATA
+// - vector<T> - cache hit율이 높아 고속 데이터 처리에 유리
+// - list<T> - 아무데서나 원소 추가/삭제  O(1)
+// 
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+
+int main()
+{
+	// [문제] 파일에 있는 단어를 list<ZString>에 저장하라
+	// 모두 몇단어인지 출력하라
+
+	std::ifstream in{ "dtd.txt" };
+	if (not in) return 2022180021;
+
+	//리스트기 때문에 카파시티와 무관하게 추가되기에 따로 메모리 확보하고 이동하는 번거로움이 사라져서
+	//이런식으로 짜도 상관이 없다
+	//다만 벡터로 이런다면 어마무시하게 카파시티와 이동들이 생겨 너무 효율이 안좋다
+	//만약 벡터에서 reserve를 쓴다면 불필요한 확장공사가 필요 없어서 이동이 더 줄어들기는 할 것이다
+	//std::list<ZString> lst{ std::istream_iterator<ZString>(in),{}};
+
+	//벡터로 한다면
+	std::vector<ZString> v;
+	v.reserve(1'0000);
+	//여기서 assign이란 벡터의 기존 요소를 모두 지우고 새로운 값들로 재설정하며, 크기(size)를 자동으로 조정하는 함수이다
+	v.assign(std::istream_iterator<ZString>(in), {});
+
+	//벡터에 있는 것을 리스트로 옮기려면
+	//이러면 딱 두배가 된다 벡터가 만들고 리스트로 옮기는거기 때문에
+	std::list<ZString> lst{v.begin(),v.end()};
+
+	/*std::list<ZString> lst;
+
+	ZString zs;
+	while (in >> zs) {
+		lst.push_back(std::move(zs));
+	}*/
+
+	
+	관찰 = true;
+	std::cout << "단어 수: " << lst.size() << "\n";
+	lst.back().show();
+	관찰 = false;
+
+	
+	save("메인.cpp");
+}
+
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-04 15:20:27.8409574
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence containers - vector, list, deque
+// - array<T,N> 유일하게 컴파일 타임에 size 결정 - STACK, DATA
+// - vector<T> - cache hit율이 높아 고속 데이터 처리에 유리
+// - list<T> - 아무데서나 원소 추가/삭제  O(1)
+// 
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+
+int main()
+{
+	// [문제] 파일에 있는 단어를 list<ZString>에 저장하라
+	// 단어를 사전식 오름차순으로	정렬하라
+
+	std::ifstream in{ "dtd.txt" };
+	if (not in) return 2022180021;
+
+
+
+	//std::list<int> v{ 1,2,3 };
+	//std::ranges::sort(v.begin(), v.end());
+
+
+	// std::vector <ZString> word{ std::istream_iterator<ZString>{in},{} };
+	//평범하게 sort는 절대로 작동 안한다
+	//그냥 sort를 쓴다면 어디가 잘못된지 안 알려주고 컴파일때 에러가 나는 것을 확인 할 수 있다는것
+	//range를 쓴다면 미리 어디가 잘못되고 이상한지 알려준다
+	//std::ranges::sort(word.begin(),word.end());
+
+	std::list <ZString> words{ std::istream_iterator<ZString>{in},{} };
+	// std::lexicographical_compare 란 두 시퀀스의 원소를 사전식으로 비교하는 함수입니다.
+	//words.sort([](const ZString& a, const ZString& b) { 
+	//	//다음 시간에-> 정렬시간비교
+	//	return std::lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
+	//});
+	
+
+	
+	save("메인.cpp");
+}
+
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-11 13:50:55.7292948
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence containers - vector, list, deque
+// - array<T,N> 유일하게 컴파일 타임에 size 결정 - STACK, DATA
+// - vector<T> - cache hit율이 높아 고속 데이터 처리에 유리
+// - list<T> - 아무데서나 원소 추가/삭제  O(1)
+// 
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+
+int main()
+{
+	// [문제] 파일에 있는 단어를 list<ZString>에 저장하라
+	// 단어를 사전식 오름차순으로	정렬하라
+
+	std::ifstream in{ "dtd.txt" };
+	if (not in) return 2022180021;
+
+
+
+	std::cout << "데이터를 읽는 중";
+	std::vector <ZString> words{ std::istream_iterator<ZString>{in},{} };
+	std::cout << std::endl;
+
+	
+	auto b = std::chrono::high_resolution_clock::now();
+	std::sort(words.begin(), words.end(), [](const ZString& a, const ZString& b) -> bool{ 
+		//다음 시간에-> 정렬시간비교
+		return std::lexicographical_compare(a.data(), a.data() + a.size(), b.data(), b.data() + b.size());
+	});
+	auto e = std::chrono::high_resolution_clock::now();
+
+	std::cout << "걸린 시간 - " << std::chrono::duration_cast<std::chrono::microseconds>(e - b).count() << "us" << std::endl;
+	
+	
+	/*for(const ZString& zs : words)
+		std::cout << zs << std::endl;*/
+
+	std::cout << "단어의 수 - " << words.size() << std::endl;
+
+	save("메인.cpp");
+	//리스트 정렬시간 - 86us 교수님은 5186us
+	//벡터 정렬시간 - 89us 교수님은 3608us
+	//
+	// 리스트는 데이터 포인터만 바꾸면 되서 이동 이런 문법을 사용안해도 되는데
+	// 벡터는 이동문법을 사용할 거임 그렇기에 벡터로 한다면 오래 걸릴 수 밖에 없음
+	// 만약 자료형에 이동생성자를 지운다면 10배 이상 시간이 더 걸리게 됨 벡터가 정렬이 빨라야 하는데
+	// 기말고사때 왜 벡터에서 이동 생성자를 지운다면 시간이 더 걸리는지 물어볼 수 있음
+	// 강조하는 것은 리스트가 정렬을 하는데 1번 3번 2번 이런식으로 있다고 한다면 데이터 이동자체가 없다는 것을 볼 수 있다.
+	// 포인터만 바꾸면 되서 그래서 벡터랑 리스트를 비교하는 것을 불리하다는 것이다
+	// 벡터는 메모리가 붙었기에 퀵소트를 쓰지만 리스트는 메모리가 안 붙어있기에 머지소트를 쓴다.
+	// 리스트가 어떤 이유에 느릴 이유가 없다.
+
+}
+
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-11 14:15:03.6961984
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence containers - vector, list, deque
+// - array<T,N> 유일하게 컴파일 타임에 size 결정 - STACK, DATA
+// - vector<T> - cache hit율이 높아 고속 데이터 처리에 유리
+// - list<T> - 아무데서나 원소 추가/삭제  O(1)
+// 
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+
+int main()
+{
+	// [문제] 파일에 있는 단어를 list<ZString>에 저장하라
+	// 단어를 사전식 오름차순으로	정렬하라
+
+	std::ifstream in{ "dtd.txt" };
+	if (not in) return 2022180021;
+
+
+
+	
+	std::list <ZString> words{ std::istream_iterator<ZString>{in},{} };
+
+
+	
+
+	words.sort([](const ZString& a, const ZString& b) -> bool{
+		//다음 시간에-> 정렬시간비교
+		return std::lexicographical_compare(a.data(), a.data() + a.size(), b.data(), b.data() + b.size());
+	});
+
+	//정렬한 이후라면 중복 단어 제거
+	//아무것도 안쓴다면 == 오퍼레이터를 불러서 확인 default operator == 으로 판정
+	//아니라면 람다함수로 써서내가 이게 어떻게 같은지를 만들 수 있음
+	words.unique();
+	
+	for(const ZString&zs : words
+		|std::views::take(5)
+		)
+		std::cout << zs << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+	for (const ZString& zs : words
+		| std::views::reverse
+		| std::views::take(5)
+		)
+		std::cout << zs << std::endl;
+
+	std::cout << "중복을 제거하고 남은 단어의 수 - " << words.size() << std::endl;
+
+	//[문제] 사용자가 입력한 단어가 리스트에 있는지 찾아라.
+	// 없으면 없다고 출력하라.
+	// 있다면 리스트의 몇번째 단어인지 출력하라. (1부터 시작)
+	save("메인.cpp");
+	while (true) {
+		std::cout << "찾을 단어?";
+		ZString word;
+		std::cin >> word;
+
+		std::list<ZString>::iterator pos = std::find(words.begin(), words.end(), word);
+		if (pos == words.end())
+			std::cout << "- 없다" << std::endl;
+		else//distance란 두 이터레이터 사이의 거리를 구해주는 함수이다
+			std::cout << "찾는 단어는 " << std::distance(words.begin(), pos) + 1 << "번째에 있습니다." << std::endl;
+	}
+
+
+	
+
+}
+
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-11 14:41:46.7625899
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence containers - vector, list, deque
+// - array<T,N> 유일하게 컴파일 타임에 size 결정 - STACK, DATA
+// - vector<T> - cache hit율이 높아 고속 데이터 처리에 유리
+// - list<T> - 아무데서나 원소 추가/삭제  O(1)
+// 
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+
+int main()
+{
+	// [문제] 파일에 있는 단어를 list<ZString>에 저장하라
+	// 단어를 사전식 오름차순으로	정렬하라
+
+	std::ifstream in{ "dtd.txt" };
+	if (not in) return 2022180021;
+
+
+
+	
+	std::vector <ZString> words{ std::istream_iterator<ZString>{in},{} };
+
+
+	
+
+	std::sort(words.begin(), words.end(), [](const ZString& a, const ZString& b) -> bool{
+		//다음 시간에-> 정렬시간비교
+		return std::lexicographical_compare(a.data(), a.data() + a.size(), b.data(), b.data() + b.size());
+	});
+
+	
+	auto newEnd = std::unique(words.begin(), words.end());
+	words.erase(newEnd, words.end());
+	
+	for(const ZString&zs : words
+		|std::views::take(5)
+		)
+		std::cout << zs << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+	for (const ZString& zs : words
+		| std::views::reverse
+		| std::views::take(5)
+		)
+		std::cout << zs << std::endl;
+
+	std::cout << "중복을 제거하고 남은 단어의 수 - " << words.size() << std::endl;
+	save("메인.cpp");
+
+	//[문제] 사용자가 입력한 단어가 리스트에 있는지 찾아라.
+	// 없으면 없다고 출력하라.
+	// 있다면 리스트의 몇번째 단어인지 출력하라. (1부터 시작)
+	while (true) {
+		std::cout << "찾을 단어?";
+		ZString word;
+		std::cin >> word;
+
+		std::vector<ZString>::iterator pos = std::find(words.begin(), words.end(), word);
+		if (pos == words.end())
+			std::cout << "- 없다" << std::endl;
+		else//distance란 두 이터레이터 사이의 거리를 구해주는 함수이다
+			//distance는 벡터일때와 리스트일때와 다르다 당장 pos words.begin()으로 바꾼다면
+			//리스트는 잘못된 값을 뱉지만 벡터는 음수를 사용하여 뱉는다.
+			//벡터는 랜덤 액세스가 가능하여 거리를 젤려면 increase가 항상 가능하다
+			//그렇기에 비긴부터 포스까지의 거리는 벡터는 비긴 - 포스로 계산을 한다 그렇기에 음수 값이 나옴
+			//하지만 리스트는 양방향으로 연결이 되어 있고 비긴 포스가 있다면 어떤 식으로 작동이 되냐 앞으로 전진을한다 이것을 한칸이라고 본다는것
+			//그렇기에 끝까지가면 다시 첨으로 돌아와서 계산을 그런식으로 만들게 된다
+			//원형 리스트가 아니라 단방향이면 절대로 distance가 끝날 수가 없음
+			//distance(b,e)
+			//{
+			//if(벡터)
+			// return e - b;
+			// else (다른 리스트)
+			// while(b!=e)
+			// ++b;
+			//}
+			//내부가 저런식으로 작동을 한다는 것
+			std::cout << "찾는 단어는 " << std::distance(words.begin(), pos) + 1 << "번째에 있습니다." << std::endl;
+	}
+
+	
+	
+
+}
+
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-11 14:46:00.5455373
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence containers - vector, list, deque
+// - array<T,N> 유일하게 컴파일 타임에 size 결정 - STACK, DATA
+// - vector<T> - cache hit율이 높아 고속 데이터 처리에 유리
+// - list<T> - 아무데서나 원소 추가/삭제  O(1)
+// 
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+
+int main()
+{
+	// [문제] 파일에 있는 단어를 list<ZString>에 저장하라
+	// 단어를 사전식 오름차순으로	정렬하라
+
+	std::ifstream in{ "dtd.txt" };
+	if (not in) return 2022180021;
+
+
+
+	
+	std::vector <ZString> words{ std::istream_iterator<ZString>{in},{} };
+
+
+	
+
+	std::sort(words.begin(), words.end(), [](const ZString& a, const ZString& b) -> bool{
+		//다음 시간에-> 정렬시간비교
+		return std::lexicographical_compare(a.data(), a.data() + a.size(), b.data(), b.data() + b.size());
+	});
+
+	
+	auto newEnd = std::unique(words.begin(), words.end());
+	words.erase(newEnd, words.end());
+
+	std::cout << "중복을 제거하고 남은 단어의 수 - " << words.size() << std::endl;
+
+	//[문제] 길이가 10인 단어만 화면에 출력하라.
+	//copy_if - 조건에 맞는 원소만 복사해서 다른 곳에 저장하는 알고리즘
+	//방금은 cout으로 복사했기에 출력이 됐던 것
+	std::copy_if(words.begin(), words.end(), std::ostream_iterator<ZString>(std::cout, "\n"), [](const ZString& zs) {
+		return zs.size() == 10;
+	});
+
+	save("메인.cpp");
+
+	
+
+}
+
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-11 15:00:59.9677134
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence containers - vector, list, deque
+// - array<T,N> 유일하게 컴파일 타임에 size 결정 - STACK, DATA
+// - vector<T> - cache hit율이 높아 고속 데이터 처리에 유리
+// - list<T> - 아무데서나 원소 추가/삭제  O(1)
+// - deque<T> - vector와 list의 장점을 갖는 컨테이너이다.
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+/*
+벡터는 연속으로 ZString을 쓴다고 하면 24바이트가 연속이 되는데
+리스트라면 앞 뒤로 next prev로 8바이트가 붙여서 메모리가 커지게 된다
+덱은 벡터처럼 연속으로 되지만 앞뒤로 next prev가 붙는 것을 볼 수 있다 capacity는 없다 대신 다른 것들이 많아서 엄청크다 32에서 40정도
+덱은 어떤 점이 좋은지 생각을 해봐야한ㄷ
+stl 컨테이너는 MSVC인데 deque이 이용하는 메모리 크기를 전체 16바이트로 잡고 있음 덱을 이용한다고해서 리스트를 쓸때와 다를게 없음
+ZString을 쓴다면 24니까 연속이 안되는데
+g++ clang에서는 더 크게 잡고있다 512나 1024나 그래서 장점이 나온다
+
+가장 많이 담는 컨테이너는 전부 다 push back한다면(원소를 한 개씩 추가한다면)
+vector -> 무조건 꼴지님 가용한 메모리가 있다면 하나씩 채워나가면 50%채우는 순간 나머지는 못채우고 터져버린다 가장 꼴지임
+deque -> list보다 deque보다 더 많이 담아야하는 데 msvc에서는 리스트와 별 차이가 없다 젤 많이 담기 가능
+list ->
+stl deque의 메모리 블럭 크기는 어떻게 되냐
+c++은 512바이트
+clang는 4096바이트
+msvc는 16바이틀르 담는다 이게 비주얼 스튜디오
+*/
+
+int main()
+{
+	std::deque<int> d{1,2,3,4};//여기까지가 덱이 연결할 수 잇는 블록
+
+	for(int&num:d)
+		std::cout << std::addressof(num) << std::endl;
+
+	d.push_front(0);
+	d.push_back(5);
+	//여기서 더 추가해 버리면 다른 블록이 연결되면서 주소가 달라지는 것을 볼수있다
+	//d.push_front(0); 것은 블록이 바뀐 것이 되고
+	//d.push_back(5); 똑같이 블록이 바뀐다.
+
+	for (int& num : d)
+		std::cout << std::addressof(num) << std::endl;
+
+	save("메인.cpp");
+}
+
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-11 15:05:41.6499938
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence containers - vector, list, deque
+// - array<T,N> 유일하게 컴파일 타임에 size 결정 - STACK, DATA
+// - vector<T> - cache hit율이 높아 고속 데이터 처리에 유리
+// - list<T> - 아무데서나 원소 추가/삭제  O(1)
+// - deque<T> - vector와 list의 장점을 갖는 컨테이너이다.
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+/*
+벡터는 연속으로 ZString을 쓴다고 하면 24바이트가 연속이 되는데
+리스트라면 앞 뒤로 next prev로 8바이트가 붙여서 메모리가 커지게 된다
+덱은 벡터처럼 연속으로 되지만 앞뒤로 next prev가 붙는 것을 볼 수 있다 capacity는 없다 대신 다른 것들이 많아서 엄청크다 32에서 40정도
+덱은 어떤 점이 좋은지 생각을 해봐야한ㄷ
+stl 컨테이너는 MSVC인데 deque이 이용하는 메모리 크기를 전체 16바이트로 잡고 있음 덱을 이용한다고해서 리스트를 쓸때와 다를게 없음
+ZString을 쓴다면 24니까 연속이 안되는데
+g++ clang에서는 더 크게 잡고있다 512나 1024나 그래서 장점이 나온다
+
+가장 많이 담는 컨테이너는 전부 다 push back한다면(원소를 한 개씩 추가한다면)
+vector -> 무조건 꼴지님 가용한 메모리가 있다면 하나씩 채워나가면 50%채우는 순간 나머지는 못채우고 터져버린다 가장 꼴지임
+deque -> list보다 deque보다 더 많이 담아야하는 데 msvc에서는 리스트와 별 차이가 없다 젤 많이 담기 가능
+list ->
+stl deque의 메모리 블럭 크기는 어떻게 되냐
+c++은 512바이트
+clang는 4096바이트
+msvc는 16바이틀르 담는다 이게 비주얼 스튜디오
+*/
+
+int main()
+{
+	관찰 = true;
+	std::deque<ZString> d{"1","22","333","4444"};
+	//메모리 번지가 컨티구어스 하지 않고 주구방구 흩어져 잇는 것을 볼 수 있다.
+
+	for(int i=0; i<d.size(); ++i)
+		//이 연산자는 메모리가 붙어 있는 것만 가능한데
+		//말이 안되는 사기치는 수법이라는 것이다.
+		
+		std::cout << d[i] << std::endl;
+
+	관찰 = false;
+
+	
+
+	save("메인.cpp");
+}
+
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-11 15:19:52.9310099
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence containers - vector, list, deque
+// - array<T,N> 유일하게 컴파일 타임에 size 결정 - STACK, DATA
+// - vector<T> - cache hit율이 높아 고속 데이터 처리에 유리
+// - list<T> - 아무데서나 원소 추가/삭제  O(1)
+// - deque<T> - vector와 list의 장점을 갖는 컨테이너이다.
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+/*
+벡터는 연속으로 ZString을 쓴다고 하면 24바이트가 연속이 되는데
+리스트라면 앞 뒤로 next prev로 8바이트가 붙여서 메모리가 커지게 된다
+덱은 벡터처럼 연속으로 되지만 앞뒤로 next prev가 붙는 것을 볼 수 있다 capacity는 없다 대신 다른 것들이 많아서 엄청크다 32에서 40정도
+덱은 어떤 점이 좋은지 생각을 해봐야한ㄷ
+stl 컨테이너는 MSVC인데 deque이 이용하는 메모리 크기를 전체 16바이트로 잡고 있음 덱을 이용한다고해서 리스트를 쓸때와 다를게 없음
+ZString을 쓴다면 24니까 연속이 안되는데
+g++ clang에서는 더 크게 잡고있다 512나 1024나 그래서 장점이 나온다
+
+가장 많이 담는 컨테이너는 전부 다 push back한다면(원소를 한 개씩 추가한다면)
+vector -> 무조건 꼴지님 가용한 메모리가 있다면 하나씩 채워나가면 50%채우는 순간 나머지는 못채우고 터져버린다 가장 꼴지임
+deque -> list보다 deque보다 더 많이 담아야하는 데 msvc에서는 리스트와 별 차이가 없다 젤 많이 담기 가능
+list ->
+stl deque의 메모리 블럭 크기는 어떻게 되냐
+c++은 512바이트
+clang는 4096바이트
+msvc는 16바이틀르 담는다 이게 비주얼 스튜디오
+*/
+
+class Test {
+	char c[1024 * 1024];
+};
+
+int main()
+{
+	save("메인.cpp");
+	
+	{
+		std::vector<Test> v;
+
+		size_t cnt{};
+		while (true) {
+			try {
+				v.emplace_back();
+			}
+			catch (...) {//... 이런 3개의 점은 타원들(ellipses)라고 부른다
+				std::cout << "벡터 - " << v.size() << "개 담음" << std::endl;
+				break;
+			}
+			if (not(++cnt % 1000))
+				std::cout << ".";
+
+		}
+
+
+		//벡터는 약 78억개인데 100%를 다 쓴다면 156억개까지 가능하다는 것이다 벡터는 가용된 메모리를 50%밖에 못쓰기 때문에
+		//저런식으로 하면 벡터는 27318개를 담는다
+	}
+
+	{
+		std::deque<Test> v;
+
+		size_t cnt{};
+		while (true) {
+			try {
+				v.emplace_back();
+			}
+			catch (...) {//... 이런 3개의 점은 타원들(ellipses)라고 부른다
+				std::cout << "덱 - " << v.size() << "개 담음" << std::endl;
+				break;
+			}
+			if (not(++cnt % 1000))
+				std::cout << ".";
+
+		}
+
+		//저런식으로 하면 덱는 53625개를 담는다 벡터의 두배이다
+		
+	}
+	{
+		//std::list<int> v;//이런식으로 써서 돌리면 컴퓨터가 터진다 그 이유는 벡터랑 다르게 끝 까지먹는 것이기에 컴퓨터가 도저히 못버틴다
+		//한다면 윈도우가 복구가 안되고 터진다.
+
+		std::list<Test> v;
+
+		size_t cnt{};
+		while (true) {
+			try {
+				v.emplace_back();
+			}
+			catch (...) {//... 이런 3개의 점은 타원들(ellipses)라고 부른다
+				std::cout << "리스트 - " << v.size() << "개 담음" << std::endl;
+				break;
+			}
+			if (not(++cnt % 1000))
+				std::cout << ".";
+
+		}
+
+		//저런식으로 하면 리스트는 53774개를 담는다 덱보다는 더 담는다.
+		
+	}
+
+	
+
+	
+}
+

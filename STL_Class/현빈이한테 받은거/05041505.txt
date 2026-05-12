@@ -1,0 +1,61 @@
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-04 15:05:57.1027620
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence containers - vector, list, deque
+// - array<T,N> 유일하게 컴파일 타임에 size 결정 - STACK, DATA
+// - vector<T> - cache hit율이 높아 고속 데이터 처리에 유리
+// - list<T> - 아무데서나 원소 추가/삭제  O(1)
+// 
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+
+int main()
+{
+	// [문제] 파일에 있는 단어를 list<ZString>에 저장하라
+	// 모두 몇단어인지 출력하라
+
+	std::ifstream in{ "dtd.txt" };
+	if (not in) return 2022180021;
+
+	//리스트기 때문에 카파시티와 무관하게 추가되기에 따로 메모리 확보하고 이동하는 번거로움이 사라져서
+	//이런식으로 짜도 상관이 없다
+	//다만 벡터로 이런다면 어마무시하게 카파시티와 이동들이 생겨 너무 효율이 안좋다
+	//만약 벡터에서 reserve를 쓴다면 불필요한 확장공사가 필요 없어서 이동이 더 줄어들기는 할 것이다
+	//std::list<ZString> lst{ std::istream_iterator<ZString>(in),{}};
+
+	//벡터로 한다면
+	std::vector<ZString> v;
+	v.reserve(1'0000);
+	//여기서 assign이란 벡터의 기존 요소를 모두 지우고 새로운 값들로 재설정하며, 크기(size)를 자동으로 조정하는 함수이다
+	v.assign(std::istream_iterator<ZString>(in), {});
+
+	//벡터에 있는 것을 리스트로 옮기려면
+	//이러면 딱 두배가 된다 벡터가 만들고 리스트로 옮기는거기 때문에
+	std::list<ZString> lst{v.begin(),v.end()};
+
+	/*std::list<ZString> lst;
+
+	ZString zs;
+	while (in >> zs) {
+		lst.push_back(std::move(zs));
+	}*/
+
+	
+	관찰 = true;
+	std::cout << "단어 수: " << lst.size() << "\n";
+	lst.back().show();
+	관찰 = false;
+
+	
+	save("메인.cpp");
+}
+

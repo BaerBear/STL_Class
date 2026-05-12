@@ -1,0 +1,65 @@
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-11 13:50:55.7292948
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence containers - vector, list, deque
+// - array<T,N> 유일하게 컴파일 타임에 size 결정 - STACK, DATA
+// - vector<T> - cache hit율이 높아 고속 데이터 처리에 유리
+// - list<T> - 아무데서나 원소 추가/삭제  O(1)
+// 
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+
+int main()
+{
+	// [문제] 파일에 있는 단어를 list<ZString>에 저장하라
+	// 단어를 사전식 오름차순으로	정렬하라
+
+	std::ifstream in{ "dtd.txt" };
+	if (not in) return 2022180021;
+
+
+
+	std::cout << "데이터를 읽는 중";
+	std::vector <ZString> words{ std::istream_iterator<ZString>{in},{} };
+	std::cout << std::endl;
+
+	
+	auto b = std::chrono::high_resolution_clock::now();
+	std::sort(words.begin(), words.end(), [](const ZString& a, const ZString& b) -> bool{ 
+		//다음 시간에-> 정렬시간비교
+		return std::lexicographical_compare(a.data(), a.data() + a.size(), b.data(), b.data() + b.size());
+	});
+	auto e = std::chrono::high_resolution_clock::now();
+
+	std::cout << "걸린 시간 - " << std::chrono::duration_cast<std::chrono::microseconds>(e - b).count() << "us" << std::endl;
+	
+	
+	/*for(const ZString& zs : words)
+		std::cout << zs << std::endl;*/
+
+	std::cout << "단어의 수 - " << words.size() << std::endl;
+
+	save("메인.cpp");
+	//리스트 정렬시간 - 86us 교수님은 5186us
+	//벡터 정렬시간 - 89us 교수님은 3608us
+	//
+	// 리스트는 데이터 포인터만 바꾸면 되서 이동 이런 문법을 사용안해도 되는데
+	// 벡터는 이동문법을 사용할 거임 그렇기에 벡터로 한다면 오래 걸릴 수 밖에 없음
+	// 만약 자료형에 이동생성자를 지운다면 10배 이상 시간이 더 걸리게 됨 벡터가 정렬이 빨라야 하는데
+	// 기말고사때 왜 벡터에서 이동 생성자를 지운다면 시간이 더 걸리는지 물어볼 수 있음
+	// 강조하는 것은 리스트가 정렬을 하는데 1번 3번 2번 이런식으로 있다고 한다면 데이터 이동자체가 없다는 것을 볼 수 있다.
+	// 포인터만 바꾸면 되서 그래서 벡터랑 리스트를 비교하는 것을 불리하다는 것이다
+	// 벡터는 메모리가 붙었기에 퀵소트를 쓰지만 리스트는 메모리가 안 붙어있기에 머지소트를 쓴다.
+	// 리스트가 어떤 이유에 느릴 이유가 없다.
+
+}
+

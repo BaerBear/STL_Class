@@ -1,0 +1,60 @@
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-11 14:46:00.5455373
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence containers - vector, list, deque
+// - array<T,N> 유일하게 컴파일 타임에 size 결정 - STACK, DATA
+// - vector<T> - cache hit율이 높아 고속 데이터 처리에 유리
+// - list<T> - 아무데서나 원소 추가/삭제  O(1)
+// 
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+
+int main()
+{
+	// [문제] 파일에 있는 단어를 list<ZString>에 저장하라
+	// 단어를 사전식 오름차순으로	정렬하라
+
+	std::ifstream in{ "dtd.txt" };
+	if (not in) return 2022180021;
+
+
+
+	
+	std::vector <ZString> words{ std::istream_iterator<ZString>{in},{} };
+
+
+	
+
+	std::sort(words.begin(), words.end(), [](const ZString& a, const ZString& b) -> bool{
+		//다음 시간에-> 정렬시간비교
+		return std::lexicographical_compare(a.data(), a.data() + a.size(), b.data(), b.data() + b.size());
+	});
+
+	
+	auto newEnd = std::unique(words.begin(), words.end());
+	words.erase(newEnd, words.end());
+
+	std::cout << "중복을 제거하고 남은 단어의 수 - " << words.size() << std::endl;
+
+	//[문제] 길이가 10인 단어만 화면에 출력하라.
+	//copy_if - 조건에 맞는 원소만 복사해서 다른 곳에 저장하는 알고리즘
+	//방금은 cout으로 복사했기에 출력이 됐던 것
+	std::copy_if(words.begin(), words.end(), std::ostream_iterator<ZString>(std::cout, "\n"), [](const ZString& zs) {
+		return zs.size() == 10;
+	});
+
+	save("메인.cpp");
+
+	
+
+}
+

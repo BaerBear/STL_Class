@@ -1,0 +1,80 @@
+
+
+/*===============================================================================
+저장할 시간 - 2026-05-11 14:15:03.6961984
+===============================================================================*/
+
+//==========================================================================================
+// STL 컨테이너 - Containers are objects that store other object
+// Sequence containers - vector, list, deque
+// - array<T,N> 유일하게 컴파일 타임에 size 결정 - STACK, DATA
+// - vector<T> - cache hit율이 높아 고속 데이터 처리에 유리
+// - list<T> - 아무데서나 원소 추가/삭제  O(1)
+// 
+//==========================================================================================
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰; //관찰하려면 true
+
+
+int main()
+{
+	// [문제] 파일에 있는 단어를 list<ZString>에 저장하라
+	// 단어를 사전식 오름차순으로	정렬하라
+
+	std::ifstream in{ "dtd.txt" };
+	if (not in) return 2022180021;
+
+
+
+	
+	std::list <ZString> words{ std::istream_iterator<ZString>{in},{} };
+
+
+	
+
+	words.sort([](const ZString& a, const ZString& b) -> bool{
+		//다음 시간에-> 정렬시간비교
+		return std::lexicographical_compare(a.data(), a.data() + a.size(), b.data(), b.data() + b.size());
+	});
+
+	//정렬한 이후라면 중복 단어 제거
+	//아무것도 안쓴다면 == 오퍼레이터를 불러서 확인 default operator == 으로 판정
+	//아니라면 람다함수로 써서내가 이게 어떻게 같은지를 만들 수 있음
+	words.unique();
+	
+	for(const ZString&zs : words
+		|std::views::take(5)
+		)
+		std::cout << zs << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+	for (const ZString& zs : words
+		| std::views::reverse
+		| std::views::take(5)
+		)
+		std::cout << zs << std::endl;
+
+	std::cout << "중복을 제거하고 남은 단어의 수 - " << words.size() << std::endl;
+
+	//[문제] 사용자가 입력한 단어가 리스트에 있는지 찾아라.
+	// 없으면 없다고 출력하라.
+	// 있다면 리스트의 몇번째 단어인지 출력하라. (1부터 시작)
+	save("메인.cpp");
+	while (true) {
+		std::cout << "찾을 단어?";
+		ZString word;
+		std::cin >> word;
+
+		std::list<ZString>::iterator pos = std::find(words.begin(), words.end(), word);
+		if (pos == words.end())
+			std::cout << "- 없다" << std::endl;
+		else//distance란 두 이터레이터 사이의 거리를 구해주는 함수이다
+			std::cout << "찾는 단어는 " << std::distance(words.begin(), pos) + 1 << "번째에 있습니다." << std::endl;
+	}
+
+
+	
+
+}
+
