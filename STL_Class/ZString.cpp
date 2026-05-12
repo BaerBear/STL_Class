@@ -96,6 +96,30 @@ ZString& ZString::operator=(ZString&& other) noexcept
 	return *this;
 }
 
+// 연산자 오버로딩
+// 2026. 4. 28
+bool ZString::operator==(const ZString& other) const 
+{
+	if (len != other.len)
+		return false;
+	for (size_t i = 0; i < len; ++i) {
+		if (p[i] != other.p[i])
+			return false;
+	}
+	return true;
+}
+
+// 2026. 5. 12 - 반복자 인터페이스 추가
+char* ZString::begin() const 
+{
+	return p.get();
+}
+
+char* ZString::end() const 
+{
+	return p.get() + len;
+}
+
 size_t ZString::getLen() const
 {
 	return len;

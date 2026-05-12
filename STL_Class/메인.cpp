@@ -50,16 +50,9 @@ int main()
 
 	ZString zs{ "The quick brown fox jumps over the lazy dog" };
 
-	std::sort(zs.data(), zs.data() + zs.size());
-
-	// [문제] 거꾸로 출력하세요.
-	// ZString은 최신기능 (views)를 사용하지 못함 ㅠㅠ 그래서 울고만 있을거야?
-	// span이라는 포장지를 씌우면 최신기능 사용할 수 있게 변신시킬 수 있어!!!!
-	std::span<char> s{ zs.data(), zs.size() };	// 위에 적어둔 대로 포인터와 개수만 알려주면 된다.
-	
-	
-	for (char c : s | std::views::reverse) {
-		std::cout << c << "-";
+	// to be continued...
+	for (char c : zs) {
+		std::cout << c << std::endl;
 	}
 	
 	std::cout << std::endl;

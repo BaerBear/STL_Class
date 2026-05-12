@@ -23,6 +23,12 @@ public:
 
 
 	// 연산자 오버로딩
+	// 2026. 4. 28
+	bool operator==(const ZString& other) const;
+
+	// 2026. 5. 12 - 반복자 인터페이스 추가
+	char* begin() const;
+	char* end() const;
 	
 	// 인터페이스 - 나중에 삭제 예정.
 	size_t getLen() const;
