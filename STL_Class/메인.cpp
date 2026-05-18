@@ -21,27 +21,23 @@ extern bool 관찰;			// 관찰하려면 true
 // 이걸 사용하는 이유는?
 // 반복자의 종류를 구분한 이유
 
+template<class 반복자>
+void f(반복자 iter)
+{
+	// 클래스 타입으로 부터 여분(iterator traits)의 정보를 알 수 있다.
+	// iterator_category, value_type, difference_type, pointer, reference
+	// 표준 반복자가 제공하고 있는 5가지 traits.
+	
+	std::cout << typeid(반복자::iterator_category).name() << std::endl;
+}
+
 //--------
 int main()
 //--------
 {
 	save("메인.cpp");
 
-	// 반복자를 만들어 기능을 이해해 본다.
-	std::vector<char> v;
-	v.reserve(10);
-	auto p = v.begin();
-	// 지금 코드는 size와 capacity가 0인 벡터를 호출한것임.
-	// data는 지금 free-store에 가리키는 포인터가 존재하지 않기 때문에 v.begin()은 nullptr을 반환할 것이다.
-	// nullptr에 값을 쓰려고 하니 터짐
+	// 반복자의 종류를 구분하기
 
-	*p = 'A';
-	++p;
-	*p = 'B';
-	++p;
-	*p = 'C';
-	// data에 값은 쓰여지고 있지만 size는 그대로 0이다.
-
-	for(int i = 0; i < 10; ++i)
-		std::cout << v[i] << std::endl;
+	f(std::ostream_iterator<int>{std::cout});
 }
