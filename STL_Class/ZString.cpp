@@ -120,6 +120,16 @@ char* ZString::end() const
 	return p.get() + len;
 }
 
+char* ZString::rbegin() const
+{
+	return p.get() + len;
+}
+
+char* ZString::rend() const
+{
+	return p.get();
+}
+
 size_t ZString::getLen() const
 {
 	return len;

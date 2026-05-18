@@ -10,11 +10,8 @@
 //		a C++ program to work with different data structures in a uniform manner.
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
-#include <forward_list>
-#include <list>
-#include <deque>
-#include <array>
-#include <vector>
+#include <algorithm>
+#include <ranges>
 #include "save.h"
 #include "ZString.h"
 
@@ -32,7 +29,7 @@ void f(반복자 iter)
 	// iterator_category, value_type, difference_type, pointer, reference
 	// 표준 반복자가 제공하고 있는 5가지 traits.
 	
-	std::cout << typeid(반복자::iterator_category).name() << std::endl;
+	std::cout << typeid(std::iterator_traits<반복자>::iterator_category).name() << std::endl;
 }
 
 //--------
@@ -41,8 +38,12 @@ int main()
 {
 	save("메인.cpp");
 
-	// 반복자의 종류를 구분하기
-	char* p;
-	f(p);
-	// char*는 여분의 정보 (traits)가 없기 때문에 돌아가지 않는다.
+	ZString zs{ "sphinx of black quartz judge my vow" };
+	std::sort(zs.begin(), zs.end());
+
+	// [문제] zs를 거꾸로 출력하라
+	for(auto i = zs.rbegin(); i != zs.rend(); ++i)
+		std::cout << *i;
+
+	std::cout << std::endl;
 }

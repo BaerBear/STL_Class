@@ -29,6 +29,10 @@ public:
 	// 2026. 5. 12 - 반복자 인터페이스 추가
 	char* begin() const;
 	char* end() const;
+
+	// 2026. 5. 18 - 역방향 인터페이스 주가
+	char* rbegin() const;
+	char* rend() const;
 	
 	// 인터페이스 - 나중에 삭제 예정.
 	size_t getLen() const;
