@@ -10,6 +10,7 @@
 //		a C++ program to work with different data structures in a uniform manner.
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
+#include <vector>
 #include "save.h"
 #include "ZString.h"
 
@@ -26,6 +27,21 @@ int main()
 {
 	save("메인.cpp");
 
-		
-	std::cout << std::endl;
+	// 반복자를 만들어 기능을 이해해 본다.
+	std::vector<char> v;
+	v.reserve(10);
+	auto p = v.begin();
+	// 지금 코드는 size와 capacity가 0인 벡터를 호출한것임.
+	// data는 지금 free-store에 가리키는 포인터가 존재하지 않기 때문에 v.begin()은 nullptr을 반환할 것이다.
+	// nullptr에 값을 쓰려고 하니 터짐
+
+	*p = 'A';
+	++p;
+	*p = 'B';
+	++p;
+	*p = 'C';
+	// data에 값은 쓰여지고 있지만 size는 그대로 0이다.
+
+	for(int i = 0; i < 10; ++i)
+		std::cout << v[i] << std::endl;
 }
