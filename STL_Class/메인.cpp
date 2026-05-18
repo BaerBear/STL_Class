@@ -10,6 +10,10 @@
 //		a C++ program to work with different data structures in a uniform manner.
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
+#include <forward_list>
+#include <list>
+#include <deque>
+#include <array>
 #include <vector>
 #include "save.h"
 #include "ZString.h"
@@ -38,6 +42,6 @@ int main()
 	save("메인.cpp");
 
 	// 반복자의 종류를 구분하기
-
-	f(std::ostream_iterator<int>{std::cout});
+	char* p;
+	f(p);
 }
