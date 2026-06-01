@@ -1,5 +1,5 @@
 ﻿//--------------------------------------------------------------------------------------------------------------------
-// 2026년 1학기 STL 월56화78			5월 18일			(11주 1일)
+// 2026년 1학기 STL 월56화78			6월 1일			(12주 2일)
 //--------------------------------------------------------------------------------------------------------------------
 // 컴파일 환경 - Release / x64
 // VS 버전 - 17.14.27 (February 2026)
@@ -38,12 +38,14 @@ int main()
 {
 	save("메인.cpp");
 
-	ZString zs{ "sphinx of black quartz judge my vow" };
-	std::sort(zs.begin(), zs.end());
+	Zstring zs{ "sphinx of black quartz judge my vow" };
+	
+	my_copy(zs.begin(), zs.end(), std::ostream_iterator<char>(std::cout, "-"));
+}
 
-	// [문제] zs를 거꾸로 출력하라
-	for(auto i = zs.rbegin(); i != zs.rend(); ++i)
-		std::cout << *i;
-
-	std::cout << std::endl;
+void my_copy(Zstring_Iterator begin, Zstring_Iterator end, std::ostream_iterator<char> dest)
+{
+	while (begin != end) {
+		*dest++ = *begin++;
+	}
 }
