@@ -51,13 +51,12 @@ int main()
 		ZString word;
 		std::cin >> word;
 
-		auto p = s.find(word);
-
-		if (p != s.end()) {
-			std::cout << std::distance(s.begin(), p) + 1 << " 번째 단어." << std::endl;
+		if (s.contains(word)) { // 있냐 없냐만 궁금할 때 쓰는 함수
+			std::cout << "있다" << std::endl;
 		}
 		else {
-			std::cout << "없는 단어." << std::endl;
+			std::cout << "없다" << std::endl;
+			s.insert(word); // 없을 때 추가하려고 contains 사용은 충분
 		}
 	}
 }
