@@ -34,7 +34,7 @@ int main()
 		return 20260601;
 	}
 	
-	std::set<ZString> s{ std::istream_iterator<ZString>{in}, {} };
+	std::multiset<ZString> s{ std::istream_iterator<ZString>{in}, {} };
 
 	for(const ZString& zs : s) {
 		std::cout << zs << "  ";
@@ -43,23 +43,24 @@ int main()
 	
 	std::cout << "단어 개수 - " << s.size() << std::endl;
 
-	// vector에 정렬된 데이터를 복사하였다.
-	// [문제] 단어를 입력받아 있는지 없는지 출력하라.
-	std::vector<ZString> v;
-	v.reserve(s.size());
-	v.assign(s.begin(), s.end());
+	// [문제] 단어를 입력받아 있다면 몇개 있는지
+	// 없다면 없다고 출력하라.
 
 	while (true) {
 		std::cout << "찾을 단어? : ";
 		ZString word;
 		std::cin >> word;
+		
 
-		// 정렬된 vector이기 때문에 이진탐색이 가능
-		if (std::binary_search(v.begin(), v.end(), word)) {
-			std::cout << "있는 단어" << std::endl;
+		auto [하한, 상한] = s.equal_range(word);
+		// pair로 받아 코딩해 보세요
+		
+		if (하한 == 상한) {
+			std::cout << "없는 단어" << std::endl;
 		}
 		else {
-			std::cout << "없는 단어" << std::endl;
+			std::cout << std::distance(하한, 상한) << "개" << std::endl;
+			// contiguos 메모리가 아니므로 반드시 distance로 구해야 함.
 		}
 	}
 }
