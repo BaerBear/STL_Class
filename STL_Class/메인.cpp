@@ -14,6 +14,7 @@
 #include <set>
 #include <fstream>
 #include <algorithm>
+#include <vector>
 #include "save.h"
 #include "ZString.h"
 
@@ -42,21 +43,23 @@ int main()
 	
 	std::cout << "단어 개수 - " << s.size() << std::endl;
 
-	// [문제] 단어를 입력받아
-	// 있다면 몇 번째 단어인지
-	// 없다면 없는 단어라고 출력해 주자
+	// vector에 정렬된 데이터를 복사하였다.
+	// [문제] 단어를 입력받아 있는지 없는지 출력하라.
+	std::vector<ZString> v;
+	v.reserve(s.size());
+	v.assign(s.begin(), s.end());
 
 	while (true) {
 		std::cout << "찾을 단어? : ";
 		ZString word;
 		std::cin >> word;
 
-		if (s.contains(word)) { // 있냐 없냐만 궁금할 때 쓰는 함수
-			std::cout << "있다" << std::endl;
+		// 정렬된 vector이기 때문에 이진탐색이 가능
+		if (std::binary_search(v.begin(), v.end(), word)) {
+			std::cout << "있는 단어" << std::endl;
 		}
 		else {
-			std::cout << "없다" << std::endl;
-			s.insert(word); // 없을 때 추가하려고 contains 사용은 충분
+			std::cout << "없는 단어" << std::endl;
 		}
 	}
 }
