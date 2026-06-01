@@ -114,6 +114,11 @@ public:
 	// 2026. 4. 28
 	bool operator==(const ZString& rhs) const;
 
+	// 2026. 6. 1
+	// set의 기본정렬 연산자 < (less 라고 읽음)
+	bool operator<(const ZString& rhs) const;
+
+
 	// 2026. 5. 12 - 반복자 인터페이스
 	// 2026. 5. 19 - begin이 되돌려줘야할 타입은 class여야 한다.
 	ZString_Iterator begin() const;
@@ -125,11 +130,18 @@ public:
 	ZString_Reverse_Iterator rend() const;
 
 
-	// 인터페이스
+	// 인터페이스 - 나중에 삭제예정
 	size_t getLen() const;
-	char* data() const;	//2026. 5.11
+	
+	// 2026. 6. 1
+	size_t getId() const { 
+		return id; 
+	};
+
+
 	// STL 컨테이너가 되려면 다음 함수정도는 제공해야 - 2026. 4. 20
 	size_t size() const;
+	char* data() const;			// 2026. 5.11
 
 	void special(std::string) const noexcept;
 
