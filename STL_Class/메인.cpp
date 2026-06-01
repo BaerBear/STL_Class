@@ -51,13 +51,13 @@ int main()
 		ZString word;
 		std::cin >> word;
 
-		auto it = s.find(word);
+		auto p = std::find(s.begin(), s.end(), word);
 
-		if (it != s.end()) {
-			std::cout << word << "는 " << std::distance(s.begin(), it) + 1 << "번째 단어" << std::endl;
+		if (p != s.end()) {
+			std::cout << std::distance(s.begin(), p) + 1 << " 번째 단어." << std::endl;
 		}
 		else {
-			std::cout << word << "는 없는 단어" << std::endl;
+			std::cout << "없는 단어." << std::endl;
 		}
 	}
 }
