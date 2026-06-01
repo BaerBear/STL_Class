@@ -6,31 +6,27 @@
 // 프로젝트 설정 - C++언어표준 - /std:c++latest
 //				- C/C++언어 - SDL검사 - 아니요
 //---------------------------------------------------------------------------------------------------------------------
-// STL 반복자 - Iterators are a generalization of pointers that allow 
-//		a C++ program to work with different data structures in a uniform manner.
+// STL Associative Container
+// - set / multiset - key-value, key == value
+// - map / multimap - key-value, key값을 정렬기준으로 하여 0(log N) value를 찾는다.
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
-#include <algorithm>
-#include <ranges>
+#include <set>
 #include "save.h"
 #include "ZString.h"
 
 extern bool 관찰;			// 관찰하려면 true
 
-// 반복자란 무엇인가? 
-// - 서로 다른 자료구조가 있더라도 동일한 방식으로 사용할 수 있도록 포인터를 일반화 해놓은 것
-// 이걸 사용하는 이유는?
-// 반복자의 종류를 구분한 이유
-
-template<class 반복자>
-void f(반복자 iter)
-{
-	// 클래스 타입으로 부터 여분(iterator traits)의 정보를 알 수 있다.
-	// iterator_category, value_type, difference_type, pointer, reference
-	// 표준 반복자가 제공하고 있는 5가지 traits.
-	
-	std::cout << typeid(std::iterator_traits<반복자>::iterator_category).name() << std::endl;
-}
+// std::less를 ZString에 대하여 특수화(specialization)
+template <>
+struct std::less<ZString> {
+	// predicate
+	// 조건자 - 참거짓을 판단하는 callable type
+	// 조건자, 서술자, 술어 -> 보통 쓰는 말 / 비교자 -> 이상한 말임 들은적 없음
+	bool operator()(const ZString& a, const ZString& b) const {
+		return a.size() < b.size();
+	}
+};
 
 //--------
 int main()
@@ -38,14 +34,10 @@ int main()
 {
 	save("메인.cpp");
 
-	Zstring zs{ "sphinx of black quartz judge my vow" };
-	
-	my_copy(zs.begin(), zs.end(), std::ostream_iterator<char>(std::cout, "-"));
-}
+	std::set<ZString, std::less<ZString>> s{"2026년", "6월", "1일", "월요일"};
 
-void my_copy(Zstring_Iterator begin, Zstring_Iterator end, std::ostream_iterator<char> dest)
-{
-	while (begin != end) {
-		*dest++ = *begin++;
+	for(const ZString& zs : s) {
+		std::cout << zs << std::endl;
 	}
+	
 }

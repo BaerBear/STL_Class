@@ -1,11 +1,11 @@
 #include <print>
 #include <algorithm>	// equal
-#include "Zstring.h"
+#include "ZString.h"
 
-size_t Zstring::gid{};		//외부에서 초기화
+size_t ZString::gid{};		//외부에서 초기화
 bool 관찰{ false };
 
-Zstring::Zstring()
+ZString::ZString()
 	: id{ ++gid }
 {
 	if (관찰) {
@@ -13,14 +13,14 @@ Zstring::Zstring()
 	}
 }
 
-Zstring::~Zstring()
+ZString::~ZString()
 {
 	if (관찰) {
 		special("소멸");
 	}
 }
 
-Zstring::Zstring(const char* s)
+ZString::ZString(const char* s)
 	: id{ ++gid }
 {
 	len = strlen(s);
@@ -34,7 +34,7 @@ Zstring::Zstring(const char* s)
 }
 
 // 복사 생성과 복사할당연산자
-Zstring::Zstring(const Zstring& other)
+ZString::ZString(const ZString& other)
 	: id{ ++gid }
 {
 	len = other.len;
@@ -45,7 +45,7 @@ Zstring::Zstring(const Zstring& other)
 		special("복사생성");
 	}
 }
-Zstring& Zstring::operator=(const Zstring& other)
+ZString& ZString::operator=(const ZString& other)
 {
 	if (this == &other) {
 		return *this;
@@ -64,7 +64,7 @@ Zstring& Zstring::operator=(const Zstring& other)
 
 // 이동 생성과 이동할당연산자
 // 2026. 4. 20 move에서 예를 던지지 않는다.
-Zstring::Zstring(Zstring&& other) noexcept
+ZString::ZString(ZString&& other) noexcept
 	: id { ++gid }
 {
 	len = other.len;
@@ -75,7 +75,7 @@ Zstring::Zstring(Zstring&& other) noexcept
 		special("이동생성");
 	}
 }
-Zstring& Zstring::operator=(Zstring&& other) noexcept
+ZString& ZString::operator=(ZString&& other) noexcept
 {
 	if (this == &other) {
 		return *this;
@@ -93,7 +93,7 @@ Zstring& Zstring::operator=(Zstring&& other) noexcept
 
 
 // 2026. 4. 28
-bool Zstring::operator==(const Zstring& rhs) const
+bool ZString::operator==(const ZString& rhs) const
 {
 	// 동등성(equality)과 상등성(equivalence)의 차이
 	// id, len, p가 있는데 ==> 내가 관리하는 글자가 같으면 같은거다.
@@ -115,45 +115,45 @@ bool Zstring::operator==(const Zstring& rhs) const
 
 // 2026. 5. 12 - 반복자 인터페이스
 // 2026. 5. 19 - begin이 되돌려줘야할 타입은 class여야 한다.
-Zstring_Iterator Zstring::begin() const
+ZString_Iterator ZString::begin() const
 {
 	return p.get();
 }
 
-Zstring_Iterator Zstring::end() const 
+ZString_Iterator ZString::end() const 
 {
 	return p.get() + len;
 }
 
 // 2026. 5. 18 - 역방향 인터페이스
 // 2026. 5. 19 - 역방향반복자는 class로 코딩해야 합니다.
-Zstring_Reverse_Iterator Zstring::rbegin() const
+ZString_Reverse_Iterator ZString::rbegin() const
 {
 	return p.get() + len;
 }
-Zstring_Reverse_Iterator Zstring::rend() const
+ZString_Reverse_Iterator ZString::rend() const
 {
 	return p.get();
 }
 
 // 나중에 삭제할 예정
-size_t Zstring::getLen() const 
+size_t ZString::getLen() const 
 {
 	return len;
 }
 
 // STL 컨테이너가 되려면 다음 함수정도는 제공해야 - 2026. 4. 20
-size_t Zstring::size() const 
+size_t ZString::size() const 
 {
 	return len;
 }
 
-char* Zstring::data() const	//2026. 5.11
+char* ZString::data() const	//2026. 5.11
 {
 	return p.get();	// 문자의 첫 번째 주소를 반환
 }
 
-void Zstring::special(std::string 동작) const noexcept
+void ZString::special(std::string 동작) const noexcept
 {
 	int num = 10;
 	if (len < 10) {
@@ -167,12 +167,12 @@ void Zstring::special(std::string 동작) const noexcept
 		id, 동작 , (long long)this, (long long)p.get(), len, 글자);
 }
 
-void Zstring::show() const
+void ZString::show() const
 {
 	special("show");
 }
 
-std::ostream& operator<<(std::ostream& os, const Zstring& zs)
+std::ostream& operator<<(std::ostream& os, const ZString& zs)
 {
 	for (int i = 0; i < zs.len; ++i) {
 		os << *(zs.p.get() + i);	// * -> 스마트 포인터에 들어있는 문자열 출력을 위해 사용
@@ -181,7 +181,7 @@ std::ostream& operator<<(std::ostream& os, const Zstring& zs)
 }
 
 // 파일에서 읽어오려고 만듬 - 2026. 4. 13
-std::istream& operator>>(std::istream& is, Zstring& zs)
+std::istream& operator>>(std::istream& is, ZString& zs)
 {
 	// 그림 설명에서 시작
 
