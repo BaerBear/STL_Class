@@ -51,7 +51,7 @@ int main()
 		ZString word;
 		std::cin >> word;
 
-		auto p = std::find(s.begin(), s.end(), word);
+		auto p = s.find(word);
 
 		if (p != s.end()) {
 			std::cout << std::distance(s.begin(), p) + 1 << " 번째 단어." << std::endl;
