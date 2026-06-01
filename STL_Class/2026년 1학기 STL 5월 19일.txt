@@ -1,0 +1,198 @@
+=============================================================
+저장한 시간 - 2026-05-19 16:07:24.0936356
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 19일                          (11주 2일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <ranges>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자란 무엇인가?
+// 반복자는 포인터를 일반화한 것으로, C++ 프로그램이 다양한 자료 구조를 일관된 방식으로 다룰 수 있도록 해준다.
+// 이걸 사용하는 이유는?
+// 어떤 컨테이너를 사용해도 반복자를 사용하면 uniform하게 코드를 작성할 수 있다.
+// 반복자의 종류를 구분한 이유
+// Zstring이 표준 반복자를 제공하려면?
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+//-----------
+int main()
+{
+//-----------
+	Zstring zs{ "sphinx of black quartz judge my vow" };
+
+	sort(zs.begin(), zs.end());
+
+	for (auto i = zs.rbegin(); i != zs.rend(); ++i) {
+		cout << *i << ' ';
+	}
+	cout << endl;
+
+	// [문제] zs를 거꾸로 출력하라.
+
+	save("main.cpp");
+
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-19 16:20:02.9843211
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 19일                          (11주 2일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <ranges>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자란 무엇인가?
+// 반복자는 포인터를 일반화한 것으로, C++ 프로그램이 다양한 자료 구조를 일관된 방식으로 다룰 수 있도록 해준다.
+// 이걸 사용하는 이유는?
+// 어떤 컨테이너를 사용해도 반복자를 사용하면 uniform하게 코드를 작성할 수 있다.
+// 반복자의 종류를 구분한 이유
+// Zstring이 표준 반복자를 제공하려면?
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+//-----------
+int main()
+{
+//-----------
+	Zstring zs{ "sphinx of black quartz judge my vow" };
+
+	for (auto i = zs.begin(); i != zs.end(); ++i) {
+		cout << *i;
+	}
+	cout << endl;
+
+	for (auto i = zs.rbegin(); i != zs.rend(); ++i) {
+		cout << *i;
+	}
+	cout << endl;
+
+	save("main.cpp");
+
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-19 16:27:47.2921672
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 19일                          (11주 2일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <ranges>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자란 무엇인가?
+// 반복자는 포인터를 일반화한 것으로, C++ 프로그램이 다양한 자료 구조를 일관된 방식으로 다룰 수 있도록 해준다.
+// 이걸 사용하는 이유는?
+// 어떤 컨테이너를 사용해도 반복자를 사용하면 uniform하게 코드를 작성할 수 있다.
+// 반복자의 종류를 구분한 이유
+// Zstring이 표준 반복자를 제공하려면?
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+//-----------
+int main()
+{
+//-----------
+	Zstring zs{ "sphinx of black quartz judge my vow" };
+
+	Zstring_Iterator p = zs.begin();
+
+	f(p);
+
+	save("main.cpp");
+
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-19 16:58:15.0618322
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 19일                          (11주 2일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <ranges>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자란 무엇인가?
+// 반복자는 포인터를 일반화한 것으로, C++ 프로그램이 다양한 자료 구조를 일관된 방식으로 다룰 수 있도록 해준다.
+// 이걸 사용하는 이유는?
+// 어떤 컨테이너를 사용해도 반복자를 사용하면 uniform하게 코드를 작성할 수 있다.
+// 반복자의 종류를 구분한 이유
+// Zstring이 표준 반복자를 제공하려면?
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+//-----------
+int main()
+{
+//-----------
+	Zstring zs{ "sphinx of black quartz judge my vow" };
+	
+	//[문제] zs를 오름차순으로 정렬하세요.
+	sort(zs.begin(), zs.end());
+
+	cout << zs << endl;
+
+	save("main.cpp");
+
+}

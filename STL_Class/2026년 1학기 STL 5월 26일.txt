@@ -1,0 +1,1220 @@
+=============================================================
+저장한 시간 - 2026-05-26 15:56:34.6139156
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <ranges>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+//-----------
+int main()
+{
+//-----------
+	// 전위 연산자는 자기 자신을 반환한다.
+	// 후위 연산자는 되돌려준 객체는 임시객체이다.
+	int n{ 100 };
+	
+	++n;
+	
+	Zstring zs{ "sphinx of black quartz judge my vow" };
+	
+	//[문제] zs를 오름차순으로 정렬하세요.
+	sort(zs.begin(), zs.end());
+
+	cout << zs << endl;
+
+	save("main.cpp");
+
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 15:57:44.1594511
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <ranges>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+//-----------
+int main()
+{
+//-----------
+	// 전위 연산자는 자기 자신을 반환한다.
+	// 후위 연산자는 되돌려준 객체는 임시객체이다.
+	Zstring zs{ "sphinx of black quartz judge my vow" };
+	
+	//[문제] zs를 오름차순으로 정렬하세요.
+	sort(zs.begin(), zs.end());
+
+	cout << zs << endl;
+
+	save("main.cpp");
+
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 16:10:11.9370064
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+//-----------
+int main()
+{
+//-----------
+	// 전위 연산자는 자기 자신을 반환한다.
+	// 후위 연산자는 되돌려준 객체는 임시객체이다.
+	save("main.cpp");
+
+	Zstring zs{ "sphinx of black quartz judge my vow" };
+	
+	// [문제] 한 글자 입력받아 zs에 있는지 출력하라.
+	// - 있다면 몇 번째 글자인지도 출력하라.
+	// - 없다면 없는 문자라고 출력하라.
+	
+	while (true) {
+		cout << "찾을 글자 입력? ";
+
+		char c;
+
+		cin >> c;
+
+		// 찾는 글자가 있다면 그 위치를 리턴, 없다면 zs.end()를 리턴한다.
+		Zstring::iterator p = find(zs.begin(), zs.end(), c);
+
+		if (p != zs.end()) {
+			cout << c << " - " << distance(zs.begin(), p + 1) << " 번째 글자입니다." << endl;
+		}
+		else {
+			cout << "없는 문자입니다." << endl;
+		}
+	}
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 16:27:37.6986664
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+ template<class 반복자, class Type>
+반복자 my_find(반복자 begin, 반복자 end,  Type c)
+{
+	while (begin != end) {
+
+		if ((*begin == c) == true) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+//-----------
+int main()
+{
+//-----------
+	// 전위 연산자는 자기 자신을 반환한다.
+	// 후위 연산자는 되돌려준 객체는 임시객체이다.
+	save("main.cpp");
+
+	Zstring zs{ "sphinx of black quartz judge my vow" };
+	
+	// [문제] 한 글자 입력받아 zs에 있는지 출력하라.
+	// - 있다면 몇 번째 글자인지도 출력하라.
+	// - 없다면 없는 문자라고 출력하라.
+	
+	while (true) {
+		cout << "찾을 글자 입력? ";
+		char c;
+		cin >> c;
+
+		// 찾는 글자가 있다면 그 위치를 리턴, 없다면 zs.end()를 리턴한다.
+		Zstring::iterator p = my_find(zs.begin(), zs.end(), c);
+
+		if (p != zs.end()) {
+			cout << c << " - " << distance(zs.begin(), p + 1) << " 번째 글자입니다." << endl;
+		}
+		else {
+			cout << "없는 문자입니다." << endl;
+		}
+	}
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 16:50:14.2411453
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+ template<class 반복자, class Type>
+반복자 my_find(반복자 begin, 반복자 end,  Type c)
+{
+	while (begin != end) {
+
+		if ((*begin == c) == true) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+//-----------
+int main()
+{
+//-----------
+	save("main.cpp");
+
+	Zstring zs{ "s0phinx of black quartz 3 judge my 6 vow" };
+	
+	// [문제] zs에서 처음 나오는 짝수를 찾아라.
+	Zstring::iterator p = find_if(zs.begin(), zs.end(), [](char c) {
+		if (isdigit(c)) {
+			// atoi는 아스키코드를 int형으로 바꿔주는 함수
+			// 그러나 여기서는 삽질
+			int num = c - '0';
+			if (num % 2 == 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		});
+	if (p != zs.end()) {
+		cout << "짝수 발견 - " << p - zs.begin() + 1 << endl;
+	}
+	else {
+		cout << "짝수 없음" << endl;
+	}
+
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 16:53:14.0502511
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+ template<class 반복자, class Type>
+반복자 my_find(반복자 begin, 반복자 end,  Type c)
+{
+	while (begin != end) {
+
+		if ((*begin == c) == true) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+//-----------
+int main()
+{
+//-----------
+	save("main.cpp");
+
+	Zstring zs{ "s0phinx of black quartz 3 judge my 6 vow" };
+	
+	// [문제] zs에서 처음 나오는 짝수를 찾아라.
+	Zstring::iterator p = find_if(zs.begin(), zs.end(), [](char c) {
+		if (isdigit(c)) {
+			// atoi는 아스키코드를 int형으로 바꿔주는 함수
+			// 그러나 여기서는 삽질
+			int num = c - '0';
+			if (num & 2 == 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		});
+	if (p != zs.end()) {
+		cout << "짝수 발견 - " << p - zs.begin() + 1 << endl;
+	}
+	else {
+		cout << "짝수 없음" << endl;
+	}
+
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 16:53:25.3905762
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+ template<class 반복자, class Type>
+반복자 my_find(반복자 begin, 반복자 end,  Type c)
+{
+	while (begin != end) {
+
+		if ((*begin == c) == true) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+//-----------
+int main()
+{
+//-----------
+	save("main.cpp");
+
+	Zstring zs{ "s0phinx of black quartz 3 judge my 6 vow" };
+	
+	// [문제] zs에서 처음 나오는 짝수를 찾아라.
+	Zstring::iterator p = find_if(zs.begin(), zs.end(), [](char c) {
+		if (isdigit(c)) {
+			// atoi는 아스키코드를 int형으로 바꿔주는 함수
+			// 그러나 여기서는 삽질
+			int num = c - '0';
+			if (num % 2 == 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		});
+	if (p != zs.end()) {
+		cout << "짝수 발견 - " << p - zs.begin() + 1 << endl;
+	}
+	else {
+		cout << "짝수 없음" << endl;
+	}
+
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 16:54:04.9025019
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+ template<class 반복자, class Type>
+반복자 my_find(반복자 begin, 반복자 end,  Type c)
+{
+	while (begin != end) {
+
+		if ((*begin == c) == true) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+//-----------
+int main()
+{
+//-----------
+	save("main.cpp");
+
+	Zstring zs{ "s0phinx of black quartz 3 judge my 6 vow" };
+	
+	// [문제] zs에서 처음 나오는 짝수를 찾아라.
+	Zstring::iterator p = find_if(zs.begin(), zs.end(), [](char c) {
+		if (isdigit(c)) {
+			return not (c & 1);	// 짝수인지 확인하는 방법 - 2로 나눈 나머지가 0인지 확인하는 방법
+		}
+		});
+
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 16:54:26.2587665
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+ template<class 반복자, class Type>
+반복자 my_find(반복자 begin, 반복자 end,  Type c)
+{
+	while (begin != end) {
+
+		if ((*begin == c) == true) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+//-----------
+int main()
+{
+//-----------
+	save("main.cpp");
+
+	Zstring zs{ "s0phinx of black quartz 3 judge my 6 vow" };
+	
+	// [문제] zs에서 처음 나오는 짝수를 찾아라.
+	Zstring::iterator p = find_if(zs.begin(), zs.end(), [](char c) {
+		if (isdigit(c)) {
+			return not (c & 1);	// 짝수인지 확인하는 방법 - 2로 나눈 나머지가 0인지 확인하는 방법
+		}
+		});
+	if(p != zs.end()) {
+		cout << "처음 나오는 짝수는 " << *p << "입니다." << endl;
+	}
+	else {
+		cout << "짝수가 없습니다." << endl;
+	}
+
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 16:55:07.5701172
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+ template<class 반복자, class Type>
+반복자 my_find(반복자 begin, 반복자 end,  Type c)
+{
+	while (begin != end) {
+
+		if ((*begin == c) == true) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+//-----------
+int main()
+{
+//-----------
+	save("main.cpp");
+
+	Zstring zs{ "s0phinx of black quartz 3 judge my 6 vow" };
+	
+	// [문제] zs에서 처음 나오는 짝수를 찾아라.
+	// my_find_if를 작성하라.
+	Zstring::iterator p = find_if(zs.begin(), zs.end(), [](char c) {
+		if (isdigit(c)) {
+			return not (c & 1);	// 짝수인지 확인하는 방법 - 2로 나눈 나머지가 0인지 확인하는 방법
+		}
+		});
+	if(p != zs.end()) {
+		cout << "처음 나오는 짝수는 " << p - zs.begin() << "번째 문자입니다." << endl;
+	}
+	else {
+		cout << "짝수가 없습니다." << endl;
+	}
+
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 16:57:06.2518315
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+ template<class 반복자, class Type>
+반복자 my_find(반복자 begin, 반복자 end,  Type c)
+{
+	while (begin != end) {
+
+		if ((*begin == c) == true) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+
+template<class 반복자, class Predicate>
+반복자 my_find_if(반복자 begin, 반복자 end, Predicate pred)
+{
+	while (begin != end) {
+		if (pred(*begin)) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+
+//-----------
+int main()
+{
+//-----------
+	save("main.cpp");
+
+	Zstring zs{ "s0phinx of black quartz 3 judge my 6 vow" };
+	
+	// [문제] zs에서 처음 나오는 짝수를 찾아라.
+	// my_find_if를 작성하라.
+	Zstring::iterator p = my_find_if(zs.begin(), zs.end(), [](char c) {
+		if (isdigit(c)) {
+			return not (c & 1);	// 짝수인지 확인하는 방법 - 2로 나눈 나머지가 0인지 확인하는 방법
+		}
+		});
+	if(p != zs.end()) {
+		cout << "처음 나오는 짝수는 " << p - zs.begin() << "번째 문자입니다." << endl;
+	}
+	else {
+		cout << "짝수가 없습니다." << endl;
+	}
+
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 16:57:29.6500968
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+ template<class 반복자, class Type>
+반복자 my_find(반복자 begin, 반복자 end,  Type c)
+{
+	while (begin != end) {
+
+		if ((*begin == c) == true) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+
+template<class 반복자, class Predicate>
+반복자 my_find_if(반복자 begin, 반복자 end, Predicate pred)
+{
+	while (begin != end) {
+		if (pred(*begin)) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+
+//-----------
+int main()
+{
+//-----------
+	save("main.cpp");
+
+	Zstring zs{ "s0phinx of black quartz 3 judge my 6 vow" };
+	
+	// [문제] zs에서 처음 나오는 짝수를 찾아라.
+	// my_find_if를 작성하라.
+	Zstring::iterator p = my_find_if(zs.begin(), zs.end(), [](char c) {
+		if (isdigit(c)) {
+			return not (c & 1);	// 짝수인지 확인하는 방법 - 2로 나눈 나머지가 0인지 확인하는 방법
+		}
+		});
+	if(p != zs.end()) {
+		cout << "처음 나오는 짝수는 " << p - zs.begin() + 1 << "번째 문자입니다." << endl;
+	}
+	else {
+		cout << "짝수가 없습니다." << endl;
+	}
+
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 17:07:34.3891358
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+ template<class 반복자, class Type>
+반복자 my_find(반복자 begin, 반복자 end,  Type c)
+{
+	while (begin != end) {
+
+		if ((*begin == c) == true) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+
+template<class 반복자, class Predicate>
+// Predicate는 bool을 반환하는 함수 객체
+반복자 my_find_if(반복자 begin, 반복자 end, Predicate pred)
+{
+	while (begin != end) {
+		if (pred(*begin)) {	// Predicate에 begin이 가리키는 값을 넘겨줘서 true와 false를 반환받는다.
+			return begin;
+		}
+		++begin;
+	}
+	return begin;	//end를 주지 않고 begin을 주는 이유는 begin을 하나씩 증가시키면서 끝까지 가기 때문에
+}
+
+//-----------
+int main()
+{
+//-----------
+	save("main.cpp");
+
+	Zstring zs{ "s0phinx of black quartz 3 judge my 6 vow" };
+	
+	// [문제] zs에서 처음 나오는 짝수를 찾아라.
+	// my_find_if를 작성하라.
+	Zstring::iterator p = my_find_if(zs.begin(), zs.end(), [](char c) {
+		if (isdigit(c)) {
+			return not (c & 1);	// 짝수인지 확인하는 방법 - 2로 나눈 나머지가 0인지 확인하는 방법
+		}
+		});
+	if(p != zs.end()) {
+		cout << "처음 나오는 짝수는 " << p - zs.begin() + 1 << "번째 문자입니다." << endl;
+	}
+	else {
+		cout << "짝수가 없습니다." << endl;
+	}
+
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 17:09:04.0210851
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+ template<class 반복자, class Type>
+반복자 my_find(반복자 begin, 반복자 end,  Type c)
+{
+	while (begin != end) {
+
+		if ((*begin == c) == true) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+
+// 컨테이너가 바뀌어도 my_find_if는 바뀌지 않는다. - uniform manner
+template<class 반복자, class Predicate>
+// Predicate는 bool을 반환하는 함수 객체
+반복자 my_find_if(반복자 begin, 반복자 end, Predicate pred)
+{
+	while (begin != end) {
+		if (pred(*begin)) {	// Predicate에 begin이 가리키는 값을 넘겨줘서 true와 false를 반환받는다.
+			return begin;
+		}
+		++begin;
+	}
+	return begin;	//end를 주지 않고 begin을 주는 이유는 begin을 하나씩 증가시키면서 끝까지 가기 때문에
+}
+
+//-----------
+int main()
+{
+//-----------
+	save("main.cpp");
+
+	Zstring zs{ "s0phinx of black quartz 3 judge my 6 vow" };
+	
+	// [문제] zs에서 처음 나오는 짝수를 찾아라.
+	// my_find_if를 작성하라.
+	Zstring::iterator p = my_find_if(zs.begin(), zs.end(), [](char c) {
+		if (isdigit(c)) {
+			return not (c & 1);	// 짝수인지 확인하는 방법 - 2로 나눈 나머지가 0인지 확인하는 방법
+		}
+		});
+	if(p != zs.end()) {
+		cout << "처음 나오는 짝수는 " << p - zs.begin() + 1 << "번째 문자입니다." << endl;
+	}
+	else {
+		cout << "짝수가 없습니다." << endl;
+	}
+
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 17:14:00.2507642
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+ template<class 반복자, class Type>
+반복자 my_find(반복자 begin, 반복자 end,  Type c)
+{
+	while (begin != end) {
+
+		if ((*begin == c) == true) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+
+// 컨테이너가 바뀌어도 my_find_if는 바뀌지 않는다. - uniform manner
+template<class 반복자, class Predicate>
+// Predicate는 bool을 반환하는 함수 객체
+반복자 my_find_if(반복자 begin, 반복자 end, Predicate pred)
+{
+	while (begin != end) {
+		if (pred(*begin)) {	// Predicate에 begin이 가리키는 값을 넘겨줘서 true와 false를 반환받는다.
+			return begin;
+		}
+		++begin;
+	}
+	return begin;	//end를 주지 않고 begin을 주는 이유는 begin을 하나씩 증가시키면서 끝까지 가기 때문에
+}
+
+//-----------
+int main()
+{
+//-----------
+	save("main.cpp");
+
+	Zstring zs{ "sphinx of black quartz 3 judge my 6 vow" };
+	
+	copy(zs.begin(), zs.end(), ostream_iterator<Zstring::value_type>{cout, " ### "});
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 17:17:37.1197028
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+ template<class 반복자, class Type>
+반복자 my_find(반복자 begin, 반복자 end,  Type c)
+{
+	while (begin != end) {
+
+		if ((*begin == c) == true) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+
+// 컨테이너가 바뀌어도 my_find_if는 바뀌지 않는다. - uniform manner
+template<class 반복자, class Predicate>
+// Predicate는 bool을 반환하는 함수 객체
+반복자 my_find_if(반복자 begin, 반복자 end, Predicate pred)
+{
+	while (begin != end) {
+		if (pred(*begin)) {	// Predicate에 begin이 가리키는 값을 넘겨줘서 true와 false를 반환받는다.
+			return begin;
+		}
+		++begin;
+	}
+	return begin;	//end를 주지 않고 begin을 주는 이유는 begin을 하나씩 증가시키면서 끝까지 가기 때문에
+}
+
+//-----------
+int main()
+{
+//-----------
+	save("main.cpp");
+
+	Zstring zs{ "sphinx of black quartz 3 judge my 6 vow" };
+	
+	// 원본 --> 복사본 
+	//copy(zs.begin(), zs.end(), ostream_iterator<Zstring::value_type>{cout, " ### "});
+	copy(zs.begin(), zs.end(), zs.begin() + 5);
+
+	cout << zs << endl;
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 17:20:05.1692388
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+ template<class 반복자, class Type>
+반복자 my_find(반복자 begin, 반복자 end,  Type c)
+{
+	while (begin != end) {
+
+		if ((*begin == c) == true) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+
+// 컨테이너가 바뀌어도 my_find_if는 바뀌지 않는다. - uniform manner
+template<class 반복자, class Predicate>
+// Predicate는 bool을 반환하는 함수 객체
+반복자 my_find_if(반복자 begin, 반복자 end, Predicate pred)
+{
+	while (begin != end) {
+		if (pred(*begin)) {	// Predicate에 begin이 가리키는 값을 넘겨줘서 true와 false를 반환받는다.
+			return begin;
+		}
+		++begin;
+	}
+	return begin;	//end를 주지 않고 begin을 주는 이유는 begin을 하나씩 증가시키면서 끝까지 가기 때문에
+}
+
+template<class 반복자, class 출력반복자>
+void my_copy(반복자 begin, 반복자 end, 출력반복자 o)
+{
+	while (begin != end) {
+		*o = *begin;
+		++begin;
+		++o;
+	}
+}
+
+//-----------
+int main()
+{
+//-----------
+	save("main.cpp");
+
+	Zstring zs{ "sphinx of black quartz 3 judge my 6 vow" };
+	
+	// 코드 설명은 다음주에
+	my_copy(zs.begin(), zs.end(), ostream_iterator<Zstring::value_type>{cout, " ### "});
+
+	cout << zs << endl;
+}
+
+
+=============================================================
+저장한 시간 - 2026-05-26 17:20:22.1248422
+=============================================================
+
+//----------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78					5월 26일                          (12주 1일)
+//----------------------------------------------------------------------------------------
+// STL 반복자 - Iterators are a generalization of pointers that allow 
+// a C++ program to work with different data structures in a uniform manner.
+// 기말고사 시험 6월 22일 (초어려움) 15주 2일
+//----------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "Zstring.h"
+using namespace std;
+extern bool 관찰;		// 관찰하려면 true
+
+// 반복자의 핵심내용 : uniform manner
+
+template<class 반복자>
+void f(반복자 iter)
+{
+	cout << typeid(iterator_traits<반복자>::iterator_category).name() << endl;
+}
+
+ template<class 반복자, class Type>
+반복자 my_find(반복자 begin, 반복자 end,  Type c)
+{
+	while (begin != end) {
+
+		if ((*begin == c) == true) {
+			return begin;
+		}
+		++begin;
+	}
+	return end;
+}
+
+// 컨테이너가 바뀌어도 my_find_if는 바뀌지 않는다. - uniform manner
+template<class 반복자, class Predicate>
+// Predicate는 bool을 반환하는 함수 객체
+반복자 my_find_if(반복자 begin, 반복자 end, Predicate pred)
+{
+	while (begin != end) {
+		if (pred(*begin)) {	// Predicate에 begin이 가리키는 값을 넘겨줘서 true와 false를 반환받는다.
+			return begin;
+		}
+		++begin;
+	}
+	return begin;	//end를 주지 않고 begin을 주는 이유는 begin을 하나씩 증가시키면서 끝까지 가기 때문에
+}
+
+template<class 반복자, class 출력반복자>
+void my_copy(반복자 begin, 반복자 end, 출력반복자 o)
+{
+	while (begin != end) {
+		*o = *begin;
+		++begin;
+		++o;
+	}
+}
+
+//-----------
+int main()
+{
+//-----------
+	save("main.cpp");
+
+	Zstring zs{ "sphinx of black quartz 3 judge my 6 vow" };
+	
+	// 코드 설명은 다음주에
+	my_copy(zs.begin(), zs.end(), ostream_iterator<Zstring::value_type>{cout, " ### "});
+}
