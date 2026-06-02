@@ -22,7 +22,7 @@ template<class 원본, class 복사본>
 void my_copy(원본 beg, 원본 end, 복사본 out) 
 {
 	while (beg != end) {
-		*beg++ = *out++; // 컨테이너에 관계없이 항상 실행되는 코드
+		*out++ = *beg++; // 컨테이너에 관계없이 항상 실행되는 코드
 	}
 }
 
@@ -35,5 +35,21 @@ int main()
 	std::set<int> s{ 1, 2, 3, 4, 5, 1, 1, 1, 1, 1 };
 
 	std::vector<int> v;
+	// v 의 24byte -> size 0, capacity 0, pointer(현재 nullptr).
+	// nullptr에 set의 정보를 카피해오려고 하니까 터지는거임.
+	// 미리 5개의 공간을 만들어주면 절대 죽을 일이 없다.
+	v.reserve(s.size());
+
 	my_copy(s.begin(), s.end(), v.begin());
+
+	// 찍어보면 안나옴. size는 0으로 남아있어서.
+	// C++은 size 작업까지 iterator로만 가능하게 !!!!
+	/*for (int i : v) {
+		std::cout << i << ' ';
+	}*/
+
+	// C++은 그래도 마음대로 휘젓고 다니는 방법이 있음
+	for(int i = 0; i < s.size(); ++i) {
+		std::cout << v[i] << ' ';
+	}
 }
