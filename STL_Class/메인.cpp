@@ -20,6 +20,7 @@ extern bool 관찰;			// 관찰하려면 true
 
 std::default_random_engine dre;
 std::uniform_int_distribution<int> uid{ 0, 10'000 };
+std::normal_distribution nd{ 0.0, 0.09 };
 
 //--------
 int main()
@@ -31,13 +32,19 @@ int main()
 	// 유니폼 분포는 유니폼한가?
 	// 노멀분포를 화면에 출력
 
-	std::map<size_t, size_t> 유니폼;
+	std::map<size_t, size_t> 노멀;
 	for (int i = 0; i < 100'000'000; ++i) {
-		int num = uid(dre);
-		++유니폼[num / 200];
+		double num = nd(dre);
+		num = num * 5000 + 5000;
+		if (num < 0)
+			num = 0;
+		if (10000 < num)
+			num = 10000;
+
+		++노멀[num / 200];
 	}
 
-	for (auto [구간, 개수] : 유니폼) {
+	for (auto [구간, 개수] : 노멀) {
 		std::println("[{:2}] - {}", 구간, 개수);
 	}
 }
