@@ -1,20 +1,16 @@
 ﻿//--------------------------------------------------------------------------------------------------------------------
 // 2026년 1학기 STL 월56화78			6월 2일			(13주 1일)
+// 6/22 기말시험(15/2) - 제일 마지막 시험
 //--------------------------------------------------------------------------------------------------------------------
 // 컴파일 환경 - Release / x64
 // VS 버전 - 17.14.27 (February 2026)
 // 프로젝트 설정 - C++언어표준 - /std:c++latest
 //				- C/C++언어 - SDL검사 - 아니요
 //---------------------------------------------------------------------------------------------------------------------
-// STL Associative Container
-// - set / multiset - key-value, key == value
-// - map / multimap - key-value, key값을 정렬기준으로 하여 0(log N) value를 찾는다.
+// 
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
-#include <fstream>
-#include <vector>
-#include <algorithm>
-#include <map>
+#include <set>
 #include "save.h"
 #include "ZString.h"
 
@@ -26,45 +22,12 @@ int main()
 {
 	save("메인.cpp");
 
-	std::ifstream in{ "이상한 나라의 앨리스.txt" };
-	if (not in) {
-		std::cout << "이상한 파일" << '\n';
-		return 20260602;
-	}
-
-	std::vector<ZString> v{ std::istream_iterator<ZString>{ in }, {} };
-
-	//std::copy(std::istream_iterator<ZString>{ in }, {}, std::back_inserter(v));
-	std::cout << "읽어온 단어 수 - " << v.size() << '\n';
-
-	/*for (const ZString& zs : v) {
-		std::cout << zs << " ";
-	}*/
-	std::cout << std::endl;
-
-	// [문제] 어떤 단어가 가장 많이 사용되었는지 알고 싶다.
-	// 많이 사용된 단어부터 단어와 개수를 화면에 출력하시오.
-	// the - 1nnn
-	// a - nnn
-	// zigzag - 1
-
-	std::map<ZString, size_t> 단어와개수;
-	for (const ZString& zs : v) {
-		++단어와개수[zs];
-	}
-
-	/*for (const auto& [단어, 개수] : 단어와개수) {
-		std::cout << 단어 << " - " << 개수 << '\n';
-	}*/
-
-	// std::cout << "개별 단어의 개수 - " << 단어와개수.size() << std::endl;
-
-	std::multimap<size_t, ZString, std::greater<size_t>>  개수와단어; // 세번 째 인자로 오르내림차순 조절가능
-	for (const auto& [단어, 개수] : 단어와개수) {
-		개수와단어.insert(std::make_pair(개수, 단어));
-	}
-
-	for (const auto& [개수, 단어] : 개수와단어) {
-		std::cout << 단어 << "\t - " << 개수 << '\n';
-	}
+	// [문제] 입력한 단어를 정렬한 후 출력하라. 
+	// -> 이전에는 vector에 단어 저장 -> sort -> 출력
+	// 지금은 set 사용해서 단어 저장 (자동으로 정렬) -> 출력.
+	// 교과서에 흔히 나오는 패턴. vector 후에 set은 이런 특성이 있으니 이렇게 쓰면 좋다 라는 패턴
+	
+	std::set<ZString> s{ std::istream_iterator<ZString>{std::cin}, {} };
+	
+	std::copy(s.begin(), s.end(), std::ostream_iterator<ZString>{std::cout, "\n"});
 }
