@@ -11,42 +11,33 @@
 // - map / multimap - key-value, key값을 정렬기준으로 하여 0(log N) value를 찾는다.
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
-#include <set>
+#include <fstream>
 #include <vector>
+#include <algorithm>
 #include "save.h"
 #include "ZString.h"
 
 extern bool 관찰;			// 관찰하려면 true
-
-template<class 원본, class 복사본>
-void my_copy(원본 beg, 원본 end, 복사본 out) 
-{
-	while (beg != end) {
-		*out++ = *beg++; // 컨테이너에 관계없이 항상 실행되는 코드
-	}
-}
 
 //--------
 int main()
 //--------
 {
 	save("메인.cpp");
-	
-	std::set<int> s{ 1, 2, 3, 4, 5, 1, 1, 1, 1, 1 };
 
-	std::vector<int> v;
-	// v 의 24byte -> size 0, capacity 0, pointer(현재 nullptr).
-	// nullptr에 set의 정보를 카피해오려고 하니까 터지는거임.
-	// 미리 5개의 공간을 만들어주면 절대 죽을 일이 없다.
-	v.reserve(s.size());
+	std::ifstream in{ "이상한 나라의 앨리스.txt" };
+	if (not in) {
+		std::cout << "이상한 파일" << '\n';
+		return 20260602;
+	}
 
-	my_copy(s.begin(), s.end(), std::back_inserter(v)); 
-	// back_inserter는 v라는 데이터에 push_back으로 집어넣을 수 있게 해주는 놈임
-	// 행동은 함수로 하지만 함수 안에서는 무슨 일이 일어나는 지는 모름. 이건 코딩하는 사람 마음이거든
-	// 반복자처럼 행동하면서 가면은 썼지만 속에서는 딴짓하는 놈 
-	// -> 반복자 어댑터. revese_iterator, inserter_iterator, stream_iterator, move_iterator
+	std::vector<ZString> v{ std::istream_iterator<ZString>{ in }, {} };
 
-	for (int num : v) 
-		std::cout << num << " ";
+	//std::copy(std::istream_iterator<ZString>{ in }, {}, std::back_inserter(v));
+	std::cout << "읽어온 단어 수 - " << v.size() << '\n';
+
+	for (const ZString& zs : v) {
+		std::cout << zs << " ";
+	}
 	std::cout << std::endl;
 }
