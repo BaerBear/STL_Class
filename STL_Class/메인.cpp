@@ -40,16 +40,13 @@ int main()
 	// 미리 5개의 공간을 만들어주면 절대 죽을 일이 없다.
 	v.reserve(s.size());
 
-	my_copy(s.begin(), s.end(), v.begin());
+	my_copy(s.begin(), s.end(), std::back_inserter(v)); 
+	// back_inserter는 v라는 데이터에 push_back으로 집어넣을 수 있게 해주는 놈임
+	// 행동은 함수로 하지만 함수 안에서는 무슨 일이 일어나는 지는 모름. 이건 코딩하는 사람 마음이거든
+	// 반복자처럼 행동하면서 가면은 썼지만 속에서는 딴짓하는 놈 
+	// -> 반복자 어댑터. revese_iterator, inserter_iterator, stream_iterator, move_iterator
 
-	// 찍어보면 안나옴. size는 0으로 남아있어서.
-	// C++은 size 작업까지 iterator로만 가능하게 !!!!
-	/*for (int i : v) {
-		std::cout << i << ' ';
-	}*/
-
-	// C++은 그래도 마음대로 휘젓고 다니는 방법이 있음
-	for(int i = 0; i < s.size(); ++i) {
-		std::cout << v[i] << ' ';
-	}
+	for (int num : v) 
+		std::cout << num << " ";
+	std::cout << std::endl;
 }
