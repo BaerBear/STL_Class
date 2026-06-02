@@ -11,11 +11,15 @@
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <map>
-#include <vector>
+#include <random>
+#include <print>
 #include "save.h"
 #include "ZString.h"
 
 extern bool 관찰;			// 관찰하려면 true
+
+std::default_random_engine dre;
+std::uniform_int_distribution<int> uid{ 0, 10'000 };
 
 //--------
 int main()
@@ -24,19 +28,16 @@ int main()
 	save("메인.cpp");
 
 	// map - 어디에 쓸 수 있나
+	// 유니폼 분포는 유니폼한가?
+	// 노멀분포를 화면에 출력
 
-	// 게임회사와 히트작을 관리
-	std::map<ZString, std::vector<ZString>> 회사와작품;
+	std::map<size_t, size_t> 유니폼;
+	for (int i = 0; i < 100'000'000; ++i) {
+		int num = uid(dre);
+		++유니폼[num / 200];
+	}
 
-	//회사와작품.insert(std::pair<ZString, std::vector<ZString>>("펄어비스", { "검은 사막", "붉은 사막" }));
-	회사와작품["펄어비스"] = { "검은 사막", "붉은 사막" }; 
-	회사와작품["펄어비스"].push_back("보라 사막"); // value 값에(벡터) 대한 레퍼런스를 반환. -> push_back이 가능
-
-	for (const auto& [회사, 히트작] : 회사와작품) {
-		std::cout << 회사;
-		for (const ZString& 게임 : 히트작) {
-			std::cout << " - " << 게임;
-		}
-		std::cout << std::endl;
+	for (auto [구간, 개수] : 유니폼) {
+		std::println("[{:2}] - {}", 구간, 개수);
 	}
 }
