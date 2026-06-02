@@ -10,7 +10,8 @@
 // 
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
-#include <set>
+#include <map>
+#include <vector>
 #include "save.h"
 #include "ZString.h"
 
@@ -22,12 +23,20 @@ int main()
 {
 	save("메인.cpp");
 
-	// [문제] 입력한 단어를 정렬한 후 출력하라. 
-	// -> 이전에는 vector에 단어 저장 -> sort -> 출력
-	// 지금은 set 사용해서 단어 저장 (자동으로 정렬) -> 출력.
-	// 교과서에 흔히 나오는 패턴. vector 후에 set은 이런 특성이 있으니 이렇게 쓰면 좋다 라는 패턴
-	
-	std::set<ZString> s{ std::istream_iterator<ZString>{std::cin}, {} };
-	
-	std::copy(s.begin(), s.end(), std::ostream_iterator<ZString>{std::cout, "\n"});
+	// map - 어디에 쓸 수 있나
+
+	// 게임회사와 히트작을 관리
+	std::map<ZString, std::vector<ZString>> 회사와작품;
+
+	//회사와작품.insert(std::pair<ZString, std::vector<ZString>>("펄어비스", { "검은 사막", "붉은 사막" }));
+	회사와작품["펄어비스"] = { "검은 사막", "붉은 사막" }; 
+	회사와작품["펄어비스"].push_back("보라 사막"); // value 값에(벡터) 대한 레퍼런스를 반환. -> push_back이 가능
+
+	for (const auto& [회사, 히트작] : 회사와작품) {
+		std::cout << 회사;
+		for (const ZString& 게임 : 히트작) {
+			std::cout << " - " << 게임;
+		}
+		std::cout << std::endl;
+	}
 }
