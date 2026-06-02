@@ -31,5 +31,9 @@ int main()
 //--------
 {
 	save("메인.cpp");
+	
+	std::set<int> s{ 1, 2, 3, 4, 5, 1, 1, 1, 1, 1 };
 
+	std::vector<int> v;
+	my_copy(s.begin(), s.end(), v.begin());
 }
