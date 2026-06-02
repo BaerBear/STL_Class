@@ -37,9 +37,9 @@ int main()
 	//std::copy(std::istream_iterator<ZString>{ in }, {}, std::back_inserter(v));
 	std::cout << "읽어온 단어 수 - " << v.size() << '\n';
 
-	for (const ZString& zs : v) {
+	/*for (const ZString& zs : v) {
 		std::cout << zs << " ";
-	}
+	}*/
 	std::cout << std::endl;
 
 	// [문제] 어떤 단어가 가장 많이 사용되었는지 알고 싶다.
@@ -53,9 +53,18 @@ int main()
 		++단어와개수[zs];
 	}
 
-	for (const std::pair<ZString, size_t>& p : 단어와개수) {
-		std::cout << p.first << " - " << p.second << '\n';
+	/*for (const auto& [단어, 개수] : 단어와개수) {
+		std::cout << 단어 << " - " << 개수 << '\n';
+	}*/
+
+	// std::cout << "개별 단어의 개수 - " << 단어와개수.size() << std::endl;
+
+	std::multimap<size_t, ZString, std::greater<size_t>>  개수와단어; // 세번 째 인자로 오르내림차순 조절가능
+	for (const auto& [단어, 개수] : 단어와개수) {
+		개수와단어.insert(std::make_pair(개수, 단어));
 	}
-	std::multimap<size_t, ZString> 개수와단어;
-	
+
+	for (const auto& [개수, 단어] : 개수와단어) {
+		std::cout << 단어 << "\t - " << 개수 << '\n';
+	}
 }
