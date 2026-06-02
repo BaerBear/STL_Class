@@ -14,6 +14,7 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <map>
 #include "save.h"
 #include "ZString.h"
 
@@ -40,4 +41,21 @@ int main()
 		std::cout << zs << " ";
 	}
 	std::cout << std::endl;
+
+	// [문제] 어떤 단어가 가장 많이 사용되었는지 알고 싶다.
+	// 많이 사용된 단어부터 단어와 개수를 화면에 출력하시오.
+	// the - 1nnn
+	// a - nnn
+	// zigzag - 1
+
+	std::map<ZString, size_t> 단어와개수;
+	for (const ZString& zs : v) {
+		++단어와개수[zs];
+	}
+
+	for (const std::pair<ZString, size_t>& p : 단어와개수) {
+		std::cout << p.first << " - " << p.second << '\n';
+	}
+	std::multimap<size_t, ZString> 개수와단어;
+	
 }
