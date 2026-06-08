@@ -7,61 +7,102 @@
 // 프로젝트 설정 - C++언어표준 - /std:c++latest
 //				- C/C++언어 - SDL검사 - 아니요
 //---------------------------------------------------------------------------------------------------------------------
-// STL Unordered Associative Container - 0(1)에 데이터에 access 하려고 만든 컨테이너
-// - unordered_set / unordered_multiset 
-// - unordered_map / unordered_multimap
+// 컨테이너 찾기 성능 비교
+// 1. vector
+// 2. multiset
+// 3. unordered_multiset
+// 
+// 1000만개에서 10만개 찾기
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
+#include <array>
+#include <vector>
+#include <set>
 #include <unordered_set>
-#include <print>
-#include <numeric>
-#include <fstream>
+#include <random>
+#include <algorithm>
+#include <chrono>
 #include "save.h"
 #include "ZString.h"
 
 extern bool 관찰;			// 관찰하려면 true
 
-template<>
-struct std::hash<ZString> {
-	size_t operator()(const ZString& zs) const {
-		return std::hash<std::string>{}(std::string(zs.begin(), zs.end()));
-	}
-};
+const size_t NUM{ 10'000'000 };
+const size_t FNUM{ 10'000 };
+
+std::array<int, NUM> num;
+std::array<int, FNUM> fnum;
+
+std::default_random_engine dre{};
+std::uniform_int_distribution uid{ 1, 20'000'000 };
 
 //--------
 int main()
 //--------
 {
 	save("메인.cpp");
-	// 1, 2, 3, 4 -> 4, 7, 6, 1
-
-	std::ifstream in{ "메인.cpp" };
-	if (not in) {
-		std::cout << "파일 오류" << std::endl;
-		return 20260608;
+	for (int& num : num) {
+		num = uid(dre);
 	}
 
-	std::unordered_multiset<ZString> ums{ std::istream_iterator<ZString>{in}, {} };
+	for (int& num : fnum) {
+		num = uid(dre);
+	}
 
-	for (int i = 0; i < ums.bucket_count(); ++i) {
-		// 왼편(버킷)은 벡터, 오른편(원소)는 리스트.
-		// 보니까 8개로 시작해서 8배씩 늘어나는듯?
-		std::print("[{:>03}]", i);
-		for (auto j = ums.begin(i); j != ums.end(i); ++j) {
-			std::cout << " --> " << *j;
-		}
+	{	// vector에서 찾기
 		std::cout << std::endl;
+		std::vector<int> v{ num.begin(), num.end() };
+
+		std::cout << "vector에서 찾는 중";
+		size_t cnt{};
+
+		auto start = std::chrono::high_resolution_clock::now();
+		for (int num : fnum) {
+			if (std::find(v.begin(), v.end(), num) != v.end()) 
+				++cnt;
+		}
+		auto stop = std::chrono::high_resolution_clock::now();
+
+		std::cout << std::endl;
+		std::cout << FNUM << "중에서 " << cnt << "개 찾음" << std::endl;
+		std::cout << "걸린시간 - " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start) << std::endl;
 	}
 
-	//while (true) {
-	//	/*std::cout << "추가할 int? ";
-	//	int num;
-	//	std::cin >> num;
-	//	std::cout << std::endl;
+	{	// set에서 찾기
+		std::cout << std::endl;
+		std::multiset<int> s{ num.begin(), num.end() };
 
-	//	ums.insert(num);*/
+		std::cout << "set에서 찾는 중";
+		size_t cnt{};
 
-	//	
-	//}
+		auto start = std::chrono::high_resolution_clock::now();
+		for (int num : fnum) {
+			if (s.contains(num))
+				++cnt;
+		}
+		auto stop = std::chrono::high_resolution_clock::now();
 
+		std::cout << std::endl;
+		std::cout << FNUM << "중에서 " << cnt << "개 찾음" << std::endl;
+		std::cout << "걸린시간 - " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start) << std::endl;
+	}
+
+	{	// unordered_set에서 찾기
+		std::cout << std::endl;
+		std::unordered_multiset<int> us{ num.begin(), num.end() };
+
+		std::cout << "unordered_set에서 찾는 중";
+		size_t cnt{};
+
+		auto start = std::chrono::high_resolution_clock::now();
+		for (int num : fnum) {
+			if (us.contains(num))
+				++cnt;
+		}
+		auto stop = std::chrono::high_resolution_clock::now();
+
+		std::cout << std::endl;
+		std::cout << FNUM << "중에서 " << cnt << "개 찾음" << std::endl;
+		std::cout << "걸린시간 - " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start) << std::endl;
+	}
 }
