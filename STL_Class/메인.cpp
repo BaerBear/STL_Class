@@ -58,7 +58,7 @@ int main()
 
 		auto start = std::chrono::high_resolution_clock::now();
 		for (int num : fnum) {
-			if (std::find(v.begin(), v.end(), num) != v.end()) 
+			if (std::find(v.begin(), v.end(), num) != v.end())
 				++cnt;
 		}
 		auto stop = std::chrono::high_resolution_clock::now();
@@ -68,7 +68,31 @@ int main()
 		std::cout << "걸린시간 - " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start) << std::endl;
 	}
 
-	{	// set에서 찾기
+
+	{	// 정렬된 vector에서 찾기
+		std::cout << std::endl;
+		std::vector<int> v{ num.begin(), num.end() };
+		
+		std::cout << "벡터를 정렬하는 중";
+		std::sort(v.begin(), v.end());
+		std::cout << std::endl;
+
+		std::cout << "정렬된 vector에서 찾는 중";
+		size_t cnt{};
+
+		auto start = std::chrono::high_resolution_clock::now();
+		for (int num : fnum) {
+			if (std::binary_search(v.begin(), v.end(), num))
+				++cnt;
+		}
+		auto stop = std::chrono::high_resolution_clock::now();
+
+		std::cout << std::endl;
+		std::cout << FNUM << "중에서 " << cnt << "개 찾음" << std::endl;
+		std::cout << "걸린시간 - " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start) << std::endl;
+	}
+
+	{	// multiset에서 찾기
 		std::cout << std::endl;
 		std::multiset<int> s{ num.begin(), num.end() };
 
@@ -87,7 +111,7 @@ int main()
 		std::cout << "걸린시간 - " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start) << std::endl;
 	}
 
-	{	// unordered_set에서 찾기
+	{	// unordered_multiset에서 찾기
 		std::cout << std::endl;
 		std::unordered_multiset<int> us{ num.begin(), num.end() };
 
