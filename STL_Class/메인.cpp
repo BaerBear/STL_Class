@@ -42,18 +42,24 @@ int main()
 
 	std::shuffle(v.begin(), v.end(), dre);
 
-	// [문제] 길이가 홀수인 것과 짝수인 것으로 정렬하라.
+	// [문제] 길이가 홀수인 것과 짝수인 것으로 분리하라.
 	// 앞에는 홀수 뒤에는 짝수
 	// 홀수 앞에 짝수가 있으면 안된다.
 	// 홀수와 짝수가 각각 몇 개인지 출력하라.
-	std::sort(v.begin(), v.end(), [](const ZString& a, const ZString& b) {
-		if (a.size() % 2 == 0 && b.size() % 2 == 1)
-			return false;
-		return true;
+	auto p = std::partition(v.begin(), v.end(), [](const ZString& a) {
+		return a.size() % 2;
 		});
 
-	for (const ZString& zs : v) {
-		std::cout << zs << " ";
+	std::cout << "길이가 홀수인 단어 - " << std::distance(v.begin(), p) << "개" << std::endl;
+	for (auto i = v.begin(); i != p; ++i) {
+		std::cout << *i << " ";
+	}
+	std::cout << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "길이가 짝수인 단어 - " << std::distance(p, v.end()) << "개" << std::endl;
+	for (auto i = p; i != v.end(); ++i) {
+		std::cout << *i << " ";
 	}
 	std::cout << std::endl;
 }
