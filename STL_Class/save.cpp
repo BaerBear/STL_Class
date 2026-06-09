@@ -27,7 +27,7 @@ void save(const std::string& fname)
 		exit(0);
 	}
 
-	std::string outFileName = "2026년 1학기 STL 6월 08일.txt";
+	std::string outFileName = "2026년 1학기 STL 6월 09일.txt";
 
 	std::cout << "\"" << fname << "\"를 저장합니다." << "\n";
 	std::cout << "저장 파일 이름: " << outFileName << "\n";

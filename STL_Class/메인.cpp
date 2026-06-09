@@ -1,5 +1,5 @@
 ﻿//--------------------------------------------------------------------------------------------------------------------
-// 2026년 1학기 STL 월56화78			6월 8일			(13주 2일)
+// 2026년 1학기 STL 월56화78			6월 9일			(14주 1일)
 // 6/22 기말시험(15/2) - 제일 마지막 시험
 //--------------------------------------------------------------------------------------------------------------------
 // 컴파일 환경 - Release / x64
@@ -7,126 +7,40 @@
 // 프로젝트 설정 - C++언어표준 - /std:c++latest
 //				- C/C++언어 - SDL검사 - 아니요
 //---------------------------------------------------------------------------------------------------------------------
-// 컨테이너 찾기 성능 비교
-// 1. vector
-// 2. multiset
-// 3. unordered_multiset
+// STL Algorithms
+// 1. Non-modifying sequence operations
+// 2. Modifying sequence operations
+// 3. Sorting and related operations
 // 
-// 1000만개에서 10만개 찾기
+// 시험에 Set operations 사용한 문제 낼거임.
+// 큰 파일 두개를 주고 공통된 단어를 찾아내기. 뭐 이런거
+// 
+// STL Algorithm을 살펴보면
+// constrained Algorithm (C++ 20)이 보이는데,
+// 이거의 기본이 되는 개념이 concept과 range - [begin, end) 임.
+// lazy - evaluation (views, filter)
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
-#include <array>
-#include <vector>
-#include <set>
-#include <unordered_set>
-#include <random>
 #include <algorithm>
-#include <chrono>
+#include <vector>
+#include <numeric>
+#include <random>
 #include "save.h"
 #include "ZString.h"
 
 extern bool 관찰;			// 관찰하려면 true
 
-const size_t NUM{ 10'000'000 };
-const size_t FNUM{ 10'000 };
-
-std::array<int, NUM> num;
-std::array<int, FNUM> fnum;
-
-std::default_random_engine dre{};
-std::uniform_int_distribution uid{ 1, 20'000'000 };
+std::default_random_engine dre{ std::random_device{}() };
 
 //--------
 int main()
 //--------
 {
 	save("메인.cpp");
-	for (int& num : num) {
-		num = uid(dre);
-	}
 
-	for (int& num : fnum) {
-		num = uid(dre);
-	}
-
-	{	// vector에서 찾기
-		std::cout << std::endl;
-		std::vector<int> v{ num.begin(), num.end() };
-
-		std::cout << "vector에서 찾는 중";
-		size_t cnt{};
-
-		auto start = std::chrono::high_resolution_clock::now();
-		for (int num : fnum) {
-			if (std::find(v.begin(), v.end(), num) != v.end())
-				++cnt;
-		}
-		auto stop = std::chrono::high_resolution_clock::now();
-
-		std::cout << std::endl;
-		std::cout << FNUM << "중에서 " << cnt << "개 찾음" << std::endl;
-		std::cout << "걸린시간 - " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start) << std::endl;
-	}
-
-
-	{	// 정렬된 vector에서 찾기
-		std::cout << std::endl;
-		std::vector<int> v{ num.begin(), num.end() };
-		
-		std::cout << "벡터를 정렬하는 중";
-		std::sort(v.begin(), v.end());
-		std::cout << std::endl;
-
-		std::cout << "정렬된 vector에서 찾는 중";
-		size_t cnt{};
-
-		auto start = std::chrono::high_resolution_clock::now();
-		for (int num : fnum) {
-			if (std::binary_search(v.begin(), v.end(), num))
-				++cnt;
-		}
-		auto stop = std::chrono::high_resolution_clock::now();
-
-		std::cout << std::endl;
-		std::cout << FNUM << "중에서 " << cnt << "개 찾음" << std::endl;
-		std::cout << "걸린시간 - " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start) << std::endl;
-	}
-
-	{	// multiset에서 찾기
-		std::cout << std::endl;
-		std::multiset<int> s{ num.begin(), num.end() };
-
-		std::cout << "set에서 찾는 중";
-		size_t cnt{};
-
-		auto start = std::chrono::high_resolution_clock::now();
-		for (int num : fnum) {
-			if (s.contains(num))
-				++cnt;
-		}
-		auto stop = std::chrono::high_resolution_clock::now();
-
-		std::cout << std::endl;
-		std::cout << FNUM << "중에서 " << cnt << "개 찾음" << std::endl;
-		std::cout << "걸린시간 - " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start) << std::endl;
-	}
-
-	{	// unordered_multiset에서 찾기
-		std::cout << std::endl;
-		std::unordered_multiset<int> us{ num.begin(), num.end() };
-
-		std::cout << "unordered_set에서 찾는 중";
-		size_t cnt{};
-
-		auto start = std::chrono::high_resolution_clock::now();
-		for (int num : fnum) {
-			if (us.contains(num))
-				++cnt;
-		}
-		auto stop = std::chrono::high_resolution_clock::now();
-
-		std::cout << std::endl;
-		std::cout << FNUM << "중에서 " << cnt << "개 찾음" << std::endl;
-		std::cout << "걸린시간 - " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start) << std::endl;
-	}
+	std::vector<int> v(45);
+	std::iota(v.begin(), v.end(), 1);
+	// 이번 주 lotto 번호를 알려주자.
+	std::sample(v.begin(), v.end(), std::ostream_iterator<int>{std::cout, " "}, 5, dre);
+	std::cout << std::endl;
 }
