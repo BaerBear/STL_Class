@@ -47,7 +47,8 @@ int main()
 	// 홀수 앞에 짝수가 있으면 안된다.
 	// 홀수와 짝수가 각각 몇 개인지 출력하라.
 	auto p = std::partition(v.begin(), v.end(), [](const ZString& a) {
-		return a.size() % 2;
+		return *a.begin() == 'a';	// a로 시작하는 단어가 앞에 오게 분리할 수도 있다.
+									// 문제를 낸다면 단어에 p가 들어가는 단어와 아닌것으로 나눠라. 같은 문제들
 		});
 
 	std::cout << "길이가 홀수인 단어 - " << std::distance(v.begin(), p) << "개" << std::endl;
