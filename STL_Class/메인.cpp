@@ -8,32 +8,18 @@
 //				- C/C++언어 - SDL검사 - 아니요
 //---------------------------------------------------------------------------------------------------------------------
 // STL Algorithms
-// 1. Non-modifying sequence operations
-// 2. Modifying sequence operations
-// 3. Sorting and related operations
-// 
-// 시험에 Set operations 사용한 문제 낼거임.
-// 큰 파일 두개를 주고 공통된 단어를 찾아내기. 뭐 이런거
-// 
-// STL Algorithm을 살펴보면
-// constrained Algorithm (C++ 20)이 보이는데,
-// 이거의 기본이 되는 개념이 concept과 range - [begin, end) 임.
-// lazy - evaluation (views, filter)
+// - 정렬 관련 알고리즘 - 복잡도 순서대로
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
-#include <algorithm>
+#include <fstream>
 #include <vector>
-#include <numeric>
+#include <algorithm>
 #include <random>
-#include <thread>
-#include <chrono>
-#include <print>
 #include "save.h"
 #include "ZString.h"
 
 extern bool 관찰;			// 관찰하려면 true
 
-using namespace std::chrono_literals;
 std::default_random_engine dre{ std::random_device{}() };
 
 //--------
@@ -41,17 +27,23 @@ int main()
 //--------
 {
 	save("메인.cpp");
-
-	ZString zs{ "The quick brown fox jumps over the lazy dog. --> " };
-	
-	for (int i = 0; i < 10; ++i)
-		std::cout << std::endl;
-
-	while (true) {
-		std::print("{:^80}", std::string{ zs.begin(), zs.end() });
-		std::this_thread::sleep_for(100ms);
-		std::cout << "\r";
-		std::rotate(zs.begin(), zs.begin() + 1 , zs.end());
+	std::ifstream in{ "이상한 나라의 앨리스.txt" };
+	if (not in) {
+		std::cout << "파일 오류" << '\n';
+		return 20260609;
 	}
+	std::vector<ZString> v{ std::istream_iterator<ZString>{in}, {} };
+	std::cout << "모두 " << v.size() << "개의 단어를 읽었다." << std::endl;
 
+	std::sort(v.begin(), v.end());
+	auto newEnd = std::unique(v.begin(), v.end());
+	v.erase(newEnd, v.end());
+	std::cout << "중복을 제거한 단어 개수 - " << v.size() << std::endl;
+
+	std::shuffle(v.begin(), v.end(), dre);
+
+	for (const ZString& zs : v) {
+		std::cout << zs << " ";
+	}
+	std::cout << std::endl;
 }
