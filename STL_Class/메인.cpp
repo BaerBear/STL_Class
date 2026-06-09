@@ -25,11 +25,15 @@
 #include <vector>
 #include <numeric>
 #include <random>
+#include <thread>
+#include <chrono>
+#include <print>
 #include "save.h"
 #include "ZString.h"
 
 extern bool 관찰;			// 관찰하려면 true
 
+using namespace std::chrono_literals;
 std::default_random_engine dre{ std::random_device{}() };
 
 //--------
@@ -38,9 +42,16 @@ int main()
 {
 	save("메인.cpp");
 
-	std::vector<int> v(45);
-	std::iota(v.begin(), v.end(), 1);
-	// 이번 주 lotto 번호를 알려주자.
-	std::sample(v.begin(), v.end(), std::ostream_iterator<int>{std::cout, " "}, 5, dre);
-	std::cout << std::endl;
+	ZString zs{ "The quick brown fox jumps over the lazy dog. --> " };
+	
+	for (int i = 0; i < 10; ++i)
+		std::cout << std::endl;
+
+	while (true) {
+		std::print("{:^80}", std::string{ zs.begin(), zs.end() });
+		std::this_thread::sleep_for(100ms);
+		std::cout << "\r";
+		std::rotate(zs.begin(), zs.begin() + 1 , zs.end());
+	}
+
 }

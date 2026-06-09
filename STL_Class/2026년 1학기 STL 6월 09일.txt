@@ -153,3 +153,436 @@ int main()
 	std::sample(v.begin(), v.end(), std::ostream_iterator<int>{std::cout, " "}, 5, dre);
 	std::cout << std::endl;
 }
+
+==================================================
+������ �ð� - 2026�� 06�� 09�� 16�� 55�� 14.4356858��
+==================================================
+
+﻿//--------------------------------------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78			6월 9일			(14주 1일)
+// 6/22 기말시험(15/2) - 제일 마지막 시험
+//--------------------------------------------------------------------------------------------------------------------
+// 컴파일 환경 - Release / x64
+// VS 버전 - 17.14.27 (February 2026)
+// 프로젝트 설정 - C++언어표준 - /std:c++latest
+//				- C/C++언어 - SDL검사 - 아니요
+//---------------------------------------------------------------------------------------------------------------------
+// STL Algorithms
+// 1. Non-modifying sequence operations
+// 2. Modifying sequence operations
+// 3. Sorting and related operations
+// 
+// 시험에 Set operations 사용한 문제 낼거임.
+// 큰 파일 두개를 주고 공통된 단어를 찾아내기. 뭐 이런거
+// 
+// STL Algorithm을 살펴보면
+// constrained Algorithm (C++ 20)이 보이는데,
+// 이거의 기본이 되는 개념이 concept과 range - [begin, end) 임.
+// lazy - evaluation (views, filter)
+//----------------------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <numeric>
+#include <random>
+#include <thread>
+#include <chrono>
+#include <print>
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰;			// 관찰하려면 true
+
+using namespace std::chrono_literals;
+std::default_random_engine dre{ std::random_device{}() };
+
+//--------
+int main()
+//--------
+{
+	save("메인.cpp");
+
+	ZString zs{ "The quick brown fox jumps over the lazy dog." };
+	
+	for (int i = 0; i < 10; ++i)
+		std::cout << std::endl;
+
+	while (true) {
+		std::print("{:^80}", std::string{ zs.begin(), zs.end() });
+		std::this_thread::sleep_for(100ms);
+		std::cout << "\r";
+	}
+
+}
+
+==================================================
+������ �ð� - 2026�� 06�� 09�� 16�� 55�� 38.2677455��
+==================================================
+
+﻿//--------------------------------------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78			6월 9일			(14주 1일)
+// 6/22 기말시험(15/2) - 제일 마지막 시험
+//--------------------------------------------------------------------------------------------------------------------
+// 컴파일 환경 - Release / x64
+// VS 버전 - 17.14.27 (February 2026)
+// 프로젝트 설정 - C++언어표준 - /std:c++latest
+//				- C/C++언어 - SDL검사 - 아니요
+//---------------------------------------------------------------------------------------------------------------------
+// STL Algorithms
+// 1. Non-modifying sequence operations
+// 2. Modifying sequence operations
+// 3. Sorting and related operations
+// 
+// 시험에 Set operations 사용한 문제 낼거임.
+// 큰 파일 두개를 주고 공통된 단어를 찾아내기. 뭐 이런거
+// 
+// STL Algorithm을 살펴보면
+// constrained Algorithm (C++ 20)이 보이는데,
+// 이거의 기본이 되는 개념이 concept과 range - [begin, end) 임.
+// lazy - evaluation (views, filter)
+//----------------------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <numeric>
+#include <random>
+#include <thread>
+#include <chrono>
+#include <print>
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰;			// 관찰하려면 true
+
+using namespace std::chrono_literals;
+std::default_random_engine dre{ std::random_device{}() };
+
+//--------
+int main()
+//--------
+{
+	save("메인.cpp");
+
+	ZString zs{ "The quick brown fox jumps over the lazy dog." };
+	
+	for (int i = 0; i < 10; ++i)
+		std::cout << std::endl;
+
+	while (true) {
+		std::print("{:^80}", std::string{ zs.begin(), zs.end() });
+		std::this_thread::sleep_for(100ms);
+		std::cout << "\r";
+		std::rotate(zs.begin(), zs.end(), zs.begin() + 1);
+	}
+
+}
+
+==================================================
+������ �ð� - 2026�� 06�� 09�� 16�� 56�� 34.7304230��
+==================================================
+
+﻿//--------------------------------------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78			6월 9일			(14주 1일)
+// 6/22 기말시험(15/2) - 제일 마지막 시험
+//--------------------------------------------------------------------------------------------------------------------
+// 컴파일 환경 - Release / x64
+// VS 버전 - 17.14.27 (February 2026)
+// 프로젝트 설정 - C++언어표준 - /std:c++latest
+//				- C/C++언어 - SDL검사 - 아니요
+//---------------------------------------------------------------------------------------------------------------------
+// STL Algorithms
+// 1. Non-modifying sequence operations
+// 2. Modifying sequence operations
+// 3. Sorting and related operations
+// 
+// 시험에 Set operations 사용한 문제 낼거임.
+// 큰 파일 두개를 주고 공통된 단어를 찾아내기. 뭐 이런거
+// 
+// STL Algorithm을 살펴보면
+// constrained Algorithm (C++ 20)이 보이는데,
+// 이거의 기본이 되는 개념이 concept과 range - [begin, end) 임.
+// lazy - evaluation (views, filter)
+//----------------------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <numeric>
+#include <random>
+#include <thread>
+#include <chrono>
+#include <print>
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰;			// 관찰하려면 true
+
+using namespace std::chrono_literals;
+std::default_random_engine dre{ std::random_device{}() };
+
+//--------
+int main()
+//--------
+{
+	save("메인.cpp");
+
+	ZString zs{ "The quick brown fox jumps over the lazy dog." };
+	
+	for (int i = 0; i < 10; ++i)
+		std::cout << std::endl;
+
+	while (true) {
+		std::print("{:^80}", std::string{ zs.begin(), zs.end() });
+		std::this_thread::sleep_for(100ms);
+		std::cout << "\r";
+		std::rotate(zs.begin(),  zs.begin() + 1, zs.end());
+	}
+
+}
+
+==================================================
+������ �ð� - 2026�� 06�� 09�� 16�� 57�� 27.1383327��
+==================================================
+
+﻿//--------------------------------------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78			6월 9일			(14주 1일)
+// 6/22 기말시험(15/2) - 제일 마지막 시험
+//--------------------------------------------------------------------------------------------------------------------
+// 컴파일 환경 - Release / x64
+// VS 버전 - 17.14.27 (February 2026)
+// 프로젝트 설정 - C++언어표준 - /std:c++latest
+//				- C/C++언어 - SDL검사 - 아니요
+//---------------------------------------------------------------------------------------------------------------------
+// STL Algorithms
+// 1. Non-modifying sequence operations
+// 2. Modifying sequence operations
+// 3. Sorting and related operations
+// 
+// 시험에 Set operations 사용한 문제 낼거임.
+// 큰 파일 두개를 주고 공통된 단어를 찾아내기. 뭐 이런거
+// 
+// STL Algorithm을 살펴보면
+// constrained Algorithm (C++ 20)이 보이는데,
+// 이거의 기본이 되는 개념이 concept과 range - [begin, end) 임.
+// lazy - evaluation (views, filter)
+//----------------------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <numeric>
+#include <random>
+#include <thread>
+#include <chrono>
+#include <print>
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰;			// 관찰하려면 true
+
+using namespace std::chrono_literals;
+std::default_random_engine dre{ std::random_device{}() };
+
+//--------
+int main()
+//--------
+{
+	save("메인.cpp");
+
+	ZString zs{ "The quick brown fox jumps over the lazy dog." };
+	
+	for (int i = 0; i < 10; ++i)
+		std::cout << std::endl;
+
+	while (true) {
+		std::print("{:^80}", std::string{ zs.begin(), zs.end() });
+		std::this_thread::sleep_for(100ms);
+		std::cout << "\r";
+		std::rotate(zs.begin(), zs.begin() - 1, zs.end());
+	}
+
+}
+
+==================================================
+������ �ð� - 2026�� 06�� 09�� 16�� 58�� 02.4056144��
+==================================================
+
+﻿//--------------------------------------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78			6월 9일			(14주 1일)
+// 6/22 기말시험(15/2) - 제일 마지막 시험
+//--------------------------------------------------------------------------------------------------------------------
+// 컴파일 환경 - Release / x64
+// VS 버전 - 17.14.27 (February 2026)
+// 프로젝트 설정 - C++언어표준 - /std:c++latest
+//				- C/C++언어 - SDL검사 - 아니요
+//---------------------------------------------------------------------------------------------------------------------
+// STL Algorithms
+// 1. Non-modifying sequence operations
+// 2. Modifying sequence operations
+// 3. Sorting and related operations
+// 
+// 시험에 Set operations 사용한 문제 낼거임.
+// 큰 파일 두개를 주고 공통된 단어를 찾아내기. 뭐 이런거
+// 
+// STL Algorithm을 살펴보면
+// constrained Algorithm (C++ 20)이 보이는데,
+// 이거의 기본이 되는 개념이 concept과 range - [begin, end) 임.
+// lazy - evaluation (views, filter)
+//----------------------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <numeric>
+#include <random>
+#include <thread>
+#include <chrono>
+#include <print>
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰;			// 관찰하려면 true
+
+using namespace std::chrono_literals;
+std::default_random_engine dre{ std::random_device{}() };
+
+//--------
+int main()
+//--------
+{
+	save("메인.cpp");
+
+	ZString zs{ "The quick brown fox jumps over the lazy dog." };
+	
+	for (int i = 0; i < 10; ++i)
+		std::cout << std::endl;
+
+	while (true) {
+		std::print("{:^80}", std::string{ zs.begin(), zs.end() });
+		std::this_thread::sleep_for(100ms);
+		std::cout << "\r";
+		std::rotate(zs.begin(), zs.end() - 1 , zs.end());
+	}
+
+}
+
+==================================================
+������ �ð� - 2026�� 06�� 09�� 16�� 58�� 12.8473124��
+==================================================
+
+﻿//--------------------------------------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78			6월 9일			(14주 1일)
+// 6/22 기말시험(15/2) - 제일 마지막 시험
+//--------------------------------------------------------------------------------------------------------------------
+// 컴파일 환경 - Release / x64
+// VS 버전 - 17.14.27 (February 2026)
+// 프로젝트 설정 - C++언어표준 - /std:c++latest
+//				- C/C++언어 - SDL검사 - 아니요
+//---------------------------------------------------------------------------------------------------------------------
+// STL Algorithms
+// 1. Non-modifying sequence operations
+// 2. Modifying sequence operations
+// 3. Sorting and related operations
+// 
+// 시험에 Set operations 사용한 문제 낼거임.
+// 큰 파일 두개를 주고 공통된 단어를 찾아내기. 뭐 이런거
+// 
+// STL Algorithm을 살펴보면
+// constrained Algorithm (C++ 20)이 보이는데,
+// 이거의 기본이 되는 개념이 concept과 range - [begin, end) 임.
+// lazy - evaluation (views, filter)
+//----------------------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <numeric>
+#include <random>
+#include <thread>
+#include <chrono>
+#include <print>
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰;			// 관찰하려면 true
+
+using namespace std::chrono_literals;
+std::default_random_engine dre{ std::random_device{}() };
+
+//--------
+int main()
+//--------
+{
+	save("메인.cpp");
+
+	ZString zs{ "The quick brown fox jumps over the lazy dog. -->" };
+	
+	for (int i = 0; i < 10; ++i)
+		std::cout << std::endl;
+
+	while (true) {
+		std::print("{:^80}", std::string{ zs.begin(), zs.end() });
+		std::this_thread::sleep_for(100ms);
+		std::cout << "\r";
+		std::rotate(zs.begin(), zs.end() - 1 , zs.end());
+	}
+
+}
+
+==================================================
+������ �ð� - 2026�� 06�� 09�� 16�� 58�� 39.8867023��
+==================================================
+
+﻿//--------------------------------------------------------------------------------------------------------------------
+// 2026년 1학기 STL 월56화78			6월 9일			(14주 1일)
+// 6/22 기말시험(15/2) - 제일 마지막 시험
+//--------------------------------------------------------------------------------------------------------------------
+// 컴파일 환경 - Release / x64
+// VS 버전 - 17.14.27 (February 2026)
+// 프로젝트 설정 - C++언어표준 - /std:c++latest
+//				- C/C++언어 - SDL검사 - 아니요
+//---------------------------------------------------------------------------------------------------------------------
+// STL Algorithms
+// 1. Non-modifying sequence operations
+// 2. Modifying sequence operations
+// 3. Sorting and related operations
+// 
+// 시험에 Set operations 사용한 문제 낼거임.
+// 큰 파일 두개를 주고 공통된 단어를 찾아내기. 뭐 이런거
+// 
+// STL Algorithm을 살펴보면
+// constrained Algorithm (C++ 20)이 보이는데,
+// 이거의 기본이 되는 개념이 concept과 range - [begin, end) 임.
+// lazy - evaluation (views, filter)
+//----------------------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <numeric>
+#include <random>
+#include <thread>
+#include <chrono>
+#include <print>
+#include "save.h"
+#include "ZString.h"
+
+extern bool 관찰;			// 관찰하려면 true
+
+using namespace std::chrono_literals;
+std::default_random_engine dre{ std::random_device{}() };
+
+//--------
+int main()
+//--------
+{
+	save("메인.cpp");
+
+	ZString zs{ "The quick brown fox jumps over the lazy dog. --> " };
+	
+	for (int i = 0; i < 10; ++i)
+		std::cout << std::endl;
+
+	while (true) {
+		std::print("{:^80}", std::string{ zs.begin(), zs.end() });
+		std::this_thread::sleep_for(100ms);
+		std::cout << "\r";
+		std::rotate(zs.begin(), zs.begin() + 1 , zs.end());
+	}
+
+}
