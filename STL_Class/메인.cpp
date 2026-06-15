@@ -26,7 +26,6 @@
 #include <numeric>
 #include <print>
 #include <list>
-#include <ranges>
 #include "save.h"
 #include "ZString.h"
 
@@ -40,5 +39,11 @@ int main()
 {
 	save("메인.cpp");
 
+	auto x = { 1, 2, 3, 4, 5 };
+	x.begin(); // 이런것도 가능함
+
+	// for (int num : ??? ) - ???가 range임. range for문.
+	for (int num : {1, 2, 3, 4, 5}) // 이런식으로도 range로 쓸 수 있다
+		std::cout << num << ' ';
 	
 }
