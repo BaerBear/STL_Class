@@ -7,10 +7,10 @@
 // 프로젝트 설정 - C++언어표준 - /std:c++latest
 //				- C/C++언어 - SDL검사 - 아니요
 //---------------------------------------------------------------------------------------------------------------------
-// - range
-//   range factory / range adaptor
-//   view - light - weight object
-//   filter - lazy evaluation		( <=> eager evaluation )
+// range
+// range factory / range adaptor
+// view - light - weight object
+// filter - lazy evaluation		( <=> eager evaluation )
 // 
 // concept
 // type traits
@@ -39,17 +39,26 @@ int main()
 {
 	save("메인.cpp");
 
-	std::vector<int> v = {1, 2, 3, 4, 5};
+	auto 홀수 = [](int num) { 
+		return num % 2 == 1; 
+		};
 
-	v.begin();		// 전통적인 range. v.begin()은 1을 가리키는 클래스 객체.
-	v.end();		// v.end()는 5의 다음을 가리키는 클래스 객체.
-	// [v.begin(), v.end())
-	// [v.begin(), 홀수인동안)
-	// [v.begin(), 무한)
-	// 이런게 다 가능한데, 끝을 판독하기 위해 만든게 iterator pair.
+	auto 소수 = [](int num) {
+		if (num <= 1) return false;
+		int limit = std::sqrt(num);
+		for (int i = 2; i <= limit; ++i) {
+			if (num % i == 0) return false;
+		}
+		return true;
+		};
 
-	// for (int num : ??? ) - ???가 range임. range for문.
-	for (int num : {1, 2, 3, 4, 5}) // 이런식으로도 range로 쓸 수 있다
-		std::cout << num << ' ';
+	for (int num 
+		: std::views::iota(1, 1000) 	// iota(n, m). iota로 만든 n ~ m의 range. iota(n) -> n부터 무한대의 range.
+		| std::views::filter(홀수)		// filter와 람다를 활용해 원하는 것들만 뽑아낼 수 있음. filter는 어댑터 중 하나임.
+		| std::views::filter(소수)
+		| std::views::reverse)
+	{
+		std::print("{:8}", num);
+	}
 	
 }
