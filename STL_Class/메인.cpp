@@ -39,8 +39,14 @@ int main()
 {
 	save("메인.cpp");
 
-	auto x = { 1, 2, 3, 4, 5 };
-	x.begin(); // 이런것도 가능함
+	std::vector<int> v = {1, 2, 3, 4, 5};
+
+	v.begin();		// 전통적인 range. v.begin()은 1을 가리키는 클래스 객체.
+	v.end();		// v.end()는 5의 다음을 가리키는 클래스 객체.
+	// [v.begin(), v.end())
+	// [v.begin(), 홀수인동안)
+	// [v.begin(), 무한)
+	// 이런게 다 가능한데, 끝을 판독하기 위해 만든게 iterator pair.
 
 	// for (int num : ??? ) - ???가 range임. range for문.
 	for (int num : {1, 2, 3, 4, 5}) // 이런식으로도 range로 쓸 수 있다
