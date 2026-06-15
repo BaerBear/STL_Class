@@ -7,10 +7,7 @@
 // 프로젝트 설정 - C++언어표준 - /std:c++latest
 //				- C/C++언어 - SDL검사 - 아니요
 //---------------------------------------------------------------------------------------------------------------------
-// range
-// range factory / range adaptor
-// view - light - weight object
-// filter - lazy evaluation		( <=> eager evaluation )
+// universal reference - range for 에서 range factory를 이용할 때 사용
 // 
 // concept
 // type traits
@@ -31,7 +28,11 @@
 
 extern bool 관찰;			// 관찰하려면 true
 
-std::default_random_engine dre{ std::random_device{}() };
+template<class T>
+T add(const T& a, const T& b) 
+{
+	return a + b;
+}
 
 //--------
 int main()
@@ -39,26 +40,11 @@ int main()
 {
 	save("메인.cpp");
 
-	auto 홀수 = [](int num) { 
-		return num % 2 == 1; 
-		};
+	// [문제] add 함수를 작성하라.
+	std::cout << add(1, 2) << std::endl;
+	std::cout << add<std::string>("2026년", "6월 15일") << std::endl;
 
-	auto 소수 = [](int num) {
-		if (num <= 1) return false;
-		int limit = std::sqrt(num);
-		for (int i = 2; i <= limit; ++i) {
-			if (num % i == 0) return false;
-		}
-		return true;
-		};
+	class Dog {};
+	add(Dog{}, Dog{}); // Dog 클래스는 + 연산자가 정의되어 있지 않기 때문에 컴파일 에러 발생.
 
-	for (int num 
-		: std::views::iota(1, 1000) 	// iota(n, m). iota로 만든 n ~ m의 range. iota(n) -> n부터 무한대의 range.
-		| std::views::filter(홀수)		// filter와 람다를 활용해 원하는 것들만 뽑아낼 수 있음. filter는 어댑터 중 하나임.
-		| std::views::filter(소수)
-		| std::views::reverse)
-	{
-		std::print("{:8}", num);
-	}
-	
 }
