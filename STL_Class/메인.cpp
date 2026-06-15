@@ -7,13 +7,15 @@
 // 프로젝트 설정 - C++언어표준 - /std:c++latest
 //				- C/C++언어 - SDL검사 - 아니요
 //---------------------------------------------------------------------------------------------------------------------
-// STL Algorithms
-// - 정렬 관련 알고리즘 - 복잡도 순서대로
-// - partition - 복잡도가 제일 낮음
-// - nth_element
-// - partial_sort
-// - sort
-// - stable_sort - 제일 복잡함
+// - range
+//   range factory / range adaptor
+//   view - light - weight object
+//   filter - lazy evaluation		( <=> eager evaluation )
+// 
+// concept
+// type traits
+// 
+// C++ Constrained Algothm ( Range + Concept )
 //----------------------------------------------------------------------------------------------------------------------
 #include <iostream>
 #include <fstream>
@@ -23,6 +25,8 @@
 #include <ranges>
 #include <numeric>
 #include <print>
+#include <list>
+#include <ranges>
 #include "save.h"
 #include "ZString.h"
 
@@ -36,13 +40,5 @@ int main()
 {
 	save("메인.cpp");
 
-	// 1부터 100까지 숫자를 준비한다.
-	std::vector<int> v(100);
-	std::ranges::iota(v, 1);		// range 설명은 잠시뒤에
-	std::ranges::shuffle(v, dre);
-
-	for (int num : v) {
-		std::print("{:4}", num);
-	}
-	std::cout << std::endl;
+	
 }
