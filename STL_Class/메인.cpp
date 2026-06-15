@@ -29,10 +29,26 @@
 extern bool 관찰;			// 관찰하려면 true
 
 template<class T>
-T add(const T& a, const T& b) 
+T add(const T& a, const T& b)
 {
 	return a + b;
 }
+
+class Dog {
+public:
+	Dog() = default;
+	Dog(int num) : n{ num } {};
+
+	Dog operator+(const Dog& rhs) const {
+		return n + rhs.n;
+	}
+
+private:
+	int n;
+	friend std::ostream& operator<<(std::ostream& os, const Dog& dog) {
+		return os << dog.n;
+	}
+};
 
 //--------
 int main()
@@ -43,8 +59,6 @@ int main()
 	// [문제] add 함수를 작성하라.
 	std::cout << add(1, 2) << std::endl;
 	std::cout << add<std::string>("2026년", "6월 15일") << std::endl;
-
-	class Dog {};
-	add(Dog{}, Dog{}); // Dog 클래스는 + 연산자가 정의되어 있지 않기 때문에 컴파일 에러 발생.
-
+	
+	std::cout << add(Dog{ 1 }, Dog{ 2 }) << std::endl; // 3이라고 출력되어야.
 }
