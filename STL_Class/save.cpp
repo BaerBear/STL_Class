@@ -12,8 +12,8 @@
 #include "save.h"
 
 // naming convention - 이름 짓는 규칙
-// fileName - snake style
-// file_name - nata style
+// fileName - nata style
+// file_name - snake style
 
 void save(const std::string& fname)
 {
@@ -27,7 +27,7 @@ void save(const std::string& fname)
 		exit(0);
 	}
 
-	std::string outFileName = "2026년 1학기 STL 6월 15일.txt";
+	std::string outFileName = "2026년 1학기 STL 6월 16일.txt";
 
 	std::cout << "\"" << fname << "\"를 저장합니다." << "\n";
 	std::cout << "저장 파일 이름: " << outFileName << "\n";
@@ -60,5 +60,5 @@ void save(const std::string& fname)
 	// std::istream_iterator<char>{in}	  -> in에서 char를 읽어오는 iterator. in이 끝날 때까지 읽는다.
 	// std::istreambuf_iterator<char>{in} -> in에서 char를 읽어오는 iterator. 버퍼 단위로 읽는다. 더 빠르다.
 	std::copy(std::istreambuf_iterator<char>{in}, {},
-		std::ostream_iterator<char>{out});
+			  std::ostream_iterator<char>{out});
 }
